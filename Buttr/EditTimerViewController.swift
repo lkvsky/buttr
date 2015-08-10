@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class EditTimerViewController: UIViewController {
     
-    @IBOutlet var timerView: TimerControlView!
+    @IBOutlet var timerControlView: TimerControlView!
     @IBOutlet var timerLabelView: TimerLabelView!
     
     override func viewDidLoad() {
@@ -18,9 +18,9 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.backgroundColor()
         
-        self.timerView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
-        self.timerView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
-        self.timerView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: UIControlEvents.ValueChanged)
+        timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
+        timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
+        timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: UIControlEvents.ValueChanged)
     }
 
     // MARK: Gestures and Events
@@ -41,6 +41,11 @@ class ViewController: UIViewController {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
         timerLabelView.hours = newTime == 60 ? 59 : newTime
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let timerProgressVC = segue.destinationViewController as! TimerProgressViewController
+        timerProgressVC.timeLeft = timerControlView.getTotalTime()
     }
 }
 

@@ -34,6 +34,9 @@ class CircularSlider: UIControl {
     // but most often is seconds
     var maxTimeUnits: Int = 60
     
+    // If true, disables the user from pulling the handle
+    var disabled: Bool = false
+    
     // MARK: Initialization
     
     override init(frame: CGRect) {
@@ -46,13 +49,11 @@ class CircularSlider: UIControl {
         radius = (self.frame.size.width / 2) - Config.BT_SLIDER_PADDING
     }
     
-    convenience init(color: UIColor, frame: CGRect, maxTimeUnits: Int?) {
+    convenience init(color: UIColor, frame: CGRect, maxTimeUnits: Int = 60, disabled: Bool = false) {
         self.init(frame: frame)
         self.color = color
-        
-        if let time = maxTimeUnits {
-            self.maxTimeUnits = time
-        }
+        self.maxTimeUnits = maxTimeUnits
+        self.disabled = disabled
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -140,33 +141,35 @@ class CircularSlider: UIControl {
         setNeedsDisplay()
     }
     
-    // The start of the clock is offset by 90 degrees
     func getTimeUnitFromAngleInt(angleInt: Int) -> Int {
-        var timeToAngleRatio = 360 / maxTimeUnits
+        let timeToAngleRatio = 360.0 / Double(maxTimeUnits)
+        let angleLessThan90Degrees = Double(angleInt) <= 90.0
+        let valueIfAngleIsLessThan90 = Double(angleInt) / timeToAngleRatio + (Double(maxTimeUnits) * 3.0 / 4.0)
+        let valueIfAngleIsGreaterThan90 = (Double(angleInt) / timeToAngleRatio) - (Double(maxTimeUnits) / 4.0)
+        let timeUnit = Int(Double(maxTimeUnits) - (angleLessThan90Degrees ? valueIfAngleIsLessThan90 : valueIfAngleIsGreaterThan90))
         
-        return maxTimeUnits - (angleInt <= 90 ? angleInt / timeToAngleRatio + (maxTimeUnits * 3/4) : (angleInt / timeToAngleRatio) - (maxTimeUnits/4))
+        return timeUnit
     }
     
-    func getAngleValueFromTime(timeInt: Int) -> Int {
-        var timeToAngleRatio = 360 / maxTimeUnits
+    func addTimeUnitByAmmount(timeInt: Int) {
+        let angleDifference = Int(round(Double(timeInt) * Double(360.0) / Double(maxTimeUnits)))
+        
+        if (angle <= 90) {
+            angle -= angleDifference
+        } else {
+            angle += angleDifference
+        }
 
-        return timeInt <= (maxTimeUnits / 4) ? 90 - (timeInt * timeToAngleRatio) : 270 + (timeInt * timeToAngleRatio)
-    }
-    
-    func addTimeUnitByAmmount(timeInt: Int) -> Int {
-        let newTime = self.getTimeUnitFromAngleInt(angle) + timeInt
-        
-        angle = self.getAngleValueFromTime(newTime)
         self.setNeedsDisplay()
-        
-        return newTime
     }
     
     // MARK: Gestures & Events
     
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
-
+        
+        if (disabled) { return false }
+        
         return CGRectContainsPoint(self.rectForHandle(), touch.locationInView(self))
     }
     

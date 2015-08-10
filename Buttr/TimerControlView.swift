@@ -66,6 +66,12 @@ import UIKit
         self.secondSlider = secondSlider
     }
     
+    // MARK: Public Methods
+    
+    func getTotalTime() -> Int {
+        return secondSlider.getTimeUnitFromAngleInt(secondSlider.angle) + (minuteSlider.getTimeUnitFromAngleInt(minuteSlider.angle) * 60) + (hourSlider.getTimeUnitFromAngleInt(hourSlider.angle) * 3600)
+    }
+    
     // MARK: Gestures and Events
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {

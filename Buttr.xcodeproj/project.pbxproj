@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */; };
 		3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */; };
+		3CC0DAC21B79149E002FB268 /* TimerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAC11B79149E002FB268 /* TimerProgressView.swift */; };
+		3CC0DAC61B791B0F002FB268 /* TimerProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */; };
 		3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */; };
 		3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */; };
-		3CE7F9D91B73B75A0015EED7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D81B73B75A0015EED7 /* ViewController.swift */; };
+		3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */; };
 		3CE7F9DC1B73B75A0015EED7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9DA1B73B75A0015EED7 /* Main.storyboard */; };
 		3CE7F9DE1B73B75A0015EED7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9DD1B73B75A0015EED7 /* Images.xcassets */; };
 		3CE7F9E11B73B75A0015EED7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9DF1B73B75A0015EED7 /* LaunchScreen.xib */; };
@@ -39,11 +41,13 @@
 /* Begin PBXFileReference section */
 		3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelpers.swift; sourceTree = "<group>"; };
 		3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerLabelView.swift; sourceTree = "<group>"; };
+		3CC0DAC11B79149E002FB268 /* TimerProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerProgressView.swift; sourceTree = "<group>"; };
+		3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerProgressViewController.swift; sourceTree = "<group>"; };
 		3CE7F9CE1B73B75A0015EED7 /* Buttr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buttr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE7F9D21B73B75A0015EED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3CE7F9D61B73B75A0015EED7 /* Buttr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Buttr.xcdatamodel; sourceTree = "<group>"; };
-		3CE7F9D81B73B75A0015EED7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTimerViewController.swift; sourceTree = "<group>"; };
 		3CE7F9DB1B73B75A0015EED7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3CE7F9DD1B73B75A0015EED7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3CE7F9E01B73B75A0015EED7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -148,8 +152,9 @@
 		3CE7F9F61B73BFE60015EED7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3CE7F9D81B73B75A0015EED7 /* ViewController.swift */,
+				3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */,
 				3CE7F9DA1B73B75A0015EED7 /* Main.storyboard */,
+				3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				3CE7F9F81B73C0270015EED7 /* CircularSlider.swift */,
 				3CE7F9FA1B73DF870015EED7 /* TimerControlView.swift */,
 				3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */,
+				3CC0DAC11B79149E002FB268 /* TimerProgressView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -293,12 +299,14 @@
 			files = (
 				3CE7F9FB1B73DF870015EED7 /* TimerControlView.swift in Sources */,
 				3CE7FA091B7634A30015EED7 /* UIColor+ButtrColors.swift in Sources */,
-				3CE7F9D91B73B75A0015EED7 /* ViewController.swift in Sources */,
+				3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */,
 				3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */,
 				3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */,
 				3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */,
 				3CE7F9F91B73C0270015EED7 /* CircularSlider.swift in Sources */,
+				3CC0DAC61B791B0F002FB268 /* TimerProgressViewController.swift in Sources */,
 				3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */,
+				3CC0DAC21B79149E002FB268 /* TimerProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

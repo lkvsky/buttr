@@ -148,7 +148,7 @@ class TimerLabelView: UIView {
     // MARK: Constraint animation
     
     func adjustCenterConstraints() {
-        var frameWidth = self.minutesLabel.frame.size.width
+        var frameWidth = self.frame.size.width / CGFloat(3)
         var numberOfLabels = 1
 
         if (minutes > 0){

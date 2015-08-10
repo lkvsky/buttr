@@ -5,10 +5,10 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Edit Timer View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="EditTimerViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -60,6 +60,9 @@
                                 <state key="normal" backgroundImage="start_button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="NTm-Oe-MmE" kind="show" id="7cz-Qx-SjO"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -75,18 +78,101 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="timerControlView" destination="D4J-6V-uPk" id="aBU-4X-bcB"/>
                         <outlet property="timerLabelView" destination="Bjo-6t-1TQ" id="P3Q-IP-7mc"/>
-                        <outlet property="timerView" destination="D4J-6V-uPk" id="Aam-Ul-Sf9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="248" y="394"/>
         </scene>
+        <!--Timer Progress View Controller-->
+        <scene sceneID="jfU-Ef-e67">
+            <objects>
+                <viewController id="NTm-Oe-MmE" customClass="TimerProgressViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rUj-Kp-lsr"/>
+                        <viewControllerLayoutGuide type="bottom" id="yUS-wh-gHZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FH0-Lt-lcI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_body" translatesAutoresizingMaskIntoConstraints="NO" id="JOJ-Jx-e80">
+                                <rect key="frame" x="251" y="485" width="98" height="107"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="98" id="Bhn-Fe-x6I"/>
+                                    <constraint firstAttribute="height" constant="107" id="yJ6-HU-0Il"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_head" translatesAutoresizingMaskIntoConstraints="NO" id="FeK-eF-H3B">
+                                <rect key="frame" x="231" y="420" width="139" height="108"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="139" id="iBP-An-cI9"/>
+                                    <constraint firstAttribute="height" constant="108" id="s6K-K0-Z2e"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7a-kA-KcS" customClass="TimerProgressView" customModule="Buttr" customModuleProvider="target">
+                                <rect key="frame" x="125" y="20" width="350" height="350"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nb4-j0-EVX" customClass="TimerLabelView" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="90" y="139" width="171" height="72"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="JFc-4V-hS2"/>
+                                            <constraint firstAttribute="width" constant="171" id="ybg-B9-gQb"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="350" id="7E9-3t-XQz"/>
+                                    <constraint firstAttribute="height" constant="350" id="APP-nl-vTP"/>
+                                    <constraint firstAttribute="centerX" secondItem="nb4-j0-EVX" secondAttribute="centerX" constant="-0.5" id="CTE-WQ-m3F"/>
+                                    <constraint firstAttribute="centerY" secondItem="nb4-j0-EVX" secondAttribute="centerY" id="ipn-qo-LgT"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K9a-lu-Era">
+                                <rect key="frame" x="240" y="373" width="120" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="79F-Mi-oSe"/>
+                                    <constraint firstAttribute="height" constant="45" id="aex-sx-on2"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="pause_button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleTimerState" destination="NTm-Oe-MmE" eventType="touchUpInside" id="GkB-Na-s1W"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FeK-eF-H3B" firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="1Bs-kc-qEH"/>
+                            <constraint firstItem="FeK-eF-H3B" firstAttribute="centerX" secondItem="JOJ-Jx-e80" secondAttribute="centerX" id="Lrj-0t-i6r"/>
+                            <constraint firstItem="K9a-lu-Era" firstAttribute="top" secondItem="u7a-kA-KcS" secondAttribute="bottom" constant="3" id="QHe-FE-okK"/>
+                            <constraint firstItem="u7a-kA-KcS" firstAttribute="top" secondItem="rUj-Kp-lsr" secondAttribute="bottom" id="R1H-ZX-4mK"/>
+                            <constraint firstItem="JOJ-Jx-e80" firstAttribute="top" secondItem="FeK-eF-H3B" secondAttribute="bottom" constant="-43" id="gbS-Mx-UeJ"/>
+                            <constraint firstItem="yUS-wh-gHZ" firstAttribute="top" secondItem="FeK-eF-H3B" secondAttribute="bottom" constant="72" id="mXJ-B2-n5F"/>
+                            <constraint firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="oFf-oc-51j"/>
+                            <constraint firstItem="K9a-lu-Era" firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="roh-t7-RTe"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="timerControlButton" destination="K9a-lu-Era" id="tR8-3A-NIT"/>
+                        <outlet property="timerLabelView" destination="nb4-j0-EVX" id="xnj-8l-gCI"/>
+                        <outlet property="timerProgressView" destination="u7a-kA-KcS" id="dNm-8k-WK5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q6b-FY-z1g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="967" y="394"/>
+        </scene>
     </scenes>
     <resources>
         <image name="buttr_body" width="93" height="99"/>
         <image name="buttr_head" width="139" height="108"/>
+        <image name="pause_button" width="105" height="40"/>
         <image name="start_button" width="105" height="40"/>
     </resources>
 </document>
