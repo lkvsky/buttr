@@ -9,17 +9,38 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet var timerView: TimerControlView!
+    @IBOutlet var timerLabelView: TimerLabelView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.view.backgroundColor = UIColor.backgroundColor()
+        
+        self.timerView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
+        self.timerView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
+        self.timerView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: UIControlEvents.ValueChanged)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: Gestures and Events
+    
+    func onSecondsChange(slider: CircularSlider) {
+        var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
+    
+        timerLabelView.seconds = newTime == 60 ? 59 : newTime
     }
+    
+    func onMinutesChange(slider: CircularSlider) {
+        var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
+        timerLabelView.minutes = newTime == 60 ? 59 : newTime
+    }
+    
+    func onHoursChange(slider: CircularSlider) {
+        var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
+        timerLabelView.hours = newTime == 60 ? 59 : newTime
+    }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */; };
+		3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */; };
 		3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */; };
 		3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */; };
 		3CE7F9D91B73B75A0015EED7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D81B73B75A0015EED7 /* ViewController.swift */; };
@@ -14,6 +16,14 @@
 		3CE7F9DE1B73B75A0015EED7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9DD1B73B75A0015EED7 /* Images.xcassets */; };
 		3CE7F9E11B73B75A0015EED7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9DF1B73B75A0015EED7 /* LaunchScreen.xib */; };
 		3CE7F9ED1B73B75B0015EED7 /* ButtrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9EC1B73B75B0015EED7 /* ButtrTests.swift */; };
+		3CE7F9F91B73C0270015EED7 /* CircularSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9F81B73C0270015EED7 /* CircularSlider.swift */; };
+		3CE7F9FB1B73DF870015EED7 /* TimerControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9FA1B73DF870015EED7 /* TimerControlView.swift */; };
+		3CE7FA021B754ED70015EED7 /* Bitter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9FD1B754E8F0015EED7 /* Bitter-Bold.otf */; };
+		3CE7FA031B754ED70015EED7 /* Bitter-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9FE1B754E8F0015EED7 /* Bitter-Regular.otf */; };
+		3CE7FA041B754ED70015EED7 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7F9FF1B754EB10015EED7 /* Lato-Black.ttf */; };
+		3CE7FA051B754ED70015EED7 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7FA001B754EB10015EED7 /* Lato-Light.ttf */; };
+		3CE7FA061B754ED70015EED7 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7FA011B754EB10015EED7 /* Lato-Regular.ttf */; };
+		3CE7FA091B7634A30015EED7 /* UIColor+ButtrColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7FA081B7634A30015EED7 /* UIColor+ButtrColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelpers.swift; sourceTree = "<group>"; };
+		3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerLabelView.swift; sourceTree = "<group>"; };
 		3CE7F9CE1B73B75A0015EED7 /* Buttr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buttr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE7F9D21B73B75A0015EED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +50,14 @@
 		3CE7F9E61B73B75B0015EED7 /* ButtrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ButtrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE7F9EB1B73B75B0015EED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE7F9EC1B73B75B0015EED7 /* ButtrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtrTests.swift; sourceTree = "<group>"; };
+		3CE7F9F81B73C0270015EED7 /* CircularSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularSlider.swift; sourceTree = "<group>"; };
+		3CE7F9FA1B73DF870015EED7 /* TimerControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerControlView.swift; sourceTree = "<group>"; };
+		3CE7F9FD1B754E8F0015EED7 /* Bitter-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bitter-Bold.otf"; sourceTree = "<group>"; };
+		3CE7F9FE1B754E8F0015EED7 /* Bitter-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bitter-Regular.otf"; sourceTree = "<group>"; };
+		3CE7F9FF1B754EB10015EED7 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
+		3CE7FA001B754EB10015EED7 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
+		3CE7FA011B754EB10015EED7 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
+		3CE7FA081B7634A30015EED7 /* UIColor+ButtrColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+ButtrColors.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +78,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3CC0DABC1B77995D002FB268 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		3CE7F9C51B73B75A0015EED7 = {
 			isa = PBXGroup;
 			children = (
@@ -79,9 +106,12 @@
 		3CE7F9D01B73B75A0015EED7 /* Buttr */ = {
 			isa = PBXGroup;
 			children = (
+				3CC0DABC1B77995D002FB268 /* Models */,
+				3CE7FA071B76347D0015EED7 /* Utilities */,
+				3CE7F9FC1B754E4E0015EED7 /* Fonts */,
+				3CE7F9F71B73BFEE0015EED7 /* Views */,
+				3CE7F9F61B73BFE60015EED7 /* Controllers */,
 				3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */,
-				3CE7F9D81B73B75A0015EED7 /* ViewController.swift */,
-				3CE7F9DA1B73B75A0015EED7 /* Main.storyboard */,
 				3CE7F9DD1B73B75A0015EED7 /* Images.xcassets */,
 				3CE7F9DF1B73B75A0015EED7 /* LaunchScreen.xib */,
 				3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */,
@@ -113,6 +143,46 @@
 				3CE7F9EB1B73B75B0015EED7 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3CE7F9F61B73BFE60015EED7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3CE7F9D81B73B75A0015EED7 /* ViewController.swift */,
+				3CE7F9DA1B73B75A0015EED7 /* Main.storyboard */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3CE7F9F71B73BFEE0015EED7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3CE7F9F81B73C0270015EED7 /* CircularSlider.swift */,
+				3CE7F9FA1B73DF870015EED7 /* TimerControlView.swift */,
+				3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3CE7F9FC1B754E4E0015EED7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3CE7F9FD1B754E8F0015EED7 /* Bitter-Bold.otf */,
+				3CE7F9FE1B754E8F0015EED7 /* Bitter-Regular.otf */,
+				3CE7F9FF1B754EB10015EED7 /* Lato-Black.ttf */,
+				3CE7FA001B754EB10015EED7 /* Lato-Light.ttf */,
+				3CE7FA011B754EB10015EED7 /* Lato-Regular.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		3CE7FA071B76347D0015EED7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3CE7FA081B7634A30015EED7 /* UIColor+ButtrColors.swift */,
+				3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,6 +234,7 @@
 				TargetAttributes = {
 					3CE7F9CD1B73B75A0015EED7 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 3229ATD34P;
 					};
 					3CE7F9E51B73B75B0015EED7 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -195,6 +266,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CE7FA021B754ED70015EED7 /* Bitter-Bold.otf in Resources */,
+				3CE7FA031B754ED70015EED7 /* Bitter-Regular.otf in Resources */,
+				3CE7FA041B754ED70015EED7 /* Lato-Black.ttf in Resources */,
+				3CE7FA051B754ED70015EED7 /* Lato-Light.ttf in Resources */,
+				3CE7FA061B754ED70015EED7 /* Lato-Regular.ttf in Resources */,
 				3CE7F9DC1B73B75A0015EED7 /* Main.storyboard in Resources */,
 				3CE7F9E11B73B75A0015EED7 /* LaunchScreen.xib in Resources */,
 				3CE7F9DE1B73B75A0015EED7 /* Images.xcassets in Resources */,
@@ -215,9 +291,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CE7F9FB1B73DF870015EED7 /* TimerControlView.swift in Sources */,
+				3CE7FA091B7634A30015EED7 /* UIColor+ButtrColors.swift in Sources */,
 				3CE7F9D91B73B75A0015EED7 /* ViewController.swift in Sources */,
+				3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */,
 				3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */,
 				3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */,
+				3CE7F9F91B73C0270015EED7 /* CircularSlider.swift in Sources */,
+				3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Buttr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -356,6 +438,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Buttr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -415,6 +498,7 @@
 				3CE7F9F21B73B75B0015EED7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3CE7F9F31B73B75B0015EED7 /* Build configuration list for PBXNativeTarget "ButtrTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +507,7 @@
 				3CE7F9F51B73B75B0015EED7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

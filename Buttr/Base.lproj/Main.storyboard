@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,77 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4J-6V-uPk" customClass="TimerControlView" customModule="Buttr" customModuleProvider="target">
+                                <rect key="frame" x="125" y="20" width="350" height="350"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bjo-6t-1TQ" customClass="TimerLabelView" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="90" y="139" width="171" height="72"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="171" id="blW-rg-9Mz"/>
+                                            <constraint firstAttribute="height" constant="72" id="yw7-n5-nhF"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="D4J-6V-uPk" secondAttribute="height" multiplier="1:1" id="XLV-R5-8pS"/>
+                                    <constraint firstAttribute="width" constant="350" id="aSM-gv-gtw"/>
+                                    <constraint firstAttribute="centerY" secondItem="Bjo-6t-1TQ" secondAttribute="centerY" id="fZb-fJ-rsr"/>
+                                    <constraint firstAttribute="centerX" secondItem="Bjo-6t-1TQ" secondAttribute="centerX" constant="-0.5" id="vZ6-Lq-XT7"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_body" translatesAutoresizingMaskIntoConstraints="NO" id="HUx-C3-823">
+                                <rect key="frame" x="258" y="485" width="98" height="107"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107" id="7Tk-sE-zXd"/>
+                                    <constraint firstAttribute="width" constant="98" id="Tde-gR-dil"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_head" translatesAutoresizingMaskIntoConstraints="NO" id="BEy-Xj-chQ">
+                                <rect key="frame" x="238" y="420" width="139" height="108"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="108" id="c9C-c6-QOO"/>
+                                    <constraint firstAttribute="width" constant="139" id="fwR-K2-Zrg"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIC-cE-FSY">
+                                <rect key="frame" x="247" y="378" width="120" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="Ion-0D-l6W"/>
+                                    <constraint firstAttribute="height" constant="45" id="wtR-Q6-D6F"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="start_button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="HUx-C3-823" secondAttribute="centerX" constant="-7" id="4gh-B2-Wys"/>
+                            <constraint firstItem="D4J-6V-uPk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="67O-hh-Tb6"/>
+                            <constraint firstItem="NIC-cE-FSY" firstAttribute="top" secondItem="D4J-6V-uPk" secondAttribute="bottom" constant="8" id="Ebj-Hc-9YF"/>
+                            <constraint firstItem="NIC-cE-FSY" firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" constant="7" id="Nof-Vj-q1u"/>
+                            <constraint firstItem="HUx-C3-823" firstAttribute="top" secondItem="BEy-Xj-chQ" secondAttribute="bottom" constant="-43" id="QZM-Ut-BuL"/>
+                            <constraint firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" id="TcY-jr-xdA"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="HUx-C3-823" secondAttribute="bottom" constant="8" id="jtl-6x-WeL"/>
+                            <constraint firstAttribute="centerX" secondItem="BEy-Xj-chQ" secondAttribute="centerX" constant="-7.5" id="lsk-sG-fHS"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="timerLabelView" destination="Bjo-6t-1TQ" id="P3Q-IP-7mc"/>
+                        <outlet property="timerView" destination="D4J-6V-uPk" id="Aam-Ul-Sf9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="248" y="394"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="buttr_body" width="93" height="99"/>
+        <image name="buttr_head" width="139" height="108"/>
+        <image name="start_button" width="105" height="40"/>
+    </resources>
 </document>
