@@ -30,10 +30,5 @@ class TimerProgressView: UIView {
     func updateSlider() {
         slider?.addTimeUnitByAmmount(1)
     }
-    
-    func reset() {
-        slider?.angle = 91
-        slider?.setNeedsDisplay()
-    }
 
 }

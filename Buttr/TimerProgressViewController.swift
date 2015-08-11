@@ -44,7 +44,7 @@ class TimerProgressViewController: UIViewController {
     func timerFired() {
         if (timeLeft == 0) {
             timer.invalidate()
-            self.timerProgressView.reset()
+            self.dismissViewControllerAnimated(true, completion: nil)
         } else {
             timeLeft -= 1
             self.timerProgressView.updateSlider()

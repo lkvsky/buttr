@@ -14,7 +14,7 @@ struct Config {
     static let BT_SLIDER_LINE_WIDTH: CGFloat = 5.0
     static let BT_SLIDER_PADDING: CGFloat = 15.0
     static let BT_HANDLE_WIDTH: CGFloat = 20.0
-    static let BT_STARTING_ANGLE: Int = 90
+    static let BT_STARTING_ANGLE: Double = 90.0
 }
 
 class CircularSlider: UIControl {
@@ -25,7 +25,7 @@ class CircularSlider: UIControl {
     var radius: CGFloat = 0
     
     // current angle of the slider
-    var angle: Int = Config.BT_STARTING_ANGLE
+    var angle: Double = Config.BT_STARTING_ANGLE
     
     // color of the slider path/handle
     var color: UIColor = UIColor.blackColor()
@@ -84,7 +84,7 @@ class CircularSlider: UIControl {
         self.color.set()
         
         for i in 0...59 {
-            let notchPoint: CGPoint = self.handlePointFromAngle((i * 6));
+            let notchPoint: CGPoint = self.handlePointFromAngle(Double(i) * 6.0);
             let offset: CGFloat = Config.BT_HANDLE_WIDTH / 2 - 1.5
             
             CGContextFillEllipseInRect(ctx, CGRectMake(notchPoint.x + offset, notchPoint.y + offset, 3, 3))
@@ -110,24 +110,24 @@ class CircularSlider: UIControl {
     
     // MARK: Helper Methods
     
-    func pointOnCircumference(angleInt: Int, circleCenter: CGPoint) -> CGPoint {
+    func pointOnCircumference(angleVal: Double, circleCenter: CGPoint) -> CGPoint {
         var result: CGPoint = CGPointZero
-        let y = round(Double(radius) * sin(MathHelpers.DegreesToRadians(Double(-angleInt)))) + Double(circleCenter.y)
-        let x = round(Double(radius) * cos(MathHelpers.DegreesToRadians(Double(-angleInt)))) + Double(circleCenter.x)
+        let y = round(Double(radius) * sin(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.y)
+        let x = round(Double(radius) * cos(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.x)
         result.y = CGFloat(y)
         result.x = CGFloat(x)
         
         return result
     }
     
-    func handlePointFromAngle(angleInt: Int) -> CGPoint {
+    func handlePointFromAngle(angleVal: Double) -> CGPoint {
         let circleCenter = CGPointMake(self.frame.size.width/2.0 - Config.BT_HANDLE_WIDTH/2.0, self.frame.size.height/2.0 - Config.BT_HANDLE_WIDTH/2.0)
         
-        return self.pointOnCircumference(angleInt, circleCenter: circleCenter)
+        return self.pointOnCircumference(angleVal, circleCenter: circleCenter)
     }
     
     func rectForHandle() -> CGRect {
-        var handlePosition = handlePointFromAngle(angle)
+        var handlePosition = self.handlePointFromAngle(angle)
         
         return CGRectMake(handlePosition.x, handlePosition.y, Config.BT_HANDLE_WIDTH, Config.BT_HANDLE_WIDTH)
     }
@@ -135,13 +135,12 @@ class CircularSlider: UIControl {
     func moveHandle(point: CGPoint) {
         let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false);
-        let angleInt = Int(floor(currentAngle))
         
-        angle = Int(360 - angleInt)
+        angle = 360.0 - currentAngle
         setNeedsDisplay()
     }
     
-    func getTimeUnitFromAngleInt(angleInt: Int) -> Int {
+    func getTimeUnitFromAngleInt(angleInt: Double) -> Int {
         let timeToAngleRatio = 360.0 / Double(maxTimeUnits)
         let angleLessThan90Degrees = Double(angleInt) <= 90.0
         let valueIfAngleIsLessThan90 = Double(angleInt) / timeToAngleRatio + (Double(maxTimeUnits) * 3.0 / 4.0)
@@ -152,7 +151,7 @@ class CircularSlider: UIControl {
     }
     
     func addTimeUnitByAmmount(timeInt: Int) {
-        let angleDifference = Int(round(Double(timeInt) * Double(360.0) / Double(maxTimeUnits)))
+        let angleDifference = Double(timeInt) * Double(360.0) / Double(maxTimeUnits)
         
         if (angle <= 90) {
             angle -= angleDifference

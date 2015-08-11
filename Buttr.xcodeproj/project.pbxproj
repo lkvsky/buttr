@@ -11,6 +11,8 @@
 		3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */; };
 		3CC0DAC21B79149E002FB268 /* TimerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAC11B79149E002FB268 /* TimerProgressView.swift */; };
 		3CC0DAC61B791B0F002FB268 /* TimerProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */; };
+		3CC0DACB1B796439002FB268 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC0DAC91B796439002FB268 /* Fabric.framework */; };
+		3CC0DACC1B796439002FB268 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC0DACA1B796439002FB268 /* Crashlytics.framework */; };
 		3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */; };
 		3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */; };
 		3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */; };
@@ -43,6 +45,8 @@
 		3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerLabelView.swift; sourceTree = "<group>"; };
 		3CC0DAC11B79149E002FB268 /* TimerProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerProgressView.swift; sourceTree = "<group>"; };
 		3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerProgressViewController.swift; sourceTree = "<group>"; };
+		3CC0DAC91B796439002FB268 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		3CC0DACA1B796439002FB268 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3CE7F9CE1B73B75A0015EED7 /* Buttr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buttr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE7F9D21B73B75A0015EED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CC0DACC1B796439002FB268 /* Crashlytics.framework in Frameworks */,
+				3CC0DACB1B796439002FB268 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +93,15 @@
 			children = (
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		3CC0DAC81B79642E002FB268 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CC0DAC91B796439002FB268 /* Fabric.framework */,
+				3CC0DACA1B796439002FB268 /* Crashlytics.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		3CE7F9C51B73B75A0015EED7 = {
@@ -110,6 +125,7 @@
 		3CE7F9D01B73B75A0015EED7 /* Buttr */ = {
 			isa = PBXGroup;
 			children = (
+				3CC0DAC81B79642E002FB268 /* Frameworks */,
 				3CC0DABC1B77995D002FB268 /* Models */,
 				3CE7FA071B76347D0015EED7 /* Utilities */,
 				3CE7F9FC1B754E4E0015EED7 /* Fonts */,
@@ -201,6 +217,7 @@
 				3CE7F9CA1B73B75A0015EED7 /* Sources */,
 				3CE7F9CB1B73B75A0015EED7 /* Frameworks */,
 				3CE7F9CC1B73B75A0015EED7 /* Resources */,
+				3CC0DAC71B796417002FB268 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -291,6 +308,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CC0DAC71B796417002FB268 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run d5fa13dcccb309a0e9011863c1335089a14445b2 4957527971d97a39f064e340c153855ae586f9629b5b5f7a709bdefc521dd3ed";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3CE7F9CA1B73B75A0015EED7 /* Sources */ = {
@@ -436,6 +469,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Buttr",
+				);
 				INFOPLIST_FILE = Buttr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -447,6 +484,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Buttr",
+				);
 				INFOPLIST_FILE = Buttr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
