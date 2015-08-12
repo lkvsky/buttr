@@ -13,6 +13,8 @@
 		3CC0DAC61B791B0F002FB268 /* TimerProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */; };
 		3CC0DACB1B796439002FB268 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC0DAC91B796439002FB268 /* Fabric.framework */; };
 		3CC0DACC1B796439002FB268 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC0DACA1B796439002FB268 /* Crashlytics.framework */; };
+		3CC0DACF1B7AC4D2002FB268 /* AltEditTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DACD1B7AC4D2002FB268 /* AltEditTimerViewController.swift */; };
+		3CC0DAD01B7AC4D2002FB268 /* AltEditTimerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CC0DACE1B7AC4D2002FB268 /* AltEditTimerViewController.xib */; };
 		3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */; };
 		3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */; };
 		3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */; };
@@ -47,6 +49,8 @@
 		3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerProgressViewController.swift; sourceTree = "<group>"; };
 		3CC0DAC91B796439002FB268 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3CC0DACA1B796439002FB268 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		3CC0DACD1B7AC4D2002FB268 /* AltEditTimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltEditTimerViewController.swift; sourceTree = "<group>"; };
+		3CC0DACE1B7AC4D2002FB268 /* AltEditTimerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AltEditTimerViewController.xib; sourceTree = "<group>"; };
 		3CE7F9CE1B73B75A0015EED7 /* Buttr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buttr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE7F9D21B73B75A0015EED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 				3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */,
 				3CE7F9DA1B73B75A0015EED7 /* Main.storyboard */,
 				3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */,
+				3CC0DACD1B7AC4D2002FB268 /* AltEditTimerViewController.swift */,
+				3CC0DACE1B7AC4D2002FB268 /* AltEditTimerViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			files = (
 				3CE7FA021B754ED70015EED7 /* Bitter-Bold.otf in Resources */,
 				3CE7FA031B754ED70015EED7 /* Bitter-Regular.otf in Resources */,
+				3CC0DAD01B7AC4D2002FB268 /* AltEditTimerViewController.xib in Resources */,
 				3CE7FA041B754ED70015EED7 /* Lato-Black.ttf in Resources */,
 				3CE7FA051B754ED70015EED7 /* Lato-Light.ttf in Resources */,
 				3CE7FA061B754ED70015EED7 /* Lato-Regular.ttf in Resources */,
@@ -331,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CE7F9FB1B73DF870015EED7 /* TimerControlView.swift in Sources */,
+				3CC0DACF1B7AC4D2002FB268 /* AltEditTimerViewController.swift in Sources */,
 				3CE7FA091B7634A30015EED7 /* UIColor+ButtrColors.swift in Sources */,
 				3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */,
 				3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */,
