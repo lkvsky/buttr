@@ -51,7 +51,7 @@ class TimerLabelView: UIView {
     
     func addSecondsLabel() {
         // set properties
-        let secondsLabel = self.createLabel(UIColor.primaryTextColor())
+        let secondsLabel = self.createLabel(UIColor.secondaryTextColor())
         secondsLabel.text = "\(seconds)"
         
         // add label and store reference
@@ -66,13 +66,13 @@ class TimerLabelView: UIView {
         self.addConstraint(self.secondsCenterXConstraint)
         
         // create unit type label
-        let secondsTextLabel = self.createUnitLabel(secondsLabel, textColor: UIColor.primaryTextColor())
+        let secondsTextLabel = self.createUnitLabel(secondsLabel, textColor: UIColor.secondaryTextColor())
         secondsTextLabel.text = "secs"
     }
     
     func addMinutesLabel() {
         // set properties
-        let minutesLabel = self.createLabel(UIColor.secondaryTextColor())
+        let minutesLabel = self.createLabel(UIColor.primaryTextColor())
         
         // add label and store reference
         self.addSubview(minutesLabel)
@@ -86,7 +86,7 @@ class TimerLabelView: UIView {
         self.addConstraint(self.minutesCenterXConstraint)
         
         // create unit type label
-        let minutesTextLabel = self.createUnitLabel(minutesLabel, textColor: UIColor.secondaryTextColor())
+        let minutesTextLabel = self.createUnitLabel(minutesLabel, textColor: UIColor.primaryTextColor())
         minutesTextLabel.text = "mins"
     }
     

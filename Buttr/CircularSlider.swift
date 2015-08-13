@@ -13,7 +13,7 @@ import UIKit
 struct Config {
     static let BT_SLIDER_LINE_WIDTH: CGFloat = 5.0
     static let BT_SLIDER_PADDING: CGFloat = 15.0
-    static let BT_HANDLE_WIDTH: CGFloat = 20.0
+    static let BT_HANDLE_WIDTH: CGFloat = 29.0
     static let BT_STARTING_ANGLE: Double = 90.0
 }
 
@@ -34,9 +34,6 @@ class CircularSlider: UIControl {
     // but most often is seconds
     var maxTimeUnits: Int = 60
     
-    // If true, disables the user from pulling the handle
-    var disabled: Bool = false
-    
     // MARK: Initialization
     
     override init(frame: CGRect) {
@@ -49,11 +46,10 @@ class CircularSlider: UIControl {
         radius = (self.frame.size.width / 2) - Config.BT_SLIDER_PADDING
     }
     
-    convenience init(color: UIColor, frame: CGRect, maxTimeUnits: Int = 60, disabled: Bool = false) {
+    convenience init(color: UIColor, frame: CGRect, maxTimeUnits: Int = 60) {
         self.init(frame: frame)
         self.color = color
         self.maxTimeUnits = maxTimeUnits
-        self.disabled = disabled
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -140,6 +136,15 @@ class CircularSlider: UIControl {
         setNeedsDisplay()
     }
     
+    func touchedSliderPath(point: CGPoint) -> Bool {
+        let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false);
+        let proposedPoint = self.handlePointFromAngle(360.0 - currentAngle)
+        let proposedSliderRect = CGRectMake(proposedPoint.x, proposedPoint.y, Config.BT_HANDLE_WIDTH, Config.BT_HANDLE_WIDTH)
+        
+        return CGRectContainsPoint(proposedSliderRect, point)
+    }
+    
     func getTimeUnitFromAngleInt(angleInt: Double) -> Int {
         let timeToAngleRatio = 360.0 / Double(maxTimeUnits)
         let angleLessThan90Degrees = Double(angleInt) <= 90.0
@@ -167,19 +172,23 @@ class CircularSlider: UIControl {
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
-        if (disabled) { return false }
-        
-        return CGRectContainsPoint(self.rectForHandle(), touch.locationInView(self))
+        return self.touchedSliderPath(touch.locationInView(self))
     }
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
-        let lastPoint = touch.locationInView(self)
-        self.moveHandle(lastPoint)
+        self.moveHandle(touch.locationInView(self))
         self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
         
         return true
+    }
+    
+    override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
+        super.endTrackingWithTouch(touch, withEvent: event)
+
+        self.moveHandle(touch.locationInView(self))
+        self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
     }
 
 }

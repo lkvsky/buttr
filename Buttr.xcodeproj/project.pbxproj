@@ -15,6 +15,8 @@
 		3CC0DACC1B796439002FB268 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC0DACA1B796439002FB268 /* Crashlytics.framework */; };
 		3CC0DACF1B7AC4D2002FB268 /* AltEditTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DACD1B7AC4D2002FB268 /* AltEditTimerViewController.swift */; };
 		3CC0DAD01B7AC4D2002FB268 /* AltEditTimerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CC0DACE1B7AC4D2002FB268 /* AltEditTimerViewController.xib */; };
+		3CC0DAD21B7C3451002FB268 /* TimerProgressSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAD11B7C3451002FB268 /* TimerProgressSlider.swift */; };
+		3CC0DAD41B7C419A002FB268 /* PawButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC0DAD31B7C419A002FB268 /* PawButton.swift */; };
 		3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */; };
 		3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */; };
 		3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */; };
@@ -30,6 +32,7 @@
 		3CE7FA051B754ED70015EED7 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7FA001B754EB10015EED7 /* Lato-Light.ttf */; };
 		3CE7FA061B754ED70015EED7 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CE7FA011B754EB10015EED7 /* Lato-Regular.ttf */; };
 		3CE7FA091B7634A30015EED7 /* UIColor+ButtrColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE7FA081B7634A30015EED7 /* UIColor+ButtrColors.swift */; };
+		3CF1FD811B7C4C700017F1AE /* KeyPadControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF1FD801B7C4C700017F1AE /* KeyPadControlButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,8 @@
 		3CC0DACA1B796439002FB268 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3CC0DACD1B7AC4D2002FB268 /* AltEditTimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltEditTimerViewController.swift; sourceTree = "<group>"; };
 		3CC0DACE1B7AC4D2002FB268 /* AltEditTimerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AltEditTimerViewController.xib; sourceTree = "<group>"; };
+		3CC0DAD11B7C3451002FB268 /* TimerProgressSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerProgressSlider.swift; sourceTree = "<group>"; };
+		3CC0DAD31B7C419A002FB268 /* PawButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PawButton.swift; sourceTree = "<group>"; };
 		3CE7F9CE1B73B75A0015EED7 /* Buttr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buttr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE7F9D21B73B75A0015EED7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CE7F9D31B73B75A0015EED7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +75,7 @@
 		3CE7FA001B754EB10015EED7 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		3CE7FA011B754EB10015EED7 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		3CE7FA081B7634A30015EED7 /* UIColor+ButtrColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+ButtrColors.swift"; sourceTree = "<group>"; };
+		3CF1FD801B7C4C700017F1AE /* KeyPadControlButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPadControlButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +194,9 @@
 				3CE7F9FA1B73DF870015EED7 /* TimerControlView.swift */,
 				3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */,
 				3CC0DAC11B79149E002FB268 /* TimerProgressView.swift */,
+				3CC0DAD11B7C3451002FB268 /* TimerProgressSlider.swift */,
+				3CC0DAD31B7C419A002FB268 /* PawButton.swift */,
+				3CF1FD801B7C4C700017F1AE /* KeyPadControlButton.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -337,7 +346,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CC0DAD41B7C419A002FB268 /* PawButton.swift in Sources */,
 				3CE7F9FB1B73DF870015EED7 /* TimerControlView.swift in Sources */,
+				3CC0DAD21B7C3451002FB268 /* TimerProgressSlider.swift in Sources */,
 				3CC0DACF1B7AC4D2002FB268 /* AltEditTimerViewController.swift in Sources */,
 				3CE7FA091B7634A30015EED7 /* UIColor+ButtrColors.swift in Sources */,
 				3CE7F9D91B73B75A0015EED7 /* EditTimerViewController.swift in Sources */,
@@ -348,6 +359,7 @@
 				3CC0DAC61B791B0F002FB268 /* TimerProgressViewController.swift in Sources */,
 				3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */,
 				3CC0DAC21B79149E002FB268 /* TimerProgressView.swift in Sources */,
+				3CF1FD811B7C4C700017F1AE /* KeyPadControlButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

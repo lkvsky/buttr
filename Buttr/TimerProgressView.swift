@@ -22,13 +22,14 @@ class TimerProgressView: UIView {
     
     func startTimer(duration: Int = 60) {
         timerDuration = duration
-        let slider = CircularSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration, disabled: true)
+        let slider = TimerProgressSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
         self.addSubview(slider)
         self.slider = slider
+        self.slider?.addTimeUnitByAmmount(duration)
     }
     
     func updateSlider() {
-        slider?.addTimeUnitByAmmount(1)
+        slider?.addTimeUnitByAmmount(-1)
     }
 
 }

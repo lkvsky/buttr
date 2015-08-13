@@ -17,6 +17,7 @@ class EditTimerViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.backgroundColor()
+        self.view.sendSubviewToBack(timerLabelView)
         
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
@@ -24,7 +25,7 @@ class EditTimerViewController: UIViewController {
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "showAltEditScreen")
         tapGesture.numberOfTapsRequired = 2;
-        self.timerLabelView.addGestureRecognizer(tapGesture)
+        self.timerControlView.addGestureRecognizer(tapGesture)
     }
 
     // MARK: Gestures and Events

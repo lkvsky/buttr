@@ -16,7 +16,10 @@ class AltEditTimerViewController: UIViewController {
     @IBOutlet var cancelKey: UIButton!
     
     // labels
-    @IBOutlet var timerLabels: [UILabel]!
+    @IBOutlet var tertiaryColorLabels: [UILabel]!
+    @IBOutlet var primaryColorLabels: [UILabel]!
+    @IBOutlet var secondaryColorLabels: [UILabel]!
+    
     @IBOutlet var secondsLabel: UILabel!
     @IBOutlet var minutesLabel: UILabel!
     @IBOutlet var hoursLabel: UILabel!
@@ -28,8 +31,18 @@ class AltEditTimerViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.backgroundColor()
-        self.timerLabels.map { (label: UILabel) -> UILabel in
+        self.primaryColorLabels.map { (label: UILabel) -> UILabel in
             label.textColor = UIColor.primaryTextColor()
+            return label
+        }
+        
+        self.secondaryColorLabels.map { (label: UILabel) -> UILabel in
+            label.textColor = UIColor.secondaryTextColor()
+            return label
+        }
+        
+        self.tertiaryColorLabels.map { (label: UILabel) -> UILabel in
+            label.textColor = UIColor.tertiaryTextColor()
             return label
         }
     }
@@ -56,8 +69,11 @@ class AltEditTimerViewController: UIViewController {
         self.secondsLabel.text = String(format: "%02ld", locale: nil, timeDict["seconds"]!)
     }
 
-    @IBAction func onCancelTap() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func onDeleteTap() {
+        if (timerValue.count > 0) {
+            timerValue.removeLast()
+            renderTime()
+        }
     }
     
     @IBAction func onTimeKeyTap(button: UIButton) {
@@ -68,7 +84,11 @@ class AltEditTimerViewController: UIViewController {
     }
     
     @IBAction func onStartKeyTap() {
-        NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: ["times": self.parseTime()])
+        let parsedTime = self.parseTime()
+        let totalSeconds = parsedTime["seconds"]! + (parsedTime["minutes"]! * 60) + (parsedTime["hours"]! * 3600)
+        let actualTimes = ["seconds": totalSeconds % 60, "minutes": (totalSeconds / 60) % 60, "hours": totalSeconds / 3600]
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: ["times": actualTimes])
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

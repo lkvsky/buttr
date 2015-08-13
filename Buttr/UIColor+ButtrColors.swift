@@ -19,10 +19,10 @@ extension UIColor {
     }
     
     class func secondaryTextColor() -> UIColor {
-        return UIColor(red: 246.0/255.0, green: 207.0/255.0, blue: 145.0/255.0, alpha: 1.0)
+        return UIColor(red: 195.0/255.0, green: 159.0/255.0, blue: 101.0/255.0, alpha: 1.0)
     }
     
     class func tertiaryTextColor() -> UIColor {
-        return UIColor(red: 252.0/255.0, green: 233.0/255.0, blue: 203.0/255.0, alpha: 1.0)
+        return UIColor(red: 246.0/255.0, green: 207.0/255.0, blue: 145.0/255.0, alpha: 1.0)
     }
 }
