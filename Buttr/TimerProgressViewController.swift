@@ -7,32 +7,46 @@
 //
 
 import UIKit
+import AudioToolbox
+import AVFoundation
 
 class TimerProgressViewController: UIViewController {
     
     // time left in seconds
-    var timeLeft: Int = 60 {
+    var timeLeft: Int! {
         didSet {
             self.updateTimerLabel()
         }
     }
     
-    var timer: NSTimer!
+    var timer: Timer!
+    var nsTimerInstance: NSTimer!
     var timerIsPaused: Bool = false
+    
+    // alarm properties
+    var nsTimerAlertInstance: NSTimer!
+    var audioPlayer: AVAudioPlayer!
+    var butterBark: SystemSoundID = 0
     
     @IBOutlet var timerProgressView: TimerProgressView!
     @IBOutlet var timerLabelView: TimerLabelView!
-    @IBOutlet var timerControlButton: UIButton!
+    @IBOutlet var timerControlButton: KeyPadControlButton!
+    @IBOutlet var timerResetButton: KeyPadControlButton!
+    @IBOutlet var containerView: UIView!
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.backgroundColor()
-        self.timerProgressView.startTimer(duration: timeLeft)
+        self.timeLeft = self.timer.timeLeft()
+        self.containerView.backgroundColor = UIColor.backgroundColor()
+        self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft())
         self.updateTimerLabel()
         
         // start tracking timer
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+        nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+    }
+    
+    deinit {
+        self.invalidateTimersAndAlerts()
     }
 
     func updateTimerLabel() {
@@ -41,26 +55,73 @@ class TimerProgressViewController: UIViewController {
         timerLabelView?.hours = (timeLeft / 3600)
     }
     
+    func playButterBark() {
+        let butterPath = NSBundle.mainBundle().pathForResource("butter_bark", ofType: "wav")
+        let butterUrl = NSURL.fileURLWithPath(butterPath!)
+        audioPlayer = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
+        
+        audioPlayer.play()
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        nsTimerAlertInstance = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "alert", userInfo: nil, repeats: true)
+    }
+    
+    func alert() {
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+    }
+    
+    func invalidateTimersAndAlerts() {
+        audioPlayer?.stop()
+        nsTimerAlertInstance?.invalidate()
+        nsTimerInstance?.invalidate()
+    }
+    
+    func closeScreen() {
+        Timer.deleteTimers()
+        self.invalidateTimersAndAlerts()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: Gestures and Events
+    
     func timerFired() {
         if (timeLeft == 0) {
-            timer.invalidate()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.playButterBark()
+            nsTimerInstance.invalidate()
+            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10.0, options: nil, animations: {
+                [unowned self] () ->  Void in
+                self.timerProgressView.transform = CGAffineTransformMakeScale(0, 0)
+                self.containerView.transform = CGAffineTransformMakeTranslation(0, -70)
+                self.timerControlButton.layer.opacity = 0
+                self.timerResetButton.standardBackgroundImage = UIImage(named: "bark_speech_bubble")
+            }, completion: nil)
         } else {
-            timeLeft -= 1
+            timeLeft = self.timer.timeLeft()
             self.timerProgressView.updateSlider()
         }
     }
     
     @IBAction func toggleTimerState() {
         if (timerIsPaused) {
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+            self.timer.resetStartTime()
+            DataManager.sharedInstance.save()
+
+            nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
             timerIsPaused = false
-            timerControlButton.setBackgroundImage(UIImage(named: "pause_button"), forState: UIControlState.Normal)
+            timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
         } else {
-            timer.invalidate()
+            self.timer.pauseTime = NSDate()
+            nsTimerInstance.invalidate()
             timerIsPaused = true
-            timerControlButton.setBackgroundImage(UIImage(named: "start_button"), forState: UIControlState.Normal)
+            timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
         }
+    }
+    
+    @IBAction func onTapReset() {
+        self.closeScreen()
+    }
+    
+    @IBAction func onDoneTap() {
+        self.closeScreen()
     }
 
 }

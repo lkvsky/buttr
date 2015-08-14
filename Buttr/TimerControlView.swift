@@ -72,6 +72,15 @@ import UIKit
         return secondSlider.getTimeUnitFromAngleInt(secondSlider.angle) + (minuteSlider.getTimeUnitFromAngleInt(minuteSlider.angle) * 60) + (hourSlider.getTimeUnitFromAngleInt(hourSlider.angle) * 3600)
     }
     
+    func resetSliders() {
+        self.secondSlider.angle = Config.BT_STARTING_ANGLE
+        self.minuteSlider.angle = Config.BT_STARTING_ANGLE
+        self.hourSlider.angle = Config.BT_STARTING_ANGLE
+        self.secondSlider.setNeedsDisplay()
+        self.minuteSlider.setNeedsDisplay()
+        self.hourSlider.setNeedsDisplay()
+    }
+    
     // MARK: Gestures and Events
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {

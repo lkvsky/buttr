@@ -26,6 +26,12 @@ class EditTimerViewController: UIViewController {
         var tapGesture = UITapGestureRecognizer(target: self, action: "showAltEditScreen")
         tapGesture.numberOfTapsRequired = 2;
         self.timerControlView.addGestureRecognizer(tapGesture)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerIfNecessary", name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     // MARK: Gestures and Events
@@ -48,6 +54,23 @@ class EditTimerViewController: UIViewController {
         timerLabelView.hours = newTime == 60 ? 59 : newTime
     }
     
+    func launchTimerIfNecessary() {
+        if let timer = Timer.getCurrentTimer() {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let timerProgressVC = storyBoard.instantiateViewControllerWithIdentifier("TimerProgressViewController") as! TimerProgressViewController
+            timerProgressVC.timer = timer
+            
+            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
+                self.showViewController(timerProgressVC, sender: self)
+            })
+        }
+    }
+    
+    @IBAction func onTapRest() {
+        self.timerControlView.resetSliders()
+        self.timerLabelView.resetLabel()
+    }
+    
     func showAltEditScreen() {
         var altEditTimerVC = AltEditTimerViewController.init(nibName: "AltEditTimerViewController", bundle: nil)
         self.showViewController(altEditTimerVC, sender: self)
@@ -56,6 +79,8 @@ class EditTimerViewController: UIViewController {
     
     func altTimerSet(notification: NSNotification) {
         let timeSet = notification.userInfo!["times"] as! [String: Int]
+        
+        self.timerControlView.resetSliders()
         
         timerLabelView.seconds = timeSet["seconds"]!
         timerControlView.secondSlider.addTimeUnitByAmmount(timeSet["seconds"]!)
@@ -70,8 +95,13 @@ class EditTimerViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let timer = Timer(context: DataManager.sharedInstance.insertionContext)
+        timer.duration = timerControlView.getTotalTime()
+        timer.startTime = NSDate()
+        DataManager.sharedInstance.save()
+        
         let timerProgressVC = segue.destinationViewController as! TimerProgressViewController
-        timerProgressVC.timeLeft = timerControlView.getTotalTime()
+        timerProgressVC.timer = timer
     }
 }
 

@@ -10,18 +10,26 @@ import UIKit
 import CoreData
 import Fabric
 import Crashlytics
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        
         // Init Crashlytics
         Fabric.with([Crashlytics()])
+        
+        // Init Data Manager managed object contexts
+        DataManager.sharedInstance.setContexts(self.managedObjectContext!)
+        
+        // Ask user for permission to enable alerts
+        if (UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
+            let notificationCategory = UIMutableUserNotificationCategory()
+            notificationCategory.identifier = "BUTTR_ALERT_CATEGORY"
+            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:UIUserNotificationType.Alert|UIUserNotificationType.Badge|UIUserNotificationType.Sound, categories: nil))
+        }
         
         return true
     }
@@ -29,6 +37,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        
+        if let activeVc = application.keyWindow?.rootViewController?.presentedViewController as? TimerProgressViewController {
+            activeVc.dismissViewControllerAnimated(false, completion: nil)
+            activeVc.invalidateTimersAndAlerts()
+        }
+        
+        self.clearNotifications()
+        
+        if let timer = Timer.getCurrentTimer() {
+            if (Int(timer.duration) > 0) {
+                let alarm = UILocalNotification()
+                let projectedEndDate = timer.projectedEndDate()
+                
+                if (projectedEndDate.timeIntervalSinceNow > 0.0) {
+                    alarm.fireDate = projectedEndDate
+                    alarm.alertBody = "Timer is up!"
+                    alarm.category = "BUTTR_ALERT_CATEGORY"
+                    UIApplication.sharedApplication().scheduleLocalNotification(alarm)
+                }
+                
+            }
+        }
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -38,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        self.clearNotifications()
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -94,7 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
@@ -110,6 +141,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSLog("Unresolved error \(error), \(error!.userInfo)")
                 abort()
             }
+        }
+    }
+    
+    // MARK: Helper Methods
+    
+    func clearNotifications() {
+        var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
+        if (notifications.count > 0) {
+            UIApplication.sharedApplication().cancelAllLocalNotifications()
         }
     }
 

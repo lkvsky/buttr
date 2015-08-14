@@ -10,8 +10,17 @@ import UIKit
 
 @IBDesignable class KeyPadControlButton: UIButton {
 
-    @IBInspectable var standardBackgroundImage: UIImage!
-    @IBInspectable var highlightedBackgroundImage: UIImage!
+    @IBInspectable var standardBackgroundImage: UIImage! {
+        didSet {
+            self.setBackgroundImage(standardBackgroundImage, forState: .Normal)
+        }
+    }
+    
+    @IBInspectable var highlightedBackgroundImage: UIImage! {
+        didSet {
+            self.setBackgroundImage(highlightedBackgroundImage, forState: .Highlighted)
+        }
+    }
     
     
     #if TARGET_INTERFACE_BUILDER

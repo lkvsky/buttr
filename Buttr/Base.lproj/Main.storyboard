@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Bitter-Regular.otf">
+            <string>Bitter-Regular</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Edit Timer View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -25,6 +31,13 @@
                                     <constraint firstAttribute="width" constant="350" id="aSM-gv-gtw"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="butter_tail" translatesAutoresizingMaskIntoConstraints="NO" id="Trq-bd-Er6">
+                                <rect key="frame" x="338" y="518" width="32" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="AJh-Bv-nkS"/>
+                                    <constraint firstAttribute="width" constant="32" id="ecT-eq-HOW"/>
+                                </constraints>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_body" translatesAutoresizingMaskIntoConstraints="NO" id="HUx-C3-823">
                                 <rect key="frame" x="258" y="485" width="98" height="107"/>
                                 <constraints>
@@ -39,7 +52,7 @@
                                     <constraint firstAttribute="width" constant="139" id="fwR-K2-Zrg"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIC-cE-FSY">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIC-cE-FSY" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
                                 <rect key="frame" x="247" y="378" width="120" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="Ion-0D-l6W"/>
@@ -48,6 +61,9 @@
                                 <state key="normal" backgroundImage="start_button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="start_button"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="NTm-Oe-MmE" kind="show" id="7cz-Qx-SjO"/>
                                 </connections>
@@ -60,22 +76,42 @@
                                     <constraint firstAttribute="height" constant="72" id="yw7-n5-nhF"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PC-VE-4oF" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
+                                <rect key="frame" x="385" y="420" width="80" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="loq-MO-AfP"/>
+                                    <constraint firstAttribute="height" constant="53" id="vIv-5D-adg"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="reset_speech_bubble"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onTapRest" destination="BYZ-38-t0r" eventType="touchUpInside" id="xJc-sG-9z0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Trq-bd-Er6" secondAttribute="bottom" constant="48" id="0jp-1g-BbI"/>
                             <constraint firstAttribute="centerX" secondItem="HUx-C3-823" secondAttribute="centerX" constant="-7" id="4gh-B2-Wys"/>
                             <constraint firstItem="D4J-6V-uPk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="67O-hh-Tb6"/>
                             <constraint firstItem="Bjo-6t-1TQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="140" id="AcH-Kj-fS8"/>
                             <constraint firstItem="Bjo-6t-1TQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="216" id="Azh-Fy-xQn"/>
+                            <constraint firstItem="BEy-Xj-chQ" firstAttribute="top" secondItem="7PC-VE-4oF" secondAttribute="bottom" constant="-53" id="BXq-kl-uDJ"/>
                             <constraint firstItem="NIC-cE-FSY" firstAttribute="top" secondItem="D4J-6V-uPk" secondAttribute="bottom" constant="8" id="Ebj-Hc-9YF"/>
                             <constraint firstItem="NIC-cE-FSY" firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" constant="7" id="Nof-Vj-q1u"/>
                             <constraint firstAttribute="centerY" secondItem="Bjo-6t-1TQ" secondAttribute="centerY" constant="90" id="OcA-vO-2E5"/>
                             <constraint firstItem="HUx-C3-823" firstAttribute="top" secondItem="BEy-Xj-chQ" secondAttribute="bottom" constant="-43" id="QZM-Ut-BuL"/>
                             <constraint firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" id="TcY-jr-xdA"/>
+                            <constraint firstItem="7PC-VE-4oF" firstAttribute="leading" secondItem="BEy-Xj-chQ" secondAttribute="trailing" constant="8" id="bSv-8g-lw9"/>
                             <constraint firstItem="Bjo-6t-1TQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="154" id="d7M-47-hQ2"/>
                             <constraint firstAttribute="centerX" secondItem="Bjo-6t-1TQ" secondAttribute="centerX" id="ioa-jf-Rv1"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="HUx-C3-823" secondAttribute="bottom" constant="8" id="jtl-6x-WeL"/>
                             <constraint firstAttribute="centerX" secondItem="BEy-Xj-chQ" secondAttribute="centerX" constant="-7.5" id="lsk-sG-fHS"/>
+                            <constraint firstItem="Trq-bd-Er6" firstAttribute="leading" secondItem="HUx-C3-823" secondAttribute="trailing" constant="-18" id="x9g-gt-Ht5"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -97,7 +133,7 @@
         <!--Timer Progress View Controller-->
         <scene sceneID="jfU-Ef-e67">
             <objects>
-                <viewController id="NTm-Oe-MmE" customClass="TimerProgressViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TimerProgressViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NTm-Oe-MmE" customClass="TimerProgressViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rUj-Kp-lsr"/>
                         <viewControllerLayoutGuide type="bottom" id="yUS-wh-gHZ"/>
@@ -106,70 +142,131 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_body" translatesAutoresizingMaskIntoConstraints="NO" id="JOJ-Jx-e80">
-                                <rect key="frame" x="251" y="485" width="98" height="107"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="98" id="Bhn-Fe-x6I"/>
-                                    <constraint firstAttribute="height" constant="107" id="yJ6-HU-0Il"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_head" translatesAutoresizingMaskIntoConstraints="NO" id="FeK-eF-H3B">
-                                <rect key="frame" x="231" y="420" width="139" height="108"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="139" id="iBP-An-cI9"/>
-                                    <constraint firstAttribute="height" constant="108" id="s6K-K0-Z2e"/>
-                                </constraints>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7a-kA-KcS" customClass="TimerProgressView" customModule="Buttr" customModuleProvider="target">
-                                <rect key="frame" x="125" y="20" width="350" height="350"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nb4-j0-EVX" customClass="TimerLabelView" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="90" y="139" width="171" height="72"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="72" id="JFc-4V-hS2"/>
-                                            <constraint firstAttribute="width" constant="171" id="ybg-B9-gQb"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="350" id="7E9-3t-XQz"/>
-                                    <constraint firstAttribute="height" constant="350" id="APP-nl-vTP"/>
-                                    <constraint firstAttribute="centerX" secondItem="nb4-j0-EVX" secondAttribute="centerX" constant="-0.5" id="CTE-WQ-m3F"/>
-                                    <constraint firstAttribute="centerY" secondItem="nb4-j0-EVX" secondAttribute="centerY" id="ipn-qo-LgT"/>
-                                </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K9a-lu-Era">
-                                <rect key="frame" x="240" y="373" width="120" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="79F-Mi-oSe"/>
-                                    <constraint firstAttribute="height" constant="45" id="aex-sx-on2"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="pause_button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1g-1B-gXh">
+                                <rect key="frame" x="0.0" y="539" width="600" height="61"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Bitter-Regular" family="Bitter" pointSize="40"/>
+                                <state key="normal" title="DONE">
+                                    <color key="titleColor" red="0.87450980392156863" green="0.66274509803921566" blue="0.32156862745098042" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleTimerState" destination="NTm-Oe-MmE" eventType="touchUpInside" id="GkB-Na-s1W"/>
+                                    <action selector="onDoneTap" destination="NTm-Oe-MmE" eventType="touchUpInside" id="VDs-WF-Z31"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lr0-fi-F2a">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7a-kA-KcS" customClass="TimerProgressView" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="125" y="20" width="350" height="350"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nb4-j0-EVX" customClass="TimerLabelView" customModule="Buttr" customModuleProvider="target">
+                                                <rect key="frame" x="90" y="139" width="171" height="72"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="72" id="JFc-4V-hS2"/>
+                                                    <constraint firstAttribute="width" constant="171" id="ybg-B9-gQb"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="7E9-3t-XQz"/>
+                                            <constraint firstAttribute="height" constant="350" id="APP-nl-vTP"/>
+                                            <constraint firstAttribute="centerX" secondItem="nb4-j0-EVX" secondAttribute="centerX" constant="-0.5" id="CTE-WQ-m3F"/>
+                                            <constraint firstAttribute="centerY" secondItem="nb4-j0-EVX" secondAttribute="centerY" id="ipn-qo-LgT"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K9a-lu-Era" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="240" y="378" width="120" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="79F-Mi-oSe"/>
+                                            <constraint firstAttribute="height" constant="45" id="aex-sx-on2"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="pause_button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="pause_button"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="toggleTimerState" destination="NTm-Oe-MmE" eventType="touchUpInside" id="GkB-Na-s1W"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Hb-dZ-0oP" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="377" y="420" width="80" height="53"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="X8u-3T-pjv"/>
+                                            <constraint firstAttribute="height" constant="53" id="xye-Hs-gF1"/>
+                                        </constraints>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="reset_speech_bubble"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onTapReset" destination="NTm-Oe-MmE" eventType="touchUpInside" id="ULN-aS-ZYg"/>
+                                            <action selector="onTapRest" destination="BYZ-38-t0r" eventType="touchUpInside" id="UgP-95-Jnz"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="butter_tail" translatesAutoresizingMaskIntoConstraints="NO" id="rfp-AM-bnb">
+                                        <rect key="frame" x="331" y="518" width="32" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="SaO-XH-heJ"/>
+                                            <constraint firstAttribute="width" constant="32" id="w52-KD-lfc"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_body" translatesAutoresizingMaskIntoConstraints="NO" id="OCm-rh-dEL">
+                                        <rect key="frame" x="251" y="485" width="98" height="107"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="98" id="LP7-Fd-kYj"/>
+                                            <constraint firstAttribute="height" constant="107" id="NON-gc-Qew"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttr_head" translatesAutoresizingMaskIntoConstraints="NO" id="ssm-xk-pSO">
+                                        <rect key="frame" x="231" y="420" width="139" height="108"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="139" id="4AR-j7-OOB"/>
+                                            <constraint firstAttribute="height" constant="108" id="Swh-jd-7cU"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="K9a-lu-Era" firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="1xz-fK-BpF"/>
+                                    <constraint firstItem="ssm-xk-pSO" firstAttribute="top" secondItem="8Hb-dZ-0oP" secondAttribute="top" id="5CY-Wl-4Cd"/>
+                                    <constraint firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="Gi6-ux-EHW"/>
+                                    <constraint firstAttribute="bottom" secondItem="rfp-AM-bnb" secondAttribute="bottom" constant="48" id="HQk-Pq-UcZ"/>
+                                    <constraint firstItem="u7a-kA-KcS" firstAttribute="top" secondItem="Lr0-fi-F2a" secondAttribute="top" constant="20" id="Jhs-6Q-pmO"/>
+                                    <constraint firstAttribute="bottom" secondItem="OCm-rh-dEL" secondAttribute="bottom" constant="8" id="MlE-by-gSc"/>
+                                    <constraint firstAttribute="centerX" secondItem="ssm-xk-pSO" secondAttribute="centerX" id="TSQ-ql-c3b"/>
+                                    <constraint firstItem="ssm-xk-pSO" firstAttribute="top" secondItem="8Hb-dZ-0oP" secondAttribute="bottom" constant="-53" id="aKF-9r-CTy"/>
+                                    <constraint firstAttribute="centerX" secondItem="OCm-rh-dEL" secondAttribute="centerX" id="aTz-wr-nXv"/>
+                                    <constraint firstItem="K9a-lu-Era" firstAttribute="top" secondItem="u7a-kA-KcS" secondAttribute="bottom" constant="8" id="drj-5n-ytl"/>
+                                    <constraint firstItem="rfp-AM-bnb" firstAttribute="leading" secondItem="OCm-rh-dEL" secondAttribute="trailing" constant="-18" id="t33-8r-rcD"/>
+                                    <constraint firstItem="OCm-rh-dEL" firstAttribute="top" secondItem="ssm-xk-pSO" secondAttribute="bottom" constant="-43" id="udK-Z6-jff"/>
+                                    <constraint firstItem="8Hb-dZ-0oP" firstAttribute="leading" secondItem="ssm-xk-pSO" secondAttribute="trailing" constant="7" id="xbG-0r-F4G"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FeK-eF-H3B" firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="1Bs-kc-qEH"/>
-                            <constraint firstItem="FeK-eF-H3B" firstAttribute="centerX" secondItem="JOJ-Jx-e80" secondAttribute="centerX" id="Lrj-0t-i6r"/>
-                            <constraint firstItem="K9a-lu-Era" firstAttribute="top" secondItem="u7a-kA-KcS" secondAttribute="bottom" constant="3" id="QHe-FE-okK"/>
-                            <constraint firstItem="u7a-kA-KcS" firstAttribute="top" secondItem="rUj-Kp-lsr" secondAttribute="bottom" id="R1H-ZX-4mK"/>
-                            <constraint firstItem="JOJ-Jx-e80" firstAttribute="top" secondItem="FeK-eF-H3B" secondAttribute="bottom" constant="-43" id="gbS-Mx-UeJ"/>
-                            <constraint firstItem="yUS-wh-gHZ" firstAttribute="top" secondItem="FeK-eF-H3B" secondAttribute="bottom" constant="72" id="mXJ-B2-n5F"/>
-                            <constraint firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="oFf-oc-51j"/>
-                            <constraint firstItem="K9a-lu-Era" firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="roh-t7-RTe"/>
+                            <constraint firstItem="yUS-wh-gHZ" firstAttribute="top" secondItem="Lr0-fi-F2a" secondAttribute="bottom" id="D5c-x2-AiJ"/>
+                            <constraint firstItem="yUS-wh-gHZ" firstAttribute="top" secondItem="j1g-1B-gXh" secondAttribute="bottom" id="Euz-X2-hIl"/>
+                            <constraint firstItem="Lr0-fi-F2a" firstAttribute="leading" secondItem="FH0-Lt-lcI" secondAttribute="leadingMargin" constant="-16" id="JOs-sz-nLF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Lr0-fi-F2a" secondAttribute="trailing" constant="-16" id="KRc-hn-9Uu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="j1g-1B-gXh" secondAttribute="trailing" constant="-16" id="Pml-bL-4Pe"/>
+                            <constraint firstItem="j1g-1B-gXh" firstAttribute="leading" secondItem="FH0-Lt-lcI" secondAttribute="leadingMargin" constant="-16" id="dyL-gG-riz"/>
+                            <constraint firstItem="Lr0-fi-F2a" firstAttribute="top" secondItem="FH0-Lt-lcI" secondAttribute="topMargin" id="fRX-hm-bDg"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="Lr0-fi-F2a" id="FeS-cA-vLz"/>
                         <outlet property="timerControlButton" destination="K9a-lu-Era" id="tR8-3A-NIT"/>
                         <outlet property="timerLabelView" destination="nb4-j0-EVX" id="xnj-8l-gCI"/>
                         <outlet property="timerProgressView" destination="u7a-kA-KcS" id="dNm-8k-WK5"/>
+                        <outlet property="timerResetButton" destination="8Hb-dZ-0oP" id="JP7-BB-igN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6b-FY-z1g" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -178,9 +275,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="butter_tail" width="34" height="34"/>
         <image name="buttr_body" width="93" height="99"/>
         <image name="buttr_head" width="139" height="108"/>
-        <image name="pause_button" width="105" height="40"/>
-        <image name="start_button" width="105" height="40"/>
+        <image name="pause_button" width="123" height="40"/>
+        <image name="reset_speech_bubble" width="83" height="58"/>
+        <image name="start_button" width="123" height="40"/>
     </resources>
 </document>

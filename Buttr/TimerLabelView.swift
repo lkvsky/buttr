@@ -145,6 +145,12 @@ class TimerLabelView: UIView {
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
     }
     
+    func resetLabel() {
+        self.seconds = 0
+        self.minutes = 0
+        self.hours = 0
+    }
+    
     // MARK: Constraint animation
     
     func adjustCenterConstraints() {

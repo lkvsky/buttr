@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>4</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -39,10 +39,15 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Bitter-Bold.otf</string>
-		<string>Bitter-Recular.otf</string>
+		<string>Bitter-Regular.otf</string>
 		<string>Lato-Black.ttf</string>
 		<string>Lato-Light.ttf</string>
 		<string>Lato-Regular.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>external-accessory</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
