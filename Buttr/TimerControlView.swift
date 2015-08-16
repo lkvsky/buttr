@@ -14,9 +14,9 @@ import UIKit
     
     let sliderSpacing: CGFloat = 30.0
     
-    var secondSlider: CircularSlider!
-    var minuteSlider: CircularSlider!
-    var hourSlider: CircularSlider!
+    weak var secondSlider: CircularSlider!
+    weak var minuteSlider: CircularSlider!
+    weak var hourSlider: CircularSlider!
     
     // MARK: Initialization
 

@@ -28,11 +28,11 @@ class TimerProgressViewController: UIViewController {
     var audioPlayer: AVAudioPlayer!
     var butterBark: SystemSoundID = 0
     
-    @IBOutlet var timerProgressView: TimerProgressView!
-    @IBOutlet var timerLabelView: TimerLabelView!
-    @IBOutlet var timerControlButton: KeyPadControlButton!
-    @IBOutlet var timerResetButton: KeyPadControlButton!
-    @IBOutlet var containerView: UIView!
+    @IBOutlet weak var timerProgressView: TimerProgressView!
+    @IBOutlet weak var timerLabelView: TimerLabelView!
+    @IBOutlet weak var timerControlButton: KeyPadControlButton!
+    @IBOutlet weak var timerResetButton: KeyPadControlButton!
+    @IBOutlet weak var containerView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +76,6 @@ class TimerProgressViewController: UIViewController {
     }
     
     func closeScreen() {
-        Timer.deleteTimers()
         self.invalidateTimersAndAlerts()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -110,6 +109,8 @@ class TimerProgressViewController: UIViewController {
             timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
         } else {
             self.timer.pauseTime = NSDate()
+            DataManager.sharedInstance.save()
+            
             nsTimerInstance.invalidate()
             timerIsPaused = true
             timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
@@ -117,10 +118,16 @@ class TimerProgressViewController: UIViewController {
     }
     
     @IBAction func onTapReset() {
+        self.timer.canceled = 1
+        DataManager.sharedInstance.save()
+
         self.closeScreen()
     }
     
     @IBAction func onDoneTap() {
+        self.timer.canceled = 1
+        DataManager.sharedInstance.save()
+
         self.closeScreen()
     }
 

@@ -13,19 +13,13 @@ class DataManager: NSObject {
     
     static let sharedInstance: DataManager = DataManager()
     
-    var insertionContext: NSManagedObjectContext!
-    var readingContext: NSManagedObjectContext!
-    var deletionContext: NSManagedObjectContext!
+    var mainMoc: NSManagedObjectContext!
     
     func setContexts(moc: NSManagedObjectContext) {
-        self.insertionContext = moc
-        self.readingContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
-        self.readingContext.parentContext = self.insertionContext
-        self.deletionContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
-        self.deletionContext.parentContext = self.insertionContext
+        self.mainMoc = moc
     }
     
     func save() {
-        self.insertionContext.save(nil)
+        self.mainMoc.save(nil)
     }
 }

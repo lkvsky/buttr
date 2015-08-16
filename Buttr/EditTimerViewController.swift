@@ -10,8 +10,8 @@ import UIKit
 
 class EditTimerViewController: UIViewController {
     
-    @IBOutlet var timerControlView: TimerControlView!
-    @IBOutlet var timerLabelView: TimerLabelView!
+    @IBOutlet weak var timerControlView: TimerControlView!
+    @IBOutlet weak var timerLabelView: TimerLabelView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +95,7 @@ class EditTimerViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let timer = Timer(context: DataManager.sharedInstance.insertionContext)
+        let timer = Timer(context: DataManager.sharedInstance.mainMoc)
         timer.duration = timerControlView.getTotalTime()
         timer.startTime = NSDate()
         DataManager.sharedInstance.save()

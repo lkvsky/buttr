@@ -10,7 +10,7 @@ import UIKit
 
 @IBDesignable class PawButton: UIButton {
     
-    var numberLabel: UILabel!
+    weak var numberLabel: UILabel!
     
     override var tag: Int {
         didSet {
@@ -56,10 +56,6 @@ import UIKit
         
         self.setBackgroundImage(UIImage(named: "paw_print"), forState: .Normal)
         self.setBackgroundImage(UIImage(named: "paw_print_filled"), forState: .Highlighted)
-
-//        self.adjustsImageWhenHighlighted = false
-//        self.backgroundColor = nil
-//        self.tintColor = nil
     }
     
     #endif

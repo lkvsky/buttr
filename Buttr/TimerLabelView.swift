@@ -11,9 +11,9 @@ import UIKit
 class TimerLabelView: UIView {
     // MARK: Initialization
     
-    var secondsLabel: UILabel!
-    var minutesLabel: UILabel!
-    var hoursLabel: UILabel!
+    weak var secondsLabel: UILabel!
+    weak var minutesLabel: UILabel!
+    weak var hoursLabel: UILabel!
     
     var secondsCenterXConstraint: NSLayoutConstraint!
     var minutesCenterXConstraint: NSLayoutConstraint!

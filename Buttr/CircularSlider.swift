@@ -98,7 +98,7 @@ class CircularSlider: UIControl {
         CGContextAddArc(ctx, CGFloat(self.frame.size.width / 2.0), CGFloat(self.frame.size.height / 2.0), radius, startingAngle, endingAngle, 0)
         self.color.set()
         CGContextSetLineWidth(ctx, Config.BT_SLIDER_LINE_WIDTH)
-        CGContextSetLineCap(ctx, kCGLineCapButt)
+        CGContextSetLineCap(ctx, kCGLineCapRound)
         CGContextDrawPath(ctx, kCGPathStroke)
         
         CGContextRestoreGState(ctx)
@@ -129,8 +129,8 @@ class CircularSlider: UIControl {
     }
     
     func moveHandle(point: CGPoint) {
-        let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-        let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false);
+        let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
+        let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
         
         angle = 360.0 - currentAngle
         setNeedsDisplay()
