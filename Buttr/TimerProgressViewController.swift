@@ -31,13 +31,13 @@ class TimerProgressViewController: UIViewController {
     @IBOutlet weak var timerProgressView: TimerProgressView!
     @IBOutlet weak var timerLabelView: TimerLabelView!
     @IBOutlet weak var timerControlButton: KeyPadControlButton!
-    @IBOutlet weak var timerResetButton: KeyPadControlButton!
-    @IBOutlet weak var containerView: UIView!
+    
+    var delegate: TimerProgressDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.timeLeft = self.timer.timeLeft()
-        self.containerView.backgroundColor = UIColor.backgroundColor()
+        self.view.backgroundColor = UIColor.backgroundColor()
         self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft())
         self.updateTimerLabel()
         
@@ -75,24 +75,13 @@ class TimerProgressViewController: UIViewController {
         nsTimerInstance?.invalidate()
     }
     
-    func closeScreen() {
-        self.invalidateTimersAndAlerts()
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     // MARK: Gestures and Events
     
     func timerFired() {
         if (timeLeft == 0) {
             self.playButterBark()
             nsTimerInstance.invalidate()
-            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 10.0, options: nil, animations: {
-                [unowned self] () ->  Void in
-                self.timerProgressView.transform = CGAffineTransformMakeScale(0, 0)
-                self.containerView.transform = CGAffineTransformMakeTranslation(0, -70)
-                self.timerControlButton.layer.opacity = 0
-                self.timerResetButton.standardBackgroundImage = UIImage(named: "bark_speech_bubble")
-            }, completion: nil)
+            self.delegate?.didFinishOrCancelTimer(self)
         } else {
             timeLeft = self.timer.timeLeft()
             self.timerProgressView.updateSlider()
@@ -117,18 +106,16 @@ class TimerProgressViewController: UIViewController {
         }
     }
     
-    @IBAction func onTapReset() {
-        self.timer.canceled = 1
-        DataManager.sharedInstance.save()
-
-        self.closeScreen()
-    }
+    // MARK: Public Methods
     
-    @IBAction func onDoneTap() {
+    func reset() {
         self.timer.canceled = 1
         DataManager.sharedInstance.save()
-
-        self.closeScreen()
+        self.invalidateTimersAndAlerts()
     }
 
+}
+
+protocol TimerProgressDelegate {
+    func didFinishOrCancelTimer(sender: TimerProgressViewController)
 }

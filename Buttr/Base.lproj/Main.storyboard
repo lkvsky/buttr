@@ -2,19 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="Bitter-Regular.otf">
-            <string>Bitter-Regular</string>
-        </mutableArray>
-    </customFonts>
     <scenes>
-        <!--Edit Timer View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="EditTimerViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -23,38 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4J-6V-uPk" customClass="TimerControlView" customModule="Buttr" customModuleProvider="target">
-                                <rect key="frame" x="125" y="20" width="350" height="350"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="D4J-6V-uPk" secondAttribute="height" multiplier="1:1" id="XLV-R5-8pS"/>
-                                    <constraint firstAttribute="width" constant="350" id="aSM-gv-gtw"/>
-                                </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIC-cE-FSY" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
-                                <rect key="frame" x="247" y="378" width="120" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="Ion-0D-l6W"/>
-                                    <constraint firstAttribute="height" constant="45" id="wtR-Q6-D6F"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="start_button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="start_button"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <segue destination="NTm-Oe-MmE" kind="show" id="7cz-Qx-SjO"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bjo-6t-1TQ" customClass="TimerLabelView" customModule="Buttr" customModuleProvider="target">
-                                <rect key="frame" x="215" y="160" width="171" height="72"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="171" id="blW-rg-9Mz"/>
-                                    <constraint firstAttribute="height" constant="72" id="yw7-n5-nhF"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PC-VE-4oF" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
                                 <rect key="frame" x="385" y="420" width="80" height="53"/>
                                 <constraints>
@@ -68,7 +29,7 @@
                                     <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="reset_speech_bubble"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="onTapRest" destination="BYZ-38-t0r" eventType="touchUpInside" id="xJc-sG-9z0"/>
+                                    <action selector="onResetTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bhs-8b-1kh"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVI-NB-tf5" customClass="ButtrCartoonView" customModule="Buttr" customModuleProvider="target">
@@ -82,169 +43,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="D4J-6V-uPk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="67O-hh-Tb6"/>
-                            <constraint firstItem="Bjo-6t-1TQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="140" id="AcH-Kj-fS8"/>
-                            <constraint firstItem="Bjo-6t-1TQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="216" id="Azh-Fy-xQn"/>
-                            <constraint firstItem="NIC-cE-FSY" firstAttribute="top" secondItem="D4J-6V-uPk" secondAttribute="bottom" constant="8" id="Ebj-Hc-9YF"/>
-                            <constraint firstItem="NIC-cE-FSY" firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" constant="7" id="Nof-Vj-q1u"/>
-                            <constraint firstAttribute="centerY" secondItem="Bjo-6t-1TQ" secondAttribute="centerY" constant="90" id="OcA-vO-2E5"/>
-                            <constraint firstItem="NIC-cE-FSY" firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" constant="7" id="TSH-ov-2CN"/>
-                            <constraint firstAttribute="centerX" secondItem="D4J-6V-uPk" secondAttribute="centerX" id="TcY-jr-xdA"/>
                             <constraint firstItem="7PC-VE-4oF" firstAttribute="leading" secondItem="NVI-NB-tf5" secondAttribute="trailing" constant="-1" id="VqM-X7-p0h"/>
-                            <constraint firstItem="Bjo-6t-1TQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="154" id="d7M-47-hQ2"/>
-                            <constraint firstAttribute="centerX" secondItem="Bjo-6t-1TQ" secondAttribute="centerX" id="ioa-jf-Rv1"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="8" id="mlb-6d-niQ"/>
                             <constraint firstAttribute="centerX" secondItem="NVI-NB-tf5" secondAttribute="centerX" id="pn8-8q-1Oa"/>
                             <constraint firstItem="NVI-NB-tf5" firstAttribute="top" secondItem="7PC-VE-4oF" secondAttribute="bottom" constant="-50" id="tyq-JD-bmD"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Azh-Fy-xQn"/>
-                                <exclude reference="OcA-vO-2E5"/>
-                                <exclude reference="d7M-47-hQ2"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <connections>
-                        <outlet property="timerControlView" destination="D4J-6V-uPk" id="aBU-4X-bcB"/>
-                        <outlet property="timerLabelView" destination="Bjo-6t-1TQ" id="P3Q-IP-7mc"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="248" y="394"/>
-        </scene>
-        <!--Timer Progress View Controller-->
-        <scene sceneID="jfU-Ef-e67">
-            <objects>
-                <viewController storyboardIdentifier="TimerProgressViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NTm-Oe-MmE" customClass="TimerProgressViewController" customModule="Buttr" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rUj-Kp-lsr"/>
-                        <viewControllerLayoutGuide type="bottom" id="yUS-wh-gHZ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FH0-Lt-lcI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1g-1B-gXh">
-                                <rect key="frame" x="0.0" y="539" width="600" height="61"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Bitter-Regular" family="Bitter" pointSize="40"/>
-                                <state key="normal" title="DONE">
-                                    <color key="titleColor" red="0.87450980392156863" green="0.66274509803921566" blue="0.32156862745098042" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onDoneTap" destination="NTm-Oe-MmE" eventType="touchUpInside" id="VDs-WF-Z31"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lr0-fi-F2a">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7a-kA-KcS" customClass="TimerProgressView" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="125" y="20" width="350" height="350"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nb4-j0-EVX" customClass="TimerLabelView" customModule="Buttr" customModuleProvider="target">
-                                                <rect key="frame" x="90" y="139" width="171" height="72"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="72" id="JFc-4V-hS2"/>
-                                                    <constraint firstAttribute="width" constant="171" id="ybg-B9-gQb"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="7E9-3t-XQz"/>
-                                            <constraint firstAttribute="height" constant="350" id="APP-nl-vTP"/>
-                                            <constraint firstAttribute="centerX" secondItem="nb4-j0-EVX" secondAttribute="centerX" constant="-0.5" id="CTE-WQ-m3F"/>
-                                            <constraint firstAttribute="centerY" secondItem="nb4-j0-EVX" secondAttribute="centerY" id="ipn-qo-LgT"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K9a-lu-Era" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="240" y="378" width="120" height="45"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="120" id="79F-Mi-oSe"/>
-                                            <constraint firstAttribute="height" constant="45" id="aex-sx-on2"/>
-                                        </constraints>
-                                        <state key="normal" backgroundImage="pause_button">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="pause_button"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="toggleTimerState" destination="NTm-Oe-MmE" eventType="touchUpInside" id="GkB-Na-s1W"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Hb-dZ-0oP" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="377" y="420" width="80" height="53"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="X8u-3T-pjv"/>
-                                            <constraint firstAttribute="height" constant="53" id="xye-Hs-gF1"/>
-                                        </constraints>
-                                        <state key="normal">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="reset_speech_bubble"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="onTapReset" destination="NTm-Oe-MmE" eventType="touchUpInside" id="ULN-aS-ZYg"/>
-                                            <action selector="onTapRest" destination="BYZ-38-t0r" eventType="touchUpInside" id="UgP-95-Jnz"/>
-                                        </connections>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TNs-sf-eHY" customClass="ButtrCartoonView" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="215" y="415" width="171" height="169"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="171" id="RZv-bH-PdD"/>
-                                            <constraint firstAttribute="width" constant="171" id="aBW-UI-uvu"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="169" id="lpF-Lv-j5o"/>
-                                            <constraint firstAttribute="height" constant="169" id="pnU-0v-Oab"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="K9a-lu-Era" firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="1xz-fK-BpF"/>
-                                    <constraint firstAttribute="centerX" secondItem="u7a-kA-KcS" secondAttribute="centerX" id="Gi6-ux-EHW"/>
-                                    <constraint firstItem="u7a-kA-KcS" firstAttribute="top" secondItem="Lr0-fi-F2a" secondAttribute="top" constant="20" id="Jhs-6Q-pmO"/>
-                                    <constraint firstAttribute="bottom" secondItem="TNs-sf-eHY" secondAttribute="bottom" constant="16" id="PVh-ex-sUD"/>
-                                    <constraint firstItem="TNs-sf-eHY" firstAttribute="top" secondItem="8Hb-dZ-0oP" secondAttribute="bottom" constant="-58" id="dZB-1b-32U"/>
-                                    <constraint firstItem="K9a-lu-Era" firstAttribute="top" secondItem="u7a-kA-KcS" secondAttribute="bottom" constant="8" id="drj-5n-ytl"/>
-                                    <constraint firstAttribute="centerX" secondItem="TNs-sf-eHY" secondAttribute="centerX" id="eY7-qK-8Yr"/>
-                                    <constraint firstItem="8Hb-dZ-0oP" firstAttribute="leading" secondItem="TNs-sf-eHY" secondAttribute="trailing" constant="-9" id="qEk-qN-HWp"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="yUS-wh-gHZ" firstAttribute="top" secondItem="Lr0-fi-F2a" secondAttribute="bottom" id="D5c-x2-AiJ"/>
-                            <constraint firstItem="yUS-wh-gHZ" firstAttribute="top" secondItem="j1g-1B-gXh" secondAttribute="bottom" id="Euz-X2-hIl"/>
-                            <constraint firstItem="Lr0-fi-F2a" firstAttribute="leading" secondItem="FH0-Lt-lcI" secondAttribute="leadingMargin" constant="-16" id="JOs-sz-nLF"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Lr0-fi-F2a" secondAttribute="trailing" constant="-16" id="KRc-hn-9Uu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="j1g-1B-gXh" secondAttribute="trailing" constant="-16" id="Pml-bL-4Pe"/>
-                            <constraint firstItem="j1g-1B-gXh" firstAttribute="leading" secondItem="FH0-Lt-lcI" secondAttribute="leadingMargin" constant="-16" id="dyL-gG-riz"/>
-                            <constraint firstItem="Lr0-fi-F2a" firstAttribute="top" secondItem="FH0-Lt-lcI" secondAttribute="topMargin" id="fRX-hm-bDg"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="containerView" destination="Lr0-fi-F2a" id="FeS-cA-vLz"/>
-                        <outlet property="timerControlButton" destination="K9a-lu-Era" id="tR8-3A-NIT"/>
-                        <outlet property="timerLabelView" destination="nb4-j0-EVX" id="xnj-8l-gCI"/>
-                        <outlet property="timerProgressView" destination="u7a-kA-KcS" id="dNm-8k-WK5"/>
-                        <outlet property="timerResetButton" destination="8Hb-dZ-0oP" id="JP7-BB-igN"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="q6b-FY-z1g" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="967" y="394"/>
+            <point key="canvasLocation" x="-70" y="388"/>
         </scene>
     </scenes>
     <resources>
-        <image name="pause_button" width="123" height="40"/>
         <image name="reset_speech_bubble" width="83" height="58"/>
-        <image name="start_button" width="123" height="40"/>
     </resources>
 </document>

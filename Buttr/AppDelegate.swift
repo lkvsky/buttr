@@ -39,9 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         Timer.deleteInactiveTimers()
 
-        if let activeVc = application.keyWindow?.rootViewController?.presentedViewController as? TimerProgressViewController {
-            activeVc.dismissViewControllerAnimated(false, completion: nil)
-            activeVc.invalidateTimersAndAlerts()
+        if let activeVc = application.keyWindow?.rootViewController as? HomeViewController {
+            activeVc.prepareForAppClosure()
         }
         
         self.clearNotifications()

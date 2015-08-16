@@ -13,21 +13,20 @@ class EditTimerViewController: UIViewController {
     @IBOutlet weak var timerControlView: TimerControlView!
     @IBOutlet weak var timerLabelView: TimerLabelView!
     
+    var delegate: EditTimerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.backgroundColor()
-        self.view.sendSubviewToBack(timerLabelView)
         
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: UIControlEvents.ValueChanged)
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "showAltEditScreen")
+        var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen")
         tapGesture.numberOfTapsRequired = 2;
-        self.timerControlView.addGestureRecognizer(tapGesture)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerIfNecessary", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     deinit {
@@ -54,30 +53,13 @@ class EditTimerViewController: UIViewController {
         timerLabelView.hours = newTime == 60 ? 59 : newTime
     }
     
-    func launchTimerIfNecessary() {
-        if let timer = Timer.getCurrentTimer() {
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let timerProgressVC = storyBoard.instantiateViewControllerWithIdentifier("TimerProgressViewController") as! TimerProgressViewController
-            timerProgressVC.timer = timer
-            
-            dispatch_async(dispatch_get_main_queue(), { [unowned self] () -> Void in
-                self.showViewController(timerProgressVC, sender: self)
-            })
-        }
-    }
-    
-    @IBAction func onTapRest() {
-        self.timerControlView.resetSliders()
-        self.timerLabelView.resetLabel()
-    }
-    
-    func showAltEditScreen() {
+    func onShowAltEditScreen() {
         var altEditTimerVC = AltEditTimerViewController.init(nibName: "AltEditTimerViewController", bundle: nil)
         self.showViewController(altEditTimerVC, sender: self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "altTimerSet:", name: "AltTimerSet", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onAltTimerSet:", name: "AltTimerSet", object: nil)
     }
     
-    func altTimerSet(notification: NSNotification) {
+    func onAltTimerSet(notification: NSNotification) {
         let timeSet = notification.userInfo!["times"] as! [String: Int]
         
         self.timerControlView.resetSliders()
@@ -94,14 +76,20 @@ class EditTimerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let timer = Timer(context: DataManager.sharedInstance.mainMoc)
-        timer.duration = timerControlView.getTotalTime()
-        timer.startTime = NSDate()
-        DataManager.sharedInstance.save()
-        
-        let timerProgressVC = segue.destinationViewController as! TimerProgressViewController
-        timerProgressVC.timer = timer
+    @IBAction func onStartTap(sender: UIButton) {
+        delegate?.didSetTimer(timerControlView.getTotalTime(), sender: self)
     }
+    
+    // MARK: Public Methods
+    
+    func reset() {
+        self.timerControlView.resetSliders()
+        self.timerLabelView.resetLabel()
+    }
+    
+}
+
+protocol EditTimerDelegate {
+    func didSetTimer(duration: Int, sender: EditTimerViewController)
 }
 
