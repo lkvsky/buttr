@@ -69,12 +69,6 @@ class TimerProgressViewController: UIViewController {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
-    func invalidateTimersAndAlerts() {
-        audioPlayer?.stop()
-        nsTimerAlertInstance?.invalidate()
-        nsTimerInstance?.invalidate()
-    }
-    
     // MARK: Gestures and Events
     
     func timerFired() {
@@ -112,6 +106,12 @@ class TimerProgressViewController: UIViewController {
         self.timer.canceled = 1
         DataManager.sharedInstance.save()
         self.invalidateTimersAndAlerts()
+    }
+    
+    func invalidateTimersAndAlerts() {
+        audioPlayer?.stop()
+        nsTimerAlertInstance?.invalidate()
+        nsTimerInstance?.invalidate()
     }
 
 }

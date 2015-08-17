@@ -87,6 +87,7 @@
                     <connections>
                         <outlet property="buttrCartoon" destination="NVI-NB-tf5" id="3wd-DR-vLT"/>
                         <outlet property="containerView" destination="Gca-ta-IZS" id="d1T-Se-5ny"/>
+                        <outlet property="resetButton" destination="7PC-VE-4oF" id="KjZ-M9-yqQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

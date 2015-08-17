@@ -12,6 +12,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
+    @IBOutlet weak var resetButton: UIButton!
     
     var animationTimer: NSTimer!
     
@@ -21,6 +22,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.view.backgroundColor = UIColor.whiteColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.addEditTimerVC()
+        self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
         
         // kick off animations
         self.buttrCartoon.wagTail()
@@ -75,7 +77,19 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             }
             
             self.addTimerProgressVC(timer)
+            self.animateButtrToActive()
+        } else if let childVc = self.childViewControllers.first as? UIViewController {
+            childVc.view.removeFromSuperview()
+            childVc.removeFromParentViewController()
+            
+            self.addEditTimerVC()
+            self.animateButtrToZero()
+        } else {
+            self.addEditTimerVC()
+            self.animateButtrToZero()
         }
+        
+        self.animationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
     }
     
     @IBAction func onResetTap(sender: UIButton) {
@@ -89,6 +103,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             timerProgressVC.removeFromParentViewController()
             self.addEditTimerVC()
         }
+        
+        self.animateButtrToZero()
     }
     
     @IBAction func onDoneTap(sender: UIButton) {
@@ -112,8 +128,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                     [unowned self]() -> Void in
                     // slide down container to hide done button
                     self.containerView.transform = CGAffineTransformIdentity
-                },
-                completion: nil)
+                }) {
+                    [unowned self] (finished Bool) -> Void in
+                    self.animateButtrToZero()
+                }
         }
     }
     
@@ -121,11 +139,33 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.buttrCartoon.wagTail()
     }
     
+    func animateButtrToZero() {
+        if (self.buttrCartoon.headIsTilted) {
+            self.buttrCartoon.straightenHead()
+            
+            UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+                [unowned self] () -> Void in
+                self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
+                }, completion: nil)
+        }
+    }
+    
+    func animateButtrToActive() {
+        if (!self.buttrCartoon.headIsTilted) {
+            self.buttrCartoon.tiltHead()
+            
+            UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+                [unowned self] () -> Void in
+                self.resetButton.transform = CGAffineTransformIdentity
+                }, completion: nil)
+        }
+    }
+    
     // MARK: Public Methods
     
     func prepareForAppClosure() {
         if let timerProgressVC = self.childViewControllers.first as? TimerProgressViewController {
-            timerProgressVC.reset()
+            timerProgressVC.invalidateTimersAndAlerts()
             timerProgressVC.view.removeFromSuperview()
             timerProgressVC.removeFromParentViewController()
         }
@@ -151,14 +191,17 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func didClearTimerValue(sender: EditTimerViewController) {
-        if (self.buttrCartoon.headIsTilted) {
-            self.buttrCartoon.straightenHead()
-        }
+        self.animateButtrToZero()
     }
     
     func didGiveTimerValue(sender: EditTimerViewController) {
         if (!self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.tiltHead()
+            
+            UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+                [unowned self] () -> Void in
+                    self.resetButton.transform = CGAffineTransformIdentity
+                }, completion: nil)
         }
     }
     
