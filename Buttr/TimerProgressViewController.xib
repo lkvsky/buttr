@@ -36,6 +36,7 @@
                     </state>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="pause_button"/>
+                        <userDefinedRuntimeAttribute type="image" keyPath="highlightedBackgroundImage" value="pause_button"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="toggleTimerState" destination="-1" eventType="touchUpInside" id="YWV-GA-odd"/>

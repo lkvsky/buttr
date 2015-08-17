@@ -10,13 +10,23 @@ import UIKit
 
 class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDelegate {
     
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var buttrCartoon: ButtrCartoonView!
+    
+    var animationTimer: NSTimer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.backgroundColor()
+        self.view.backgroundColor = UIColor.whiteColor()
+        self.containerView.backgroundColor = UIColor.backgroundColor()
         self.addEditTimerVC()
         
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerIfNecessary", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        // kick off animations
+        self.buttrCartoon.wagTail()
+        self.animationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerIfNecessary", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     func addEditTimerVC() {
@@ -27,7 +37,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         // set proper sizing for view
         editTimerVC.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.view.addSubview(editTimerVC.view)
+        self.containerView.addSubview(editTimerVC.view)
         self.addChildVCConstraints(editTimerVC.view)
         
         editTimerVC.didMoveToParentViewController(self)
@@ -42,17 +52,17 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         // set proper sizing for view
         timerProgressVC.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.view.addSubview(timerProgressVC.view)
+        self.containerView.addSubview(timerProgressVC.view)
         self.addChildVCConstraints(timerProgressVC.view)
         
         timerProgressVC.didMoveToParentViewController(self)
     }
     
     func addChildVCConstraints(childView: UIView) {
-        self.view.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 20))
-        self.view.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 367))
-        self.view.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 431))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 20))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 367))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 431))
     }
     
     // MARK: Gestures and Events
@@ -81,6 +91,36 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         }
     }
     
+    @IBAction func onDoneTap(sender: UIButton) {
+        if let timerProgressVC = self.childViewControllers.first as? TimerProgressViewController {
+            // clear NSTimer instances and mark timer as complete
+            timerProgressVC.reset()
+            
+            // remove timer vc
+            timerProgressVC.view.removeFromSuperview()
+            timerProgressVC.removeFromParentViewController()
+            
+            // add edit timer vc
+            self.addEditTimerVC()
+            
+            UIView.animateWithDuration(0.3,
+                delay: 0,
+                usingSpringWithDamping: 0.5,
+                initialSpringVelocity: 12.0,
+                options: nil,
+                animations: {
+                    [unowned self]() -> Void in
+                    // slide down container to hide done button
+                    self.containerView.transform = CGAffineTransformIdentity
+                },
+                completion: nil)
+        }
+    }
+    
+    func animateButtrTail() {
+        self.buttrCartoon.wagTail()
+    }
+    
     // MARK: Public Methods
     
     func prepareForAppClosure() {
@@ -89,6 +129,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             timerProgressVC.view.removeFromSuperview()
             timerProgressVC.removeFromParentViewController()
         }
+        
+        self.animationTimer.invalidate()
     }
     
     // MARK: Delegate Methods
@@ -108,13 +150,30 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.addTimerProgressVC(timer)
     }
     
-    func didFinishOrCancelTimer(sender: TimerProgressViewController) {
-        // remove vc
-        sender.view.removeFromSuperview()
-        sender.removeFromParentViewController()
-        
-        // add edit timer vc
-        self.addEditTimerVC()
+    func didClearTimerValue(sender: EditTimerViewController) {
+        if (self.buttrCartoon.headIsTilted) {
+            self.buttrCartoon.straightenHead()
+        }
+    }
+    
+    func didGiveTimerValue(sender: EditTimerViewController) {
+        if (!self.buttrCartoon.headIsTilted) {
+            self.buttrCartoon.tiltHead()
+        }
+    }
+    
+    func didFinishTimer(sender: TimerProgressViewController) {
+        UIView.animateWithDuration(0.3,
+            delay: 0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 12.0,
+            options: nil,
+            animations: {
+                [unowned self]() -> Void in
+                // slide up container to expose done button
+                self.containerView.transform = CGAffineTransformMakeTranslation(0, -66.0)
+            },
+            completion: nil)
     }
 
 }

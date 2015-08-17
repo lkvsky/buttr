@@ -2,7 +2,13 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Bitter-Bold.otf">
+            <string>Bitter-Bold</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -16,39 +22,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PC-VE-4oF" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
-                                <rect key="frame" x="385" y="420" width="80" height="53"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGm-L6-1E5">
+                                <rect key="frame" x="0.0" y="534" width="600" height="66"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="loq-MO-AfP"/>
-                                    <constraint firstAttribute="height" constant="53" id="vIv-5D-adg"/>
+                                    <constraint firstAttribute="height" constant="66" id="mVU-Td-U0a"/>
                                 </constraints>
-                                <state key="normal">
+                                <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
+                                <state key="normal" title="DONE">
+                                    <color key="titleColor" red="0.87450980392156863" green="0.66274509803921566" blue="0.32156862745098042" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="reset_speech_bubble"/>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="onResetTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bhs-8b-1kh"/>
+                                    <action selector="onDoneTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qeK-a5-JAx"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVI-NB-tf5" customClass="ButtrCartoonView" customModule="Buttr" customModuleProvider="target">
-                                <rect key="frame" x="215" y="423" width="171" height="169"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gca-ta-IZS">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVI-NB-tf5" customClass="ButtrCartoonView" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="214.5" y="423" width="171" height="169"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="171" id="Fht-7X-o5p"/>
+                                            <constraint firstAttribute="height" constant="169" id="mAi-fy-tBd"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7PC-VE-4oF" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
+                                        <rect key="frame" x="393" y="423" width="80" height="53"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="loq-MO-AfP"/>
+                                            <constraint firstAttribute="height" constant="53" id="vIv-5D-adg"/>
+                                        </constraints>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="reset_speech_bubble"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onResetTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bhs-8b-1kh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="171" id="Fht-7X-o5p"/>
-                                    <constraint firstAttribute="height" constant="169" id="mAi-fy-tBd"/>
+                                    <constraint firstItem="7PC-VE-4oF" firstAttribute="leading" secondItem="NVI-NB-tf5" secondAttribute="trailing" constant="8" id="mPQ-A3-5Z3"/>
+                                    <constraint firstAttribute="centerX" secondItem="NVI-NB-tf5" secondAttribute="centerX" id="nVf-Hu-slE"/>
+                                    <constraint firstAttribute="bottom" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="8" id="xxB-cE-0y5"/>
+                                    <constraint firstItem="NVI-NB-tf5" firstAttribute="top" secondItem="7PC-VE-4oF" secondAttribute="bottom" constant="-53" id="yrK-m7-V2V"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="7PC-VE-4oF" firstAttribute="leading" secondItem="NVI-NB-tf5" secondAttribute="trailing" constant="-1" id="VqM-X7-p0h"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="8" id="mlb-6d-niQ"/>
-                            <constraint firstAttribute="centerX" secondItem="NVI-NB-tf5" secondAttribute="centerX" id="pn8-8q-1Oa"/>
-                            <constraint firstItem="NVI-NB-tf5" firstAttribute="top" secondItem="7PC-VE-4oF" secondAttribute="bottom" constant="-50" id="tyq-JD-bmD"/>
+                            <constraint firstItem="FGm-L6-1E5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="0R9-Ql-ttE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FGm-L6-1E5" secondAttribute="trailing" constant="-16" id="K2K-b4-cof"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FGm-L6-1E5" secondAttribute="bottom" id="Lwh-LM-Eu8"/>
+                            <constraint firstItem="Gca-ta-IZS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="OvD-9h-HM5"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gca-ta-IZS" secondAttribute="bottom" id="RxB-zP-5g0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Gca-ta-IZS" secondAttribute="trailing" constant="-16" id="iHj-8A-XWa"/>
+                            <constraint firstItem="Gca-ta-IZS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="rh2-WA-Szz"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="buttrCartoon" destination="NVI-NB-tf5" id="3wd-DR-vLT"/>
+                        <outlet property="containerView" destination="Gca-ta-IZS" id="d1T-Se-5ny"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

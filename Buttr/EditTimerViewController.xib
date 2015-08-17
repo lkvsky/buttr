@@ -43,6 +43,7 @@
                     </state>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="start_button"/>
+                        <userDefinedRuntimeAttribute type="image" keyPath="highlightedBackgroundImage" value="start_button"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="onStartTap:" destination="-1" eventType="touchUpInside" id="scY-q2-2Og"/>

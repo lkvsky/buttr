@@ -13,6 +13,7 @@ class ButtrCartoonView: UIView {
     weak var head: UIImageView!
     weak var body: UIImageView!
     weak var tail: UIImageView!
+    var headIsTilted: Bool = false
     
     override func awakeFromNib() {
         // initialize cartoon components
@@ -58,5 +59,44 @@ class ButtrCartoonView: UIView {
         self.addConstraint(NSLayoutConstraint(item: head, attribute: .Bottom, relatedBy: .Equal, toItem: body, attribute: .Top, multiplier: 1.0, constant: 43.0))
         self.addConstraint(NSLayoutConstraint(item: tail, attribute: .Leading, relatedBy: .Equal, toItem: body, attribute: .Right, multiplier: 1.0, constant: -20.0))
         self.addConstraint(NSLayoutConstraint(item: tail, attribute: .Bottom, relatedBy: .Equal, toItem: body, attribute: .Bottom, multiplier: 1.0, constant: -43.0))
+    }
+    
+    // MARK: Animation Methods
+    
+    func wagTail() {
+        UIView.animateWithDuration(0.1, delay: 0, options: .Autoreverse, animations: {
+            [unowned self] () -> Void in
+            var transform = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(80))))
+            self.tail.transform = CGAffineTransformTranslate(transform, 2, -2);
+        }) {
+            [unowned self](Bool finished) -> Void in
+            self.tail.transform = CGAffineTransformIdentity
+            
+            UIView.animateWithDuration(0.125, delay: 0, options: .Autoreverse, animations: {
+                [unowned self] () -> Void in
+                var transform =  CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(80))))
+                self.tail.transform = CGAffineTransformTranslate(transform, 2, -2);
+                }) {
+                    [unowned self](Bool finished) -> Void in
+                    self.tail.transform = CGAffineTransformIdentity
+            }
+        }
+    }
+    
+    func tiltHead() {
+        self.headIsTilted = true
+        UIView.animateWithDuration(0.125, animations: {
+            [unowned self] () -> Void in
+            var rotation = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(22))))
+            self.head.transform = CGAffineTransformTranslate(rotation, 5, 0)
+        })
+    }
+    
+    func straightenHead() {
+        self.headIsTilted = false
+        UIView.animateWithDuration(0.125, animations: {
+            [unowned self] () -> Void in
+            self.head.transform = CGAffineTransformIdentity
+        })
     }
 }

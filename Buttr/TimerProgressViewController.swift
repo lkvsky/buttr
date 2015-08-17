@@ -81,7 +81,7 @@ class TimerProgressViewController: UIViewController {
         if (timeLeft == 0) {
             self.playButterBark()
             nsTimerInstance.invalidate()
-            self.delegate?.didFinishOrCancelTimer(self)
+            self.delegate?.didFinishTimer(self)
         } else {
             timeLeft = self.timer.timeLeft()
             self.timerProgressView.updateSlider()
@@ -117,5 +117,5 @@ class TimerProgressViewController: UIViewController {
 }
 
 protocol TimerProgressDelegate {
-    func didFinishOrCancelTimer(sender: TimerProgressViewController)
+    func didFinishTimer(sender: TimerProgressViewController)
 }

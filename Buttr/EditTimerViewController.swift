@@ -39,18 +39,36 @@ class EditTimerViewController: UIViewController {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
     
         timerLabelView.seconds = newTime == 60 ? 59 : newTime
+        
+        if (self.timerControlView.getTotalTime() == 0) {
+            self.delegate?.didClearTimerValue(self)
+        } else {
+            self.delegate?.didGiveTimerValue(self)
+        }
     }
     
     func onMinutesChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
         timerLabelView.minutes = newTime == 60 ? 59 : newTime
+        
+        if (self.timerControlView.getTotalTime() == 0) {
+            self.delegate?.didClearTimerValue(self)
+        } else {
+            self.delegate?.didGiveTimerValue(self)
+        }
     }
     
     func onHoursChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
         timerLabelView.hours = newTime == 60 ? 59 : newTime
+        
+        if (self.timerControlView.getTotalTime() == 0) {
+            self.delegate?.didClearTimerValue(self)
+        } else {
+            self.delegate?.didGiveTimerValue(self)
+        }
     }
     
     func onShowAltEditScreen() {
@@ -91,5 +109,7 @@ class EditTimerViewController: UIViewController {
 
 protocol EditTimerDelegate {
     func didSetTimer(duration: Int, sender: EditTimerViewController)
+    func didGiveTimerValue(sender: EditTimerViewController)
+    func didClearTimerValue(sender: EditTimerViewController)
 }
 
