@@ -12,9 +12,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
-    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var resetButton: KeyPadControlButton!
     
-    var animationTimer: NSTimer!
+    var buttrTailAnimationTimer: NSTimer!
+    var buttrTongueAnimationTimer: NSTimer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         // kick off animations
         self.buttrCartoon.wagTail()
-        self.animationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
+        self.buttrTailAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
+        self.buttrTongueAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(7.0, target: self, selector: "animateButtrTongue", userInfo: nil, repeats: true)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerIfNecessary", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
@@ -89,7 +91,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             self.animateButtrToZero()
         }
         
-        self.animationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
+        self.buttrTailAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
+        self.buttrTongueAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(12.0, target: self, selector: "animateButtrTongue", userInfo: nil, repeats: true)
     }
     
     @IBAction func onResetTap(sender: UIButton) {
@@ -131,12 +134,17 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 }) {
                     [unowned self] (finished Bool) -> Void in
                     self.animateButtrToZero()
+                    self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
                 }
         }
     }
     
     func animateButtrTail() {
         self.buttrCartoon.wagTail()
+    }
+    
+    func animateButtrTongue() {
+        self.buttrCartoon.stickOutTongue()
     }
     
     func animateButtrToZero() {
@@ -170,7 +178,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             timerProgressVC.removeFromParentViewController()
         }
         
-        self.animationTimer.invalidate()
+        self.buttrTailAnimationTimer.invalidate()
+        self.buttrTongueAnimationTimer.invalidate()
     }
     
     // MARK: Delegate Methods
@@ -206,6 +215,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func didFinishTimer(sender: TimerProgressViewController) {
+        self.buttrCartoon.tiltHead(direction: -1)
+        self.resetButton.standardBackgroundImage = UIImage(named: "bark_speech_bubble")
+        
         UIView.animateWithDuration(0.3,
             delay: 0,
             usingSpringWithDamping: 0.5,
@@ -215,8 +227,11 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 [unowned self]() -> Void in
                 // slide up container to expose done button
                 self.containerView.transform = CGAffineTransformMakeTranslation(0, -66.0)
-            },
-            completion: nil)
+                self.resetButton.transform = CGAffineTransformMakeScale(1.1, 1.1)
+                sender.view.transform = CGAffineTransformMakeScale(0, 0)
+            }) {
+                [unowned self] (finished Bool) -> Void in
+                self.resetButton.transform = CGAffineTransformIdentity
+            }
     }
-
 }

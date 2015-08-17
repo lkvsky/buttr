@@ -12,20 +12,25 @@ class TimerProgressView: UIView {
 
     var timerDuration: Int = 60
     
-    var slider: TimerProgressSlider!
+    weak var slider: TimerProgressSlider!
+    weak var warningSlider: WarningSlider!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.backgroundColor = UIColor.clearColor()
+        self.clipsToBounds = false
     }
     
     func startTimer(duration: Int = 60, timeLeft: Int = 0) {
         timerDuration = duration
         let slider = TimerProgressSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
+        let warningSlider = WarningSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
         self.addSubview(slider)
+        self.addSubview(warningSlider)
         self.slider = slider
         self.slider?.addTimeUnitByAmmount(timeLeft)
+        self.warningSlider = warningSlider
     }
     
     func updateSlider() {

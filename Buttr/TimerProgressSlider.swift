@@ -10,15 +10,20 @@ import UIKit
 
 class TimerProgressSlider: CircularSlider {
 
+    // MARK: Drawing Methods
+    
     override func drawRect(rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
         self.drawPathToAngle(ctx)
         self.drawHandle(ctx)
-    }
+    }    
+
+    // MARK: Gestures and Events
     
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         return false
     }
+
 }

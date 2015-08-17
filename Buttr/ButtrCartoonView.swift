@@ -83,12 +83,21 @@ class ButtrCartoonView: UIView {
         }
     }
     
-    func tiltHead() {
+    func stickOutTongue() {
+        self.head.image = UIImage(named: "buttr_head_tongue")
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            [unowned self] () -> Void in
+            self.head.image = UIImage(named: "buttr_head")
+        }
+    }
+    
+    func tiltHead(direction: Int = 1) {
         self.headIsTilted = true
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            var rotation = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(22))))
-            self.head.transform = CGAffineTransformTranslate(rotation, 5, 0)
+            var rotation = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(direction * 22))))
+            self.head.transform = CGAffineTransformTranslate(rotation, CGFloat(direction) * 5, 0)
         })
     }
     

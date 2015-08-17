@@ -43,6 +43,9 @@ class TimerProgressViewController: UIViewController {
         
         // start tracking timer
         nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+        
+        // track warning addition
+        self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
     }
     
     deinit {
@@ -98,6 +101,10 @@ class TimerProgressViewController: UIViewController {
             timerIsPaused = true
             timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
         }
+    }
+    
+    func onWarningsChange(slider: WarningSlider) {
+        // TODO: Store warnigns and set alarms accordingly
     }
     
     // MARK: Public Methods
