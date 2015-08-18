@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditTimerViewController" customModule="Buttr" customModuleProvider="target">
             <connections>
+                <outlet property="startButton" destination="dIe-DL-D0L" id="og2-Iy-b0t"/>
                 <outlet property="timerControlView" destination="NfT-IR-PT4" id="ko6-Gk-HiR"/>
                 <outlet property="timerLabelView" destination="HP6-8o-aba" id="zx1-Kh-tlf"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Bd3-K5-e8q"/>

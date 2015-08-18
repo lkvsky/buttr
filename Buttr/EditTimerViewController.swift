@@ -12,6 +12,7 @@ class EditTimerViewController: UIViewController {
     
     @IBOutlet weak var timerControlView: TimerControlView!
     @IBOutlet weak var timerLabelView: TimerLabelView!
+    @IBOutlet weak var startButton: KeyPadControlButton!
     
     var delegate: EditTimerDelegate?
     
@@ -19,6 +20,7 @@ class EditTimerViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.backgroundColor()
+        self.startButton.transform = CGAffineTransformMakeScale(0, 0) 
         
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
@@ -35,15 +37,33 @@ class EditTimerViewController: UIViewController {
 
     // MARK: Gestures and Events
     
+    private func didClearTimerValue() {
+        UIView.animateWithDuration(0.125, animations: {
+            [unowned self] () -> Void in
+            self.startButton.transform = CGAffineTransformMakeScale(0, 0)
+        })
+        
+        self.delegate?.didClearTimerValue(self)
+    }
+    
+    private func didGiveTimerValue() {
+        UIView.animateWithDuration(0.125, animations: {
+            [unowned self] () -> Void in
+            self.startButton.transform = CGAffineTransformIdentity
+        })
+        
+        self.delegate?.didGiveTimerValue(self)
+    }
+    
     func onSecondsChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
     
         timerLabelView.seconds = newTime == 60 ? 59 : newTime
         
         if (self.timerControlView.getTotalTime() == 0) {
-            self.delegate?.didClearTimerValue(self)
+            self.didClearTimerValue()
         } else {
-            self.delegate?.didGiveTimerValue(self)
+            self.didGiveTimerValue()
         }
     }
     
@@ -53,21 +73,21 @@ class EditTimerViewController: UIViewController {
         timerLabelView.minutes = newTime == 60 ? 59 : newTime
         
         if (self.timerControlView.getTotalTime() == 0) {
-            self.delegate?.didClearTimerValue(self)
+            self.didClearTimerValue()
         } else {
-            self.delegate?.didGiveTimerValue(self)
+            self.didGiveTimerValue()
         }
     }
     
     func onHoursChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
-        timerLabelView.hours = newTime == 60 ? 59 : newTime
+        timerLabelView.hours = newTime == 24 ? 23 : newTime
         
         if (self.timerControlView.getTotalTime() == 0) {
-            self.delegate?.didClearTimerValue(self)
+            self.didClearTimerValue()
         } else {
-            self.delegate?.didGiveTimerValue(self)
+            self.didGiveTimerValue()
         }
     }
     
