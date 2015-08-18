@@ -22,15 +22,16 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         self.view.backgroundColor = UIColor.whiteColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
-        self.addEditTimerVC()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
-        
-        // kick off animations
         self.buttrCartoon.wagTail()
-        self.buttrTailAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)
-        self.buttrTongueAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(7.0, target: self, selector: "animateButtrTongue", userInfo: nil, repeats: true)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerIfNecessary", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        // Listen for app to become active. If there's an active timer, render its progress. Otherwise
+        // add the edit timer screen.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerOrEditScreen", name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func addEditTimerVC() {
@@ -71,7 +72,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     // MARK: Gestures and Events
     
-    func launchTimerIfNecessary() {
+    func launchTimerOrEditScreen() {
         if let timer = Timer.getCurrentTimer() {
             if let childVc = self.childViewControllers.first as? EditTimerViewController {
                 childVc.view.removeFromSuperview()
@@ -80,7 +81,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             
             self.addTimerProgressVC(timer)
             self.animateButtrToActive()
-        } else if let childVc = self.childViewControllers.first as? UIViewController {
+        } else if let childVc = self.childViewControllers.first as? TimerProgressViewController {
             childVc.view.removeFromSuperview()
             childVc.removeFromParentViewController()
             
