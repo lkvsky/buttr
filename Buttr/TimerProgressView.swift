@@ -22,7 +22,7 @@ class TimerProgressView: UIView {
         self.clipsToBounds = false
     }
     
-    func startTimer(duration: Int = 60, timeLeft: Int = 0) {
+    func startTimer(duration: Int = 60, timeLeft: Int = 0, warnings: [Int]? = nil) {
         timerDuration = duration
         let slider = TimerProgressSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
         let warningSlider = WarningSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
@@ -31,6 +31,19 @@ class TimerProgressView: UIView {
         self.slider = slider
         self.slider?.addTimeUnitByAmmount(timeLeft)
         self.warningSlider = warningSlider
+        
+        if let warningTimes = warnings {
+            self.warningSlider.warningTimes = warningTimes
+            self.warningSlider.numberOfWarnings = warningTimes.count
+            self.warningSlider.warningAngles = [Int: Double]()
+            
+            for (index, warningTime) in enumerate(self.warningSlider.warningTimes) {
+                let warningAngle: Double = 90.0 - (Double(self.timerDuration - warningTime) * Double(360.0) / Double(self.warningSlider.maxTimeUnits))
+                self.warningSlider.warningAngles[index + 1] = warningAngle
+            }
+            
+            self.warningSlider.setNeedsDisplay()
+        }
     }
     
     func updateSlider() {

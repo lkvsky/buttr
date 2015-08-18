@@ -42,6 +42,33 @@ extension Timer {
         return self.pauseTime.timeIntervalSinceDate(self.startTime) > 0.0
     }
     
+    func addWarnings(warningTimes: [Int]) {
+        let times = warningTimes.map {
+            (var time) -> Warning in
+        
+            let warning = Warning(context: self.managedObjectContext!)
+            warning.elapsedTime = NSNumber(integer: time)
+            
+            return warning
+        }
+        
+        self.warnings = NSSet(array: times)
+    }
+    
+    func getWarningsAsInts() -> [Int]? {
+        var warningInts = [Int]()
+        
+        if (self.warnings.count > 0) {
+            for warning in self.warnings {
+                warningInts.append(Int(warning.elapsedTime))
+            }
+            
+            return warningInts
+        }
+        
+        return nil
+    }
+    
     // MARK: Class Methods
     
     class func getCurrentTimer() -> Timer? {

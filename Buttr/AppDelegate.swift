@@ -45,16 +45,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.clearNotifications()
         
+        // queue up notifications for timer and warning intervals
         if let timer = Timer.getCurrentTimer() {
             if (Int(timer.duration) > 0) {
-                let alarm = UILocalNotification()
                 let projectedEndDate = timer.projectedEndDate()
                 
                 if (projectedEndDate.timeIntervalSinceNow > 0.0) {
+                    let alarm = UILocalNotification()
                     alarm.fireDate = projectedEndDate
                     alarm.alertBody = "Timer is up!"
                     alarm.category = "BUTTR_ALERT_CATEGORY"
                     UIApplication.sharedApplication().scheduleLocalNotification(alarm)
+                    
+                    for warning in timer.warnings {
+                        var projectedFireDate = (warning as! Warning).projectedFireDate()
+                        
+                        if (projectedFireDate.timeIntervalSinceNow > 0.0) {
+                            var alarm = UILocalNotification()
+                            alarm.fireDate = projectedFireDate
+                            alarm.alertBody = (warning as! Warning).alertMessage()
+                            alarm.category = "BUTTR_ALERT_CATEGORY"
+                            UIApplication.sharedApplication().scheduleLocalNotification(alarm)
+                        }
+                    }
                 }
                 
             }

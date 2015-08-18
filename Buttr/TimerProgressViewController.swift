@@ -16,6 +16,14 @@ class TimerProgressViewController: UIViewController {
     var timeLeft: Int! {
         didSet {
             self.updateTimerLabel()
+            
+            if let warnings = self.timerProgressView?.warningSlider?.warningTimes {
+                for warningTime in warnings {
+                    if (timeLeft == (Int(self.timer.duration) - warningTime)) {
+                        self.alert()
+                    }
+                }
+            }
         }
     }
     
@@ -38,7 +46,7 @@ class TimerProgressViewController: UIViewController {
         super.viewDidLoad()
         self.timeLeft = self.timer.timeLeft()
         self.view.backgroundColor = UIColor.backgroundColor()
-        self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft())
+        self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
         self.updateTimerLabel()
         
         // start tracking timer
@@ -105,6 +113,8 @@ class TimerProgressViewController: UIViewController {
     
     func onWarningsChange(slider: WarningSlider) {
         // TODO: Store warnigns and set alarms accordingly
+        self.timer.addWarnings(slider.warningTimes)
+        DataManager.sharedInstance.save()
     }
     
     // MARK: Public Methods

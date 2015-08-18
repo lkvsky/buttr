@@ -14,6 +14,7 @@ class WarningSlider: CircularSlider {
     var warningAngles: [Int: Double]!
     var warningTimes: [Int]!
     var numberOfWarnings: Int = 0
+    var draggedWarningIndex: Int!
     
     // MARK: Drawing Methods
     
@@ -92,6 +93,25 @@ class WarningSlider: CircularSlider {
         return self.maxTimeUnits - self.getTimeUnitFromAngleInt(angleVal)
     }
     
+    // MARK: Interaction Detection
+    
+    func touchedChiefWarning(point: CGPoint) -> Bool {
+        return CGRectContainsPoint(self.rectForWarning(), point)
+    }
+    
+    // returns index for warning object that was touched, if any
+    func chosenWarningIndex(point: CGPoint) -> Int? {
+        if let warningAngles = self.warningAngles {
+            for (index, angleVal) in warningAngles {
+                if (CGRectContainsPoint(self.rectForWarning(angleVal: angleVal), point)) {
+                    return index
+                }
+            }
+        }
+        
+        return nil
+    }
+    
     // MARK: Gestures and Events
     
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
@@ -99,7 +119,8 @@ class WarningSlider: CircularSlider {
         
         let touchPoint = touch.locationInView(self)
         
-        if (CGRectContainsPoint(self.rectForWarning(), touchPoint)) {
+        // check if user is adding a new warning to the clock
+        if (self.touchedChiefWarning(touchPoint)) {
             self.numberOfWarnings += 1
             
             if let warningPoints = self.warningAngles {
@@ -108,14 +129,25 @@ class WarningSlider: CircularSlider {
                 self.warningAngles = [self.numberOfWarnings: self.warningAngleForPoint(touchPoint)]
             }
             
+            self.draggedWarningIndex = self.numberOfWarnings
+            
             return true
+        }
+        
+        // check if user is trying to move a specified warning
+        if let warningIndex = self.chosenWarningIndex(touchPoint) {
+            self.draggedWarningIndex = warningIndex
+            
+            return true;
         }
         
         return false
     }
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
-        self.warningAngles[self.numberOfWarnings] = self.warningAngleForPoint(touch.locationInView(self))
+        if let warningIndex = self.draggedWarningIndex {
+            self.warningAngles[warningIndex] = self.warningAngleForPoint(touch.locationInView(self))
+        }
         
         self.setNeedsDisplay()
         
@@ -123,13 +155,15 @@ class WarningSlider: CircularSlider {
     }
     
     override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
-        var warningTimes = [Int]()
-        
-        for (index, angle) in self.warningAngles {
-            warningTimes.append(self.timeForWarningAngle(angle))
+        if let warningAngles = self.warningAngles {
+            var warningTimes = [Int]()
+
+            for (index, angle) in self.warningAngles {
+                warningTimes.append(self.timeForWarningAngle(angle))
+            }
+            
+            self.warningTimes = warningTimes
         }
-        
-        self.warningTimes = warningTimes
         
         self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
     }

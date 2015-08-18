@@ -140,7 +140,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="onTimeKeyTap:" destination="-1" eventType="touchDragInside" id="VuM-W3-Nj6"/>
+                                <action selector="onTimeKeyTap:" destination="-1" eventType="touchUpInside" id="xBP-9V-Df1"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="maT-1Z-ppH" customClass="PawButton" customModule="Buttr" customModuleProvider="target">
