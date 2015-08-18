@@ -43,6 +43,18 @@ import UIKit
         self.addSliders()
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.backgroundColor = UIColor.clearColor()
+        self.addSliders()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     #endif
     
     // MARK: Helper Methods

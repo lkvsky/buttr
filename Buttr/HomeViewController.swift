@@ -20,7 +20,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
         self.buttrCartoon.wagTail()
@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func addEditTimerVC() {
         // add child edit timer view controller
-        let editTimerVC = EditTimerViewController.init(nibName: "EditTimerViewController", bundle: nil)
+        let editTimerVC = EditTimerViewController()
         self.addChildViewController(editTimerVC)
         editTimerVC.delegate = self
         
@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func addTimerProgressVC(timer: Timer) {
         // add child timer progress view controller
-        let timerProgressVC = TimerProgressViewController.init(nibName: "TimerProgressViewController", bundle: nil)
+        let timerProgressVC = TimerProgressViewController()
         timerProgressVC.delegate = self
         timerProgressVC.timer = timer
         self.addChildViewController(timerProgressVC)
@@ -66,8 +66,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func addChildVCConstraints(childView: UIView) {
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 20))
-        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 367))
-        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 431))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.0, constant: 0))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 431.0/367.0, constant: 0))
+        
+        self.containerView.setNeedsLayout()
     }
     
     // MARK: Gestures and Events

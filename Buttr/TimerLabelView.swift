@@ -49,6 +49,21 @@ class TimerLabelView: UIView {
         self.addSecondsLabel()
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.backgroundColor = UIColor.clearColor()
+        
+        self.addHoursLabel()
+        self.addMinutesLabel()
+        self.addSecondsLabel()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     func addSecondsLabel() {
         // set properties
         let secondsLabel = self.createLabel(UIColor.secondaryTextColor())

@@ -10,20 +10,28 @@ import UIKit
 
 class EditTimerViewController: UIViewController {
     
-    @IBOutlet weak var timerControlView: TimerControlView!
-    @IBOutlet weak var timerLabelView: TimerLabelView!
-    @IBOutlet weak var startButton: KeyPadControlButton!
+    weak var timerLabelView: TimerLabelView!
+    weak var timerControlView: TimerControlView!
+    weak var startButton: KeyPadControlButton!
     
     var delegate: EditTimerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // add subviews and base styles
+        self.addTimerControlView()
+        self.addTimerLabel()
+        self.addStartButton()
+        self.view.setNeedsUpdateConstraints()
         self.view.backgroundColor = UIColor.backgroundColor()
         self.startButton.transform = CGAffineTransformMakeScale(0, 0)
-        timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
-        timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
-        timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        // initialize gestures and actions
+        timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: .ValueChanged)
+        timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: .ValueChanged)
+        timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
+        startButton.addTarget(self, action: "onStartTap:", forControlEvents: .TouchUpInside)
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen")
         tapGesture.numberOfTapsRequired = 2;
@@ -32,6 +40,54 @@ class EditTimerViewController: UIViewController {
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: Subview Initialization
+    
+    private func addTimerControlView() {
+        var frameWidth: CGFloat
+        
+        if (self.view.frame.size.width <= 350) {
+            frameWidth = self.view.frame.size.width
+            frameWidth = 280
+        } else {
+            frameWidth = 350
+        }
+        
+        let timerControlView = TimerControlView(frame: CGRectMake(0, 0, frameWidth, frameWidth))
+        timerControlView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.view.addSubview(timerControlView)
+        self.timerControlView = timerControlView
+        
+        self.view.addConstraint(NSLayoutConstraint(item: timerControlView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: frameWidth))
+        self.view.addConstraint(NSLayoutConstraint(item: timerControlView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: frameWidth))
+        self.view.addConstraint(NSLayoutConstraint(item: timerControlView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 8.0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerControlView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
+    }
+    
+    private func addTimerLabel() {
+        let timerLabelView = TimerLabelView(frame: CGRectMake(0, 0, 170, 72))
+        timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.view.addSubview(timerLabelView)
+        self.timerLabelView = timerLabelView
+        
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 170))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 72))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterX, relatedBy: .Equal, toItem: timerControlView, attribute: .CenterX, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterY, relatedBy: .Equal, toItem: timerControlView, attribute: .CenterY, multiplier: 1.0, constant: 0))
+    }
+    
+    private func addStartButton() {
+        let startButton = KeyPadControlButton(frame: CGRectZero)
+        startButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.view.addSubview(startButton)
+        self.startButton = startButton
+        self.startButton.standardBackgroundImage = UIImage(named: "start_button")
+        
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 120))
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 45))
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Top, relatedBy: .Equal, toItem: timerControlView, attribute: .Bottom, multiplier: 1.0, constant: 8))
     }
 
     // MARK: Gestures and Events
@@ -113,7 +169,7 @@ class EditTimerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    @IBAction func onStartTap(sender: UIButton) {
+    func onStartTap(sender: UIButton) {
         delegate?.didSetTimer(timerControlView.getTotalTime(), sender: self)
     }
     

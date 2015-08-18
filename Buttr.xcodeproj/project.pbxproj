@@ -12,8 +12,6 @@
 		3C633D921B81107B007DC9AF /* Timer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D911B81107B007DC9AF /* Timer+Utilities.swift */; };
 		3C633D941B812220007DC9AF /* ButtrCartoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D931B812220007DC9AF /* ButtrCartoonView.swift */; };
 		3C633D981B812CF0007DC9AF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D971B812CF0007DC9AF /* HomeViewController.swift */; };
-		3C633D9A1B812D52007DC9AF /* EditTimerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C633D991B812D52007DC9AF /* EditTimerViewController.xib */; };
-		3C7CD1661B8146D200FEED2D /* TimerProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C7CD1651B8146D200FEED2D /* TimerProgressViewController.xib */; };
 		3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */; };
 		3C7CD16B1B82A4F700FEED2D /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16A1B82A4F700FEED2D /* Timer.swift */; };
 		3C7CD16D1B82A4F700FEED2D /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16C1B82A4F700FEED2D /* Warning.swift */; };
@@ -63,8 +61,6 @@
 		3C633D911B81107B007DC9AF /* Timer+Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Timer+Utilities.swift"; sourceTree = "<group>"; };
 		3C633D931B812220007DC9AF /* ButtrCartoonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtrCartoonView.swift; sourceTree = "<group>"; };
 		3C633D971B812CF0007DC9AF /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		3C633D991B812D52007DC9AF /* EditTimerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditTimerViewController.xib; sourceTree = "<group>"; };
-		3C7CD1651B8146D200FEED2D /* TimerProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerProgressViewController.xib; sourceTree = "<group>"; };
 		3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningSlider.swift; sourceTree = "<group>"; };
 		3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.6.xcdatamodel; sourceTree = "<group>"; };
 		3C7CD16A1B82A4F700FEED2D /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
@@ -210,9 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				3CE7F9D81B73B75A0015EED7 /* EditTimerViewController.swift */,
-				3C633D991B812D52007DC9AF /* EditTimerViewController.xib */,
 				3CC0DAC51B791B0F002FB268 /* TimerProgressViewController.swift */,
-				3C7CD1651B8146D200FEED2D /* TimerProgressViewController.xib */,
 				3CC0DACD1B7AC4D2002FB268 /* AltEditTimerViewController.swift */,
 				3CC0DACE1B7AC4D2002FB268 /* AltEditTimerViewController.xib */,
 				3C633D971B812CF0007DC9AF /* HomeViewController.swift */,
@@ -359,11 +353,9 @@
 				3CC0DAD01B7AC4D2002FB268 /* AltEditTimerViewController.xib in Resources */,
 				3CE7FA041B754ED70015EED7 /* Lato-Black.ttf in Resources */,
 				3CF1FDC51B7D2EB00017F1AE /* butter_bark.wav in Resources */,
-				3C7CD1661B8146D200FEED2D /* TimerProgressViewController.xib in Resources */,
 				3CE7FA051B754ED70015EED7 /* Lato-Light.ttf in Resources */,
 				3CE7FA061B754ED70015EED7 /* Lato-Regular.ttf in Resources */,
 				3CE7F9DC1B73B75A0015EED7 /* Main.storyboard in Resources */,
-				3C633D9A1B812D52007DC9AF /* EditTimerViewController.xib in Resources */,
 				3CE7F9E11B73B75A0015EED7 /* LaunchScreen.xib in Resources */,
 				3CE7F9DE1B73B75A0015EED7 /* Images.xcassets in Resources */,
 			);
