@@ -20,8 +20,7 @@ class EditTimerViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.backgroundColor()
-        self.startButton.transform = CGAffineTransformMakeScale(0, 0) 
-        
+        self.startButton.transform = CGAffineTransformMakeScale(0, 0)
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: UIControlEvents.ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: UIControlEvents.ValueChanged)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: UIControlEvents.ValueChanged)
@@ -121,6 +120,11 @@ class EditTimerViewController: UIViewController {
     // MARK: Public Methods
     
     func reset() {
+        UIView.animateWithDuration(0.125, animations: {
+            [unowned self] () -> Void in
+            self.startButton.transform = CGAffineTransformMakeScale(0, 0)
+        })
+        
         self.timerControlView.resetSliders()
         self.timerLabelView.resetLabel()
     }

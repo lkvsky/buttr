@@ -73,20 +73,17 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     // MARK: Gestures and Events
     
     func launchTimerOrEditScreen() {
-        if let timer = Timer.getCurrentTimer() {
-            if let childVc = self.childViewControllers.first as? EditTimerViewController {
-                childVc.view.removeFromSuperview()
-                childVc.removeFromParentViewController()
+        for childVc in self.childViewControllers {
+            if let view = childVc.view {
+                view?.removeFromSuperview()
             }
             
+            childVc.removeFromParentViewController()
+        }
+        
+        if let timer = Timer.getCurrentTimer() {
             self.addTimerProgressVC(timer)
             self.animateButtrToActive()
-        } else if let childVc = self.childViewControllers.first as? TimerProgressViewController {
-            childVc.view.removeFromSuperview()
-            childVc.removeFromParentViewController()
-            
-            self.addEditTimerVC()
-            self.animateButtrToZero()
         } else {
             self.addEditTimerVC()
             self.animateButtrToZero()

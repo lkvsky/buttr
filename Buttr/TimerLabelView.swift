@@ -73,7 +73,7 @@ class TimerLabelView: UIView {
     func addMinutesLabel() {
         // set properties
         let minutesLabel = self.createLabel(UIColor.primaryTextColor())
-        minutesLabel.text = "\(minutes))"
+        minutesLabel.text = "\(minutes)"
         
         // add label and store reference
         self.addSubview(minutesLabel)
