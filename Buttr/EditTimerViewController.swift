@@ -46,7 +46,7 @@ class EditTimerViewController: UIViewController {
     // MARK: Subview Initialization
     
     private func scaleDownViews() -> Bool {
-        return self.view.frame.size.width <= 350
+        return self.view.frame.size.width <= 320
     }
     
     private func addTimerControlView() {

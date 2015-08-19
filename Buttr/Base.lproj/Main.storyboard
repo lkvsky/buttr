@@ -87,11 +87,9 @@
                     </view>
                     <connections>
                         <outlet property="buttrCartoon" destination="NVI-NB-tf5" id="3wd-DR-vLT"/>
-                        <outlet property="buttrCenterX" destination="nVf-Hu-slE" id="caZ-xh-sQy"/>
                         <outlet property="containerView" destination="Gca-ta-IZS" id="d1T-Se-5ny"/>
                         <outlet property="resetButton" destination="7PC-VE-4oF" id="KjZ-M9-yqQ"/>
                         <outlet property="resetButtonLeadingConstraint" destination="mPQ-A3-5Z3" id="gBq-x9-GIu"/>
-                        <outlet property="resetButtonVerticalConstraint" destination="yrK-m7-V2V" id="i0w-Y1-cxU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

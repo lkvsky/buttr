@@ -13,10 +13,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
     @IBOutlet weak var resetButton: KeyPadControlButton!
-    
-    // buttr cartoon constraints need adjustment on smaller screen sizes
-    @IBOutlet weak var buttrCenterX: NSLayoutConstraint!
-    @IBOutlet weak var resetButtonVerticalConstraint: NSLayoutConstraint!
     @IBOutlet weak var resetButtonLeadingConstraint: NSLayoutConstraint!
     
     var buttrTailAnimationTimer: NSTimer!
@@ -30,10 +26,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
         self.buttrCartoon.wagTail()
         
-        // shift buttr cartoon to the left on smaller screens
+        // shift reset button
         if (self.scaleDownViews()) {
-            self.buttrCenterX.constant = 1/4 * self.view.frame.size.width
-            self.resetButtonVerticalConstraint.constant = -85
             self.resetButtonLeadingConstraint.constant = -15
         }
         
@@ -95,7 +89,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     private func scaleDownViews() -> Bool {
-        return self.view.frame.size.width <= 350
+        return self.view.frame.size.width <= 320
     }
     
     // MARK: Gestures and Events
