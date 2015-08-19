@@ -170,6 +170,12 @@ class EditTimerViewController: UIViewController {
         timerLabelView.hours = timeSet["hours"]!
         timerControlView.hourSlider.addTimeUnitByAmmount(timeSet["hours"]!)
         
+        if (self.timerControlView.getTotalTime() == 0) {
+            self.didClearTimerValue()
+        } else {
+            self.didGiveTimerValue()
+        }
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
