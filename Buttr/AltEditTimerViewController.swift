@@ -19,10 +19,12 @@ class AltEditTimerViewController: UIViewController {
     @IBOutlet var tertiaryColorLabels: [UILabel]!
     @IBOutlet var primaryColorLabels: [UILabel]!
     @IBOutlet var secondaryColorLabels: [UILabel]!
-    
     @IBOutlet var secondsLabel: UILabel!
     @IBOutlet var minutesLabel: UILabel!
     @IBOutlet var hoursLabel: UILabel!
+    
+    // constraints
+    @IBOutlet var topLayoutConstraint: NSLayoutConstraint!
     
     // data
     var timerValue: [Int] = [Int]()
@@ -44,6 +46,10 @@ class AltEditTimerViewController: UIViewController {
         self.tertiaryColorLabels.map { (label: UILabel) -> UILabel in
             label.textColor = UIColor.tertiaryTextColor()
             return label
+        }
+        
+        if (UIScreen.mainScreen().bounds.size.width <= 320) {
+            self.topLayoutConstraint.constant = 8
         }
     }
     

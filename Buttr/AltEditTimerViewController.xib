@@ -23,6 +23,7 @@
                 <outlet property="minutesLabel" destination="G5c-0R-quf" id="Egl-5W-mlC"/>
                 <outlet property="secondsLabel" destination="uhg-lX-XkH" id="HNU-E5-1aD"/>
                 <outlet property="startKey" destination="826-GZ-Erl" id="ccp-4l-YZB"/>
+                <outlet property="topLayoutConstraint" destination="sGv-7s-uFd" id="Hji-pd-rH0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="timeKeys" destination="9JN-3Y-svs" collectionClass="NSMutableArray" id="9dg-hS-1Ak"/>
                 <outletCollection property="timeKeys" destination="GaE-je-CDh" collectionClass="NSMutableArray" id="ncS-Dc-Tut"/>
