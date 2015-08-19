@@ -19,6 +19,8 @@ class TimerLabelView: UIView {
     var minutesCenterXConstraint: NSLayoutConstraint!
     var hoursCenterXConstraint: NSLayoutConstraint!
     
+    var fontSize: CGFloat = 40.0
+    
     var seconds: Int = 0 {
         didSet {
             self.secondsLabel.text = "\(seconds)"
@@ -49,9 +51,10 @@ class TimerLabelView: UIView {
         self.addSecondsLabel()
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, fontSize: CGFloat = 40.0) {
         super.init(frame: frame)
         
+        self.fontSize = fontSize
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.backgroundColor = UIColor.clearColor()
         
@@ -59,6 +62,7 @@ class TimerLabelView: UIView {
         self.addMinutesLabel()
         self.addSecondsLabel()
     }
+    
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -130,7 +134,7 @@ class TimerLabelView: UIView {
     
     func createLabel(textColor: UIColor) -> UILabel {
         let label = UILabel(frame: CGRectZero)
-        label.font = UIFont(name: "Lato", size: 40.0)!
+        label.font = UIFont(name: "Lato", size: self.fontSize)!
         label.textColor = textColor
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         label.textAlignment = .Center

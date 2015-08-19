@@ -14,6 +14,11 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
     @IBOutlet weak var resetButton: KeyPadControlButton!
     
+    // buttr cartoon constraints need adjustment on smaller screen sizes
+    @IBOutlet weak var buttrCenterX: NSLayoutConstraint!
+    @IBOutlet weak var resetButtonVerticalConstraint: NSLayoutConstraint!
+    @IBOutlet weak var resetButtonLeadingConstraint: NSLayoutConstraint!
+    
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
     
@@ -24,6 +29,13 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
         self.buttrCartoon.wagTail()
+        
+        // shift buttr cartoon to the left on smaller screens
+        if (self.scaleDownViews()) {
+            self.buttrCenterX.constant = 1/4 * self.view.frame.size.width
+            self.resetButtonVerticalConstraint.constant = -85
+            self.resetButtonLeadingConstraint.constant = -15
+        }
         
         // Listen for app to become active. If there's an active timer, render its progress. Otherwise
         // add the edit timer screen.
@@ -46,6 +58,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.addChildVCConstraints(editTimerVC.view)
         
         editTimerVC.didMoveToParentViewController(self)
+        
+        // bring butter up front -- necessary for smaller screen sizes
+        self.containerView.bringSubviewToFront(self.buttrCartoon)
+        self.containerView.bringSubviewToFront(self.resetButton)
     }
     
     func addTimerProgressVC(timer: Timer) {
@@ -61,15 +77,25 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.addChildVCConstraints(timerProgressVC.view)
         
         timerProgressVC.didMoveToParentViewController(self)
+        
+        // bring butter up front -- necessary for smaller screen sizes
+        self.containerView.bringSubviewToFront(self.buttrCartoon)
+        self.containerView.bringSubviewToFront(self.resetButton)
     }
     
     func addChildVCConstraints(childView: UIView) {
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 20))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.0, constant: 0))
-        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 431.0/367.0, constant: 0))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.1, constant: 0))
+        
+        childView.clipsToBounds = true;
         
         self.containerView.setNeedsLayout()
+    }
+    
+    private func scaleDownViews() -> Bool {
+        return self.view.frame.size.width <= 350
     }
     
     // MARK: Gestures and Events

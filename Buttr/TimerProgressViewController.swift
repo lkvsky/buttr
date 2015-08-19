@@ -49,6 +49,7 @@ class TimerProgressViewController: UIViewController {
         self.addTimerProgressView()
         self.addTimerLabel()
         self.addTimerControlButton()
+        self.view.sendSubviewToBack(self.timerLabelView)
         self.view.setNeedsUpdateConstraints()
         self.view.backgroundColor = UIColor.backgroundColor()
 
@@ -90,12 +91,15 @@ class TimerProgressViewController: UIViewController {
     
     // MARK: Subview Initialization
     
+    private func scaleDownViews() -> Bool {
+        return self.view.frame.size.width <= 350
+    }
+    
     private func addTimerProgressView() {
         var frameWidth: CGFloat
         
-        if (self.view.frame.size.width <= 350) {
-            frameWidth = self.view.frame.size.width
-            frameWidth = 280
+        if (self.scaleDownViews()) {
+            frameWidth = self.view.frame.size.height * 1/2
         } else {
             frameWidth = 350
         }
@@ -112,7 +116,7 @@ class TimerProgressViewController: UIViewController {
     }
     
     private func addTimerLabel() {
-        let timerLabelView = TimerLabelView(frame: CGRectMake(0, 0, 170, 72))
+        let timerLabelView = TimerLabelView(frame: CGRectZero, fontSize: self.scaleDownViews() ? 30 : 40)
         timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerLabelView)
         self.timerLabelView = timerLabelView
@@ -130,8 +134,8 @@ class TimerProgressViewController: UIViewController {
         self.timerControlButton = timerControlButton
         self.timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 120))
-        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 45))
+        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 93.3333 : 120))
+        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
         self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Top, relatedBy: .Equal, toItem: timerProgressView, attribute: .Bottom, multiplier: 1.0, constant: 8))
     }

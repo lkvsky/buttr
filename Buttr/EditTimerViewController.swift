@@ -25,6 +25,7 @@ class EditTimerViewController: UIViewController {
         self.addStartButton()
         self.view.setNeedsUpdateConstraints()
         self.view.backgroundColor = UIColor.backgroundColor()
+        self.view.sendSubviewToBack(self.timerLabelView)
         self.startButton.transform = CGAffineTransformMakeScale(0, 0)
         
         // initialize gestures and actions
@@ -44,12 +45,15 @@ class EditTimerViewController: UIViewController {
     
     // MARK: Subview Initialization
     
+    private func scaleDownViews() -> Bool {
+        return self.view.frame.size.width <= 350
+    }
+    
     private func addTimerControlView() {
         var frameWidth: CGFloat
         
-        if (self.view.frame.size.width <= 350) {
-            frameWidth = self.view.frame.size.width
-            frameWidth = 280
+        if (self.scaleDownViews()) {
+            frameWidth = self.view.frame.size.height * 1/2
         } else {
             frameWidth = 350
         }
@@ -66,13 +70,13 @@ class EditTimerViewController: UIViewController {
     }
     
     private func addTimerLabel() {
-        let timerLabelView = TimerLabelView(frame: CGRectMake(0, 0, 170, 72))
+        let timerLabelView = TimerLabelView(frame: CGRectZero, fontSize: self.scaleDownViews() ? 30 : 40)
         timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerLabelView)
         self.timerLabelView = timerLabelView
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 170))
-        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 72))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant:  self.scaleDownViews() ? 120 : 170))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 60 : 72))
         self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterX, relatedBy: .Equal, toItem: timerControlView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterY, relatedBy: .Equal, toItem: timerControlView, attribute: .CenterY, multiplier: 1.0, constant: 0))
     }
@@ -84,8 +88,8 @@ class EditTimerViewController: UIViewController {
         self.startButton = startButton
         self.startButton.standardBackgroundImage = UIImage(named: "start_button")
         
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 120))
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 45))
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 93.3333 : 120))
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Top, relatedBy: .Equal, toItem: timerControlView, attribute: .Bottom, multiplier: 1.0, constant: 8))
     }
