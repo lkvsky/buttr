@@ -59,7 +59,7 @@ import UIKit
     
     // MARK: Helper Methods
     
-    func addSliders() {
+    private func addSliders() {
         // instantiate sliders
         let origin = self.bounds.origin
         let size = self.bounds.size

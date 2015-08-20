@@ -34,6 +34,8 @@ class TimerProgressView: UIView {
         super.init(coder: aDecoder)
     }
     
+    // MARK: Public Methods
+    
     func startTimer(duration: Int = 60, timeLeft: Int = 0, warnings: [Int]? = nil) {
         timerDuration = duration
         let slider = TimerProgressSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)

@@ -68,7 +68,7 @@ class TimerLabelView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func addSecondsLabel() {
+    private func addSecondsLabel() {
         // set properties
         let secondsLabel = self.createLabel(UIColor.secondaryTextColor())
         secondsLabel.text = "\(seconds)"
@@ -89,7 +89,7 @@ class TimerLabelView: UIView {
         secondsTextLabel.text = "secs"
     }
     
-    func addMinutesLabel() {
+    private func addMinutesLabel() {
         // set properties
         let minutesLabel = self.createLabel(UIColor.primaryTextColor())
         minutesLabel.text = "\(minutes)"
@@ -110,7 +110,7 @@ class TimerLabelView: UIView {
         minutesTextLabel.text = "mins"
     }
     
-    func addHoursLabel() {
+    private func addHoursLabel() {
         // set properties
         let hoursLabel = self.createLabel(UIColor.tertiaryTextColor())
         
@@ -132,7 +132,7 @@ class TimerLabelView: UIView {
     
     // MARK: Label Convenience Methods
     
-    func createLabel(textColor: UIColor) -> UILabel {
+    private func createLabel(textColor: UIColor) -> UILabel {
         let label = UILabel(frame: CGRectZero)
         label.font = UIFont(name: "Lato", size: self.fontSize)!
         label.textColor = textColor
@@ -143,7 +143,7 @@ class TimerLabelView: UIView {
         return label
     }
     
-    func createUnitLabel(boundView: UIView, textColor: UIColor) -> UILabel {
+    private func createUnitLabel(boundView: UIView, textColor: UIColor) -> UILabel {
         let unitTextLabel = UILabel()
         unitTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         unitTextLabel.font = UIFont(name: "Lato-Regular", size: 17)
@@ -159,7 +159,7 @@ class TimerLabelView: UIView {
         return unitTextLabel
     }
     
-    func setInitialConstraintsForLabel(label: UILabel) {
+    private func setInitialConstraintsForLabel(label: UILabel) {
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1/3, constant: 0))
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: -30))
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
@@ -173,7 +173,7 @@ class TimerLabelView: UIView {
     
     // MARK: Constraint animation
     
-    func adjustCenterConstraints() {
+    private func adjustCenterConstraints() {
         var frameWidth = self.frame.size.width / CGFloat(3)
         var numberOfLabels = 1
 
