@@ -30,7 +30,9 @@ class EditTimerViewController: UIViewController {
         
         // initialize gestures and actions
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: .ValueChanged)
+        timerControlView.secondSlider.addTarget(self, action: "onRevolutionCompletion:", forControlEvents: .ApplicationReserved)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: .ValueChanged)
+        timerControlView.minuteSlider.addTarget(self, action: "onRevolutionCompletion:", forControlEvents: .ApplicationReserved)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
         startButton.addTarget(self, action: "onStartTap:", forControlEvents: .TouchUpInside)
         
@@ -115,8 +117,9 @@ class EditTimerViewController: UIViewController {
     
     func onSecondsChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
-    
+
         timerLabelView.seconds = newTime == 60 ? 59 : newTime
+        timerLabelView.adjustCenterConstraints()
         
         if (self.timerControlView.getTotalTime() == 0) {
             self.didClearTimerValue()
@@ -129,6 +132,7 @@ class EditTimerViewController: UIViewController {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
         timerLabelView.minutes = newTime == 60 ? 59 : newTime
+        timerLabelView.adjustCenterConstraints()
         
         if (self.timerControlView.getTotalTime() == 0) {
             self.didClearTimerValue()
@@ -141,11 +145,22 @@ class EditTimerViewController: UIViewController {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
         timerLabelView.hours = newTime == 24 ? 23 : newTime
+        timerLabelView.adjustCenterConstraints()
         
         if (self.timerControlView.getTotalTime() == 0) {
             self.didClearTimerValue()
         } else {
             self.didGiveTimerValue()
+        }
+    }
+    
+    func onRevolutionCompletion(slider: CircularSlider) {
+        if (slider === timerControlView.secondSlider) {
+            timerControlView.minuteSlider.addTimeUnitByAmmount(1)
+            timerLabelView.minutes += 1
+        } else if (slider === timerControlView.minuteSlider) {
+            timerControlView.hourSlider.addTimeUnitByAmmount(1)
+            timerLabelView.hours += 1
         }
     }
     

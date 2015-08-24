@@ -19,7 +19,7 @@ extension Warning {
     // MARK: Instance methods
     
     func projectedFireDate() -> NSDate {
-        return self.timer.startTime.dateByAddingTimeInterval(NSTimeInterval(self.elapsedTime.integerValue))
+        return self.timer.startTime.dateByAddingTimeInterval(NSTimeInterval(self.timer.duration.integerValue - self.elapsedTime.integerValue))
     }
     
     func alertMessage() -> String {
@@ -28,11 +28,11 @@ extension Warning {
         let hours = self.elapsedTime.integerValue / 3600
         
         if (hours > 0) {
-            return String(format: "%02ld:%02ld:%02ld have passed.", arguments: [hours, minutes, seconds])
+            return String(format: "%02ld:%02ld:%02ld left.", arguments: [hours, minutes, seconds])
         } else if (minutes > 0) {
-            return String(format: "%02ld:%02ld minutes have passed.", arguments: [minutes, seconds])
+            return String(format: "%02ld:%02ld minutes are left.", arguments: [minutes, seconds])
         } else {
-            return "\(seconds) seconds have passed."
+            return "\(seconds) seconds are left."
         }
     }
 }

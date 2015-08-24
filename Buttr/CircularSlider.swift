@@ -26,7 +26,14 @@ class CircularSlider: UIControl {
     var radius: CGFloat = 0
     
     // current angle of the slider
-    var angle: Double = Config.BT_STARTING_ANGLE
+    var angle: Double = Config.BT_STARTING_ANGLE {
+        willSet(newValue) {
+            // fire custom event to signal revolution completion
+            if (self.isMovingClockwise(startAngle: angle, endAngle: newValue) && (Config.BT_STARTING_ANGLE < floor(angle) && Config.BT_STARTING_ANGLE >= floor(newValue) && abs(angle - newValue) < 100)) {
+                self.sendActionsForControlEvents(UIControlEvents.ApplicationReserved)
+            }
+        }
+    }
     
     // color of the slider path/handle
     var color: UIColor = UIColor.blackColor()
@@ -115,9 +122,10 @@ class CircularSlider: UIControl {
     
     func moveHandle(point: CGPoint) {
         let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
-        let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
+        let startAngle: Double = angle
+        let updatedAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
         
-        angle = 360.0 - currentAngle
+        angle = 360.0 - updatedAngle
         setNeedsDisplay()
     }
     
@@ -150,6 +158,10 @@ class CircularSlider: UIControl {
         }
 
         self.setNeedsDisplay()
+    }
+    
+    func isMovingClockwise(#startAngle: Double, endAngle: Double) -> Bool {
+        return endAngle < startAngle || (floor(startAngle) <= 10 && floor(endAngle) >= 350)
     }
     
     // MARK: Gestures & Events

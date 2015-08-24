@@ -166,12 +166,10 @@ class WarningSlider: CircularSlider {
             var warningTimes = [Int]()
 
             for (index, angle) in self.warningAngles {
-                let time = self.timeForWarningAngle(angle)
-
                 if (self.getTimeUnitFromAngleInt(angle) == 0) {
                     self.removeWarning(index)
                 } else {
-                    warningTimes.append(self.timeForWarningAngle(angle))
+                    warningTimes.append(self.getTimeUnitFromAngleInt(angle))
                 }
             }
             

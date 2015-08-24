@@ -19,8 +19,8 @@ class TimerProgressViewController: UIViewController {
             
             if let warnings = self.timerProgressView?.warningSlider?.warningTimes {
                 for warningTime in warnings {
-                    if (timeLeft == (Int(self.timer.duration) - warningTime)) {
-                        self.alert()
+                    if (timeLeft == warningTime) {
+                        self.fireWarning()
                     }
                 }
             }
@@ -33,8 +33,10 @@ class TimerProgressViewController: UIViewController {
     
     // alarm properties
     var nsTimerAlertInstance: NSTimer!
-    var audioPlayer: AVAudioPlayer!
+    var butterBarker: AVAudioPlayer!
+    var butterGrowler: AVAudioPlayer!
     var butterBark: SystemSoundID = 0
+    var butterGrowl: SystemSoundID = 0
     
     weak var timerProgressView: TimerProgressView!
     weak var timerLabelView: TimerLabelView!
@@ -56,7 +58,6 @@ class TimerProgressViewController: UIViewController {
         // init actions and animation
         self.timeLeft = self.timer.timeLeft()
         self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
-        self.updateTimerLabel()
         self.timerControlButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
         self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
 
@@ -70,22 +71,29 @@ class TimerProgressViewController: UIViewController {
     }
 
     func updateTimerLabel() {
-        timerLabelView?.seconds = timeLeft % 60
-        timerLabelView?.minutes = (timeLeft / 60) % 60
-        timerLabelView?.hours = (timeLeft / 3600)
+        timerLabelView?.setTime(seconds: timeLeft % 60, minutes: (timeLeft / 60) % 60, hours: (timeLeft / 3600))
     }
     
-    func playButterBark() {
+    func fireTimerEndAlert() {
         let butterPath = NSBundle.mainBundle().pathForResource("butter_bark", ofType: "wav")
         let butterUrl = NSURL.fileURLWithPath(butterPath!)
-        audioPlayer = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
+        butterBarker = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
         
-        audioPlayer.play()
+        butterBarker.play()
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         nsTimerAlertInstance = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "alert", userInfo: nil, repeats: true)
     }
     
-    func alert() {
+    func fireWarning() {
+        if let warningAudio = butterGrowler {
+            warningAudio.play()
+        } else {
+            let butterPath = NSBundle.mainBundle().pathForResource("butter_growl", ofType: "wav")
+            let butterUrl = NSURL.fileURLWithPath(butterPath!)
+            butterGrowler = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
+            butterGrowler.play()
+        }
+        
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
@@ -144,7 +152,7 @@ class TimerProgressViewController: UIViewController {
     
     func timerFired() {
         if (timeLeft == 0) {
-            self.playButterBark()
+            self.fireTimerEndAlert()
             nsTimerInstance.invalidate()
             self.delegate?.didFinishTimer(self)
         } else {
@@ -186,7 +194,8 @@ class TimerProgressViewController: UIViewController {
     }
     
     func invalidateTimersAndAlerts() {
-        audioPlayer?.stop()
+        butterBarker?.stop()
+        butterGrowler?.stop()
         nsTimerAlertInstance?.invalidate()
         nsTimerInstance?.invalidate()
     }

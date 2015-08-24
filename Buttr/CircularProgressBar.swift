@@ -16,11 +16,11 @@ class CircularProgressBar: UIView {
     
     var radius: CGFloat = 0
     var currentAngle: Double = Config.BT_STARTING_ANGLE
-    var clockwise: Bool = true
+    var clockwise: Bool = false
     var drawTracks: Bool = false
     var color: UIColor!
     
-    init(color: UIColor, frame: CGRect, clockwise: Bool = true, drawTracks: Bool = false) {
+    init(color: UIColor, frame: CGRect, clockwise: Bool = false, drawTracks: Bool = false) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
         radius = (self.frame.size.width / 2) - Config.BT_SLIDER_PADDING
@@ -28,6 +28,7 @@ class CircularProgressBar: UIView {
         self.drawTracks = drawTracks
         self.color = color
         
+        // layer for the animated portion of the progress bar
         animatedArcLayer = CAShapeLayer()
         animatedArcLayer.bounds = self.bounds
         animatedArcLayer.position = self.center
@@ -36,6 +37,7 @@ class CircularProgressBar: UIView {
         animatedArcLayer.lineWidth = Config.BT_SLIDER_LINE_WIDTH
         self.layer.addSublayer(animatedArcLayer)
         
+        // layer for the static portion of the progress bar
         staticLayer = CAShapeLayer()
         staticLayer.bounds = self.bounds
         staticLayer.position = self.center
@@ -44,6 +46,7 @@ class CircularProgressBar: UIView {
         staticLayer.lineWidth = Config.BT_SLIDER_LINE_WIDTH
         self.layer.addSublayer(staticLayer)
         
+        // add progress bar handle
         let handleView = HandleView(color: color, frame: HandleView.rectForHandle(self.center, radius: radius))
         self.addSubview(handleView)
         self.handleView = handleView
@@ -73,6 +76,8 @@ class CircularProgressBar: UIView {
         }
     }
     
+    // MARK: Drawing Helper Methods
+    
     func shiftAngleByAmount(angleDifference: Double) -> Double {
         var endAngle = currentAngle
         
@@ -85,83 +90,73 @@ class CircularProgressBar: UIView {
         return endAngle
     }
     
-    // Method for animation from timer edit to full view
-    func animateToTimerProgress(endAngle: Double) {
+    // abstraction method for generating arced bezier path
+    func getArcedPath(#center: CGPoint, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool) -> UIBezierPath {
+        let staticPath = UIBezierPath()
+        staticPath.addArcWithCenter(center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
+        
+        return staticPath
+    }
+    
+    func getStrokeAnimation(#clockwise: Bool) -> CABasicAnimation {
+        let arcAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        arcAnimation.duration = 0.3
+        arcAnimation.repeatCount = 0
+        arcAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        
+        if (clockwise) {
+            arcAnimation.fromValue = 0
+            arcAnimation.toValue = 1
+        } else {
+            arcAnimation.fromValue = 1
+            arcAnimation.toValue = 0
+            arcAnimation.fillMode = kCAFillModeForwards
+            arcAnimation.removedOnCompletion = false
+        }
+        
+        return arcAnimation
+    }
+    
+    func getHandleAnimationObject() -> CAKeyframeAnimation {
+        let handleAnimation = CAKeyframeAnimation(keyPath: "position")
+        handleAnimation.duration = 0.3
+        handleAnimation.repeatCount = 0
+        handleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        
+        return handleAnimation
+    }
+    
+    // MARK: Public Methods
+    
+    func animateProgressBar(#endAngle: Double) {
         let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
         let animationStartAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - currentAngle)))
         let animationEndAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - endAngle)))
         let center = CGPoint(x: self.frame.size.width / 2.0, y: self.frame.size.height / 2.0)
+        var staticPath, animationPath, handlePath: UIBezierPath
+        
+        if (clockwise) {
+            staticPath = self.getArcedPath(center: center, startAngle: originAngle, endAngle: animationStartAngle, clockwise: true)
+            animationPath = self.getArcedPath(center: center, startAngle: animationStartAngle, endAngle: animationEndAngle, clockwise: true)
+            handlePath = animationPath
+        } else {
+            staticPath = self.getArcedPath(center: center, startAngle: animationEndAngle, endAngle: originAngle, clockwise: false)
+            animationPath = self.getArcedPath(center: center, startAngle: animationEndAngle, endAngle: animationStartAngle, clockwise: true)
+            handlePath = self.getArcedPath(center: center, startAngle: animationStartAngle, endAngle: animationEndAngle, clockwise: false)
+        }
         
         // path for progress thus far
-        let staticPath = UIBezierPath()
-        staticPath.addArcWithCenter(center, radius: radius, startAngle: originAngle, endAngle: animationStartAngle, clockwise: self.clockwise)
         staticLayer.path = staticPath.CGPath
         
         // path for the animated porition of the progress
-        let animationPath = UIBezierPath()
-        animationPath.addArcWithCenter(center, radius: radius, startAngle: animationStartAngle, endAngle: animationEndAngle, clockwise: self.clockwise)
         animatedArcLayer.path = animationPath.CGPath
         
         // animation for the handle
-        let handleAnimation = CAKeyframeAnimation(keyPath: "position")
-        handleAnimation.path = animationPath.CGPath
-        handleAnimation.duration = 0.3
-        handleAnimation.repeatCount = 0
-        handleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        
-        // animation for the progress line
-        let arcAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        arcAnimation.fromValue = 0
-        arcAnimation.toValue = 1
-        arcAnimation.duration = 0.3
-        arcAnimation.repeatCount = 0
-        arcAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        
-        // add animations to necessary layers, update properties
-        self.animatedArcLayer.addAnimation(arcAnimation, forKey: "arcAnimation")
-        self.handleView.layer.addAnimation(handleAnimation, forKey: "handleAnimation")
-        let newRect = HandleView.rectForHandle(CGPointMake(self.frame.size.width/2.0 - Config.BT_HANDLE_WIDTH/2.0, self.frame.size.height/2.0 - Config.BT_HANDLE_WIDTH/2.0), radius: radius, angleVal: endAngle)
-        self.handleView.center = CGPointMake(newRect.origin.x + self.handleView.frame.size.width / 2, newRect.origin.y + self.handleView.frame.size.width / 2)
-        self.currentAngle = endAngle
-    }
-    
-    // Method handling animation of timer in progress, backwards from the top
-    func animatePath(endAngle: Double) {
-        let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
-        let animationStartAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - currentAngle)))
-        let animationEndAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - endAngle)))
-        let center = CGPoint(x: self.frame.size.width / 2.0, y: self.frame.size.height / 2.0)
-        
-        // path for progress thus far
-        let staticPath = UIBezierPath()
-        staticPath.addArcWithCenter(center, radius: radius, startAngle: animationEndAngle, endAngle: originAngle, clockwise: false)
-        staticLayer.path = staticPath.CGPath
-        
-        // path for the animated portion of the progress
-        let animationPath = UIBezierPath()
-        animationPath.addArcWithCenter(center, radius: radius, startAngle: animationEndAngle, endAngle: animationStartAngle, clockwise: true)
-        animatedArcLayer.path = animationPath.CGPath
-        
-        // path for handle
-        let handlePath = UIBezierPath()
-        handlePath.addArcWithCenter(center, radius: radius, startAngle: animationStartAngle, endAngle: animationEndAngle, clockwise: false)
-        
-        // animation for the handle
-        let handleAnimation = CAKeyframeAnimation(keyPath: "position")
+        let handleAnimation = self.getHandleAnimationObject()
         handleAnimation.path = handlePath.CGPath
-        handleAnimation.duration = 0.3
-        handleAnimation.repeatCount = 0
-        handleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         // animation for the progress line
-        let arcAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        arcAnimation.fromValue = 1
-        arcAnimation.toValue = 0
-        arcAnimation.duration = 0.3
-        arcAnimation.repeatCount = 0
-        arcAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        arcAnimation.fillMode = kCAFillModeForwards
-        arcAnimation.removedOnCompletion = false
+        let arcAnimation = self.getStrokeAnimation(clockwise: clockwise)
         
         // add animations to necessary layers, update properties
         self.animatedArcLayer.addAnimation(arcAnimation, forKey: "arcAnimation")

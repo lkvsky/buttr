@@ -114,9 +114,9 @@ import UIKit
         self.minuteSlider.layer.opacity = 0
         self.secondSlider.layer.opacity = 0
         
-        hourProgress.animateToTimerProgress(91)
-        minuteProgress.animateToTimerProgress(91)
-        secondProgress.animateToTimerProgress(91)
+        hourProgress.animateProgressBar(endAngle: 91)
+        minuteProgress.animateProgressBar(endAngle: 91)
+        secondProgress.animateProgressBar(endAngle: 91)
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             () -> Void in

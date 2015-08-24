@@ -30,14 +30,12 @@ class TimerLabelView: UIView {
     var minutes: Int = 0 {
         didSet {
             self.minutesLabel.text = "\(minutes)"
-            self.adjustCenterConstraints()
         }
     }
     
     var hours: Int = 0 {
         didSet {
             self.hoursLabel.text = "\(hours)"
-            self.adjustCenterConstraints()
         }
     }
     
@@ -49,6 +47,7 @@ class TimerLabelView: UIView {
         self.addHoursLabel()
         self.addMinutesLabel()
         self.addSecondsLabel()
+        self.adjustCenterConstraints()
     }
     
     init(frame: CGRect, fontSize: CGFloat = 40.0) {
@@ -61,6 +60,7 @@ class TimerLabelView: UIView {
         self.addHoursLabel()
         self.addMinutesLabel()
         self.addSecondsLabel()
+        self.adjustCenterConstraints()
     }
     
     
@@ -166,17 +166,33 @@ class TimerLabelView: UIView {
     }
     
     func resetLabel() {
-        self.seconds = 0
-        self.minutes = 0
-        self.hours = 0
+        self.setTime(seconds: 0, minutes: 0, hours: 0)
+    }
+    
+    func setTime(#seconds: Int, minutes: Int, hours: Int) {
+        self.seconds = seconds
+        self.minutes = minutes
+        self.hours = hours
+        
+        self.adjustCenterConstraints()
     }
     
     // MARK: Constraint animation
     
-    private func adjustCenterConstraints() {
-        var frameWidth = self.frame.size.width / CGFloat(3)
-        var numberOfLabels = 1
+    func adjustCenterConstraints() {
+        var frameWidth: CGFloat
+        var numberOfLabels = 0
+        
+        if (self.frame.size.width > 0) {
+            frameWidth = self.frame.size.width / CGFloat(3)
+        } else {
+            frameWidth = 170 / CGFloat(3)
+        }
 
+        if (seconds > 0) {
+            numberOfLabels = 1
+        }
+        
         if (minutes > 0){
             numberOfLabels = 2
         }
@@ -186,7 +202,7 @@ class TimerLabelView: UIView {
         }
         
         switch numberOfLabels {
-        case 1:
+        case 1, 0:
             secondsCenterXConstraint.constant = 0
             minutesCenterXConstraint.constant = 0
             hoursCenterXConstraint.constant = 0
@@ -208,9 +224,7 @@ class TimerLabelView: UIView {
             break
         }
         
-        UIView.animateWithDuration(0.125, animations: { () -> Void in
-            self.setNeedsUpdateConstraints()
-        })
+        self.setNeedsUpdateConstraints()
     }
     
 }
