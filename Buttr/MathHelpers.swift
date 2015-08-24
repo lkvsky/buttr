@@ -22,6 +22,16 @@ struct MathHelpers {
         return value * value
     }
     
+    static func pointOnCircumference(angleVal: Double, circleCenter: CGPoint, radius: CGFloat) -> CGPoint {
+        var result: CGPoint = CGPointZero
+        let y = round(Double(radius) * sin(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.y)
+        let x = round(Double(radius) * cos(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.x)
+        result.y = CGFloat(y)
+        result.x = CGFloat(x)
+        
+        return result
+    }
+    
     // Sourcecode from Apple example clockControl
     // Calculate the direction in degrees from a center point to an arbitrary position.
     static func AngleFromNorth(p1: CGPoint, p2: CGPoint, flipped: Bool) -> Double {

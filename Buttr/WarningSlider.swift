@@ -36,7 +36,7 @@ class WarningSlider: CircularSlider {
         warningIcon.drawAtPoint(point)
         
         if (withLabel) {
-            let time = self.timeForWarningAngle(angleVal)
+            let time = self.getTimeUnitFromAngleInt(angleVal)
             let seconds = time % 60
             let minutes = (time / 60) % 60
             let hours = time / 3600
@@ -73,7 +73,7 @@ class WarningSlider: CircularSlider {
     func warningPointFromAngle(angleVal: Double) -> CGPoint {
         let circleCenter = CGPointMake(self.frame.size.width/2.0 - self.warningIcon.size.height/2.0, self.frame.size.height/2.0 - self.warningIcon.size.height/2.0)
         
-        return self.pointOnCircumference(angleVal, circleCenter: circleCenter)
+        return MathHelpers.pointOnCircumference(angleVal, circleCenter: circleCenter, radius: radius)
     }
     
     func rectForWarning(angleVal: Double = Config.BT_STARTING_ANGLE) -> CGRect {
@@ -89,8 +89,15 @@ class WarningSlider: CircularSlider {
         return 360.0 - currentAngle
     }
     
+    // TODO: Changing the labels to render the amount of time remaining rather than elapsed time,
+    // So this and accompanying alert logc should change
     func timeForWarningAngle(angleVal: Double) -> Int {
         return self.maxTimeUnits - self.getTimeUnitFromAngleInt(angleVal)
+    }
+    
+    func removeWarning(warningIndex: Int) {
+        self.warningAngles.removeValueForKey(warningIndex)
+        self.setNeedsDisplay()
     }
     
     // MARK: Interaction Detection
@@ -159,7 +166,13 @@ class WarningSlider: CircularSlider {
             var warningTimes = [Int]()
 
             for (index, angle) in self.warningAngles {
-                warningTimes.append(self.timeForWarningAngle(angle))
+                let time = self.timeForWarningAngle(angle)
+
+                if (self.getTimeUnitFromAngleInt(angle) == 0) {
+                    self.removeWarning(index)
+                } else {
+                    warningTimes.append(self.timeForWarningAngle(angle))
+                }
             }
             
             self.warningTimes = warningTimes

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 class TimerProgressSlider: CircularSlider {
 
@@ -16,7 +17,7 @@ class TimerProgressSlider: CircularSlider {
         let ctx = UIGraphicsGetCurrentContext()
         self.drawPathToAngle(ctx)
         self.drawHandle(ctx)
-    }    
+    }
 
     // MARK: Gestures and Events
     

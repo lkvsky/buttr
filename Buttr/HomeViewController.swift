@@ -79,7 +79,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func addChildVCConstraints(childView: UIView) {
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 20))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 40))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.0, constant: 0))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.1, constant: 0))
         
@@ -194,8 +194,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func prepareForAppClosure() {
         if let timerProgressVC = self.childViewControllers.first as? TimerProgressViewController {
             timerProgressVC.invalidateTimersAndAlerts()
-            timerProgressVC.view.removeFromSuperview()
-            timerProgressVC.removeFromParentViewController()
         }
         
         self.buttrTailAnimationTimer.invalidate()
@@ -211,12 +209,17 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         timer.startTime = NSDate()
         DataManager.sharedInstance.save()
         
-        // remove edit timer vc
-        sender.view.removeFromSuperview()
-        sender.removeFromParentViewController()
+        sender.timerControlView.animatedTransition()
         
-        // add timer progress vc
-        self.addTimerProgressVC(timer)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            [unowned self] () -> Void in
+            // remove edit timer vc
+            sender.view.removeFromSuperview()
+            sender.removeFromParentViewController()
+            
+            // add timer progress vc
+            self.addTimerProgressVC(timer)
+        }
     }
     
     func didClearTimerValue(sender: EditTimerViewController) {

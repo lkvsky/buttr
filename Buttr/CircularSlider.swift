@@ -13,8 +13,9 @@ import UIKit
 struct Config {
     static let BT_SLIDER_LINE_WIDTH: CGFloat = 5.0
     static let BT_SLIDER_PADDING: CGFloat = 15.0
-    static let BT_HANDLE_WIDTH: CGFloat = 29.0
+    static let BT_HANDLE_WIDTH: CGFloat = 20.0
     static let BT_STARTING_ANGLE: Double = 90.0
+    static let BT_TOUCH_AREA: CGFloat = 30.0
 }
 
 class CircularSlider: UIControl {
@@ -69,7 +70,7 @@ class CircularSlider: UIControl {
         CGContextSaveGState(ctx)
         
         self.color.set()
-        CGContextFillEllipseInRect(ctx, self.rectForHandle())
+        CGContextFillEllipseInRect(ctx, HandleView.rectForHandle(CGPointMake(self.frame.size.width/2.0 - Config.BT_HANDLE_WIDTH/2.0, self.frame.size.height/2.0 - Config.BT_HANDLE_WIDTH/2.0), radius: radius, angleVal: angle))
         
         CGContextRestoreGState(ctx)
     }
@@ -79,8 +80,8 @@ class CircularSlider: UIControl {
         
         self.color.set()
         
-        for i in 0...59 {
-            let notchPoint: CGPoint = self.handlePointFromAngle(Double(i) * 6.0);
+        for i in 0...(maxTimeUnits - 1) {
+            let notchPoint: CGPoint = self.handlePointFromAngle(Double(i) * Double(360 / maxTimeUnits));
             let offset: CGFloat = Config.BT_HANDLE_WIDTH / 2 - 1.5
             
             CGContextFillEllipseInRect(ctx, CGRectMake(notchPoint.x + offset, notchPoint.y + offset, 3, 3))
@@ -94,7 +95,7 @@ class CircularSlider: UIControl {
         
         let startingAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
         let endingAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - angle)))
-
+        
         CGContextAddArc(ctx, CGFloat(self.frame.size.width / 2.0), CGFloat(self.frame.size.height / 2.0), radius, startingAngle, endingAngle, 0)
         self.color.set()
         CGContextSetLineWidth(ctx, Config.BT_SLIDER_LINE_WIDTH)
@@ -106,26 +107,10 @@ class CircularSlider: UIControl {
     
     // MARK: Helper Methods
     
-    func pointOnCircumference(angleVal: Double, circleCenter: CGPoint) -> CGPoint {
-        var result: CGPoint = CGPointZero
-        let y = round(Double(radius) * sin(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.y)
-        let x = round(Double(radius) * cos(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.x)
-        result.y = CGFloat(y)
-        result.x = CGFloat(x)
-        
-        return result
-    }
-    
     func handlePointFromAngle(angleVal: Double) -> CGPoint {
         let circleCenter = CGPointMake(self.frame.size.width/2.0 - Config.BT_HANDLE_WIDTH/2.0, self.frame.size.height/2.0 - Config.BT_HANDLE_WIDTH/2.0)
         
-        return self.pointOnCircumference(angleVal, circleCenter: circleCenter)
-    }
-    
-    func rectForHandle() -> CGRect {
-        var handlePosition = self.handlePointFromAngle(angle)
-        
-        return CGRectMake(handlePosition.x, handlePosition.y, Config.BT_HANDLE_WIDTH, Config.BT_HANDLE_WIDTH)
+        return MathHelpers.pointOnCircumference(angleVal, circleCenter: circleCenter, radius: radius)
     }
     
     func moveHandle(point: CGPoint) {
@@ -140,7 +125,7 @@ class CircularSlider: UIControl {
         let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false);
         let proposedPoint = self.handlePointFromAngle(360.0 - currentAngle)
-        let proposedSliderRect = CGRectMake(proposedPoint.x, proposedPoint.y, Config.BT_HANDLE_WIDTH, Config.BT_HANDLE_WIDTH)
+        let proposedSliderRect = CGRectMake(proposedPoint.x - (1/3 * Config.BT_HANDLE_WIDTH), proposedPoint.y - (1/3 * Config.BT_HANDLE_WIDTH), Config.BT_TOUCH_AREA, Config.BT_TOUCH_AREA)
         
         return CGRectContainsPoint(proposedSliderRect, point)
     }
@@ -186,7 +171,7 @@ class CircularSlider: UIControl {
     
     override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
         super.endTrackingWithTouch(touch, withEvent: event)
-
+        
         self.moveHandle(touch.locationInView(self))
         self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
     }

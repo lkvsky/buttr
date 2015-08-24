@@ -93,6 +93,43 @@ import UIKit
         self.hourSlider.setNeedsDisplay()
     }
     
+    func animatedTransition() {
+        let hourProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true)
+        hourProgress.center = hourSlider.center
+        hourProgress.currentAngle = hourSlider.angle
+        
+        let minuteProgress = CircularProgressBar(color: UIColor.primaryTextColor(), frame: self.minuteSlider.bounds, clockwise: true, drawTracks: true)
+        minuteProgress.center = minuteSlider.center
+        minuteProgress.currentAngle = minuteSlider.angle
+        
+        let secondProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true)
+        secondProgress.center = secondSlider.center
+        secondProgress.currentAngle = secondSlider.angle
+        
+        self.addSubview(hourProgress)
+        self.addSubview(secondProgress)
+        self.addSubview(minuteProgress)
+        
+        self.hourSlider.layer.opacity = 0
+        self.minuteSlider.layer.opacity = 0
+        self.secondSlider.layer.opacity = 0
+        
+        hourProgress.animateToTimerProgress(91)
+        minuteProgress.animateToTimerProgress(91)
+        secondProgress.animateToTimerProgress(91)
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            () -> Void in
+            UIView.animateWithDuration(0.125, animations: {
+                () -> Void in
+                minuteProgress.transform = CGAffineTransformMakeScale(1.2, 1.2)
+                secondProgress.transform = CGAffineTransformMakeScale(1.4, 1.4)
+                hourProgress.layer.opacity = 0
+                secondProgress.layer.opacity = 0
+            })
+        }
+    }
+    
     // MARK: Gestures and Events
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {

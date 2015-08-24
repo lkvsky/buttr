@@ -149,7 +149,7 @@ class TimerProgressViewController: UIViewController {
             self.delegate?.didFinishTimer(self)
         } else {
             timeLeft = self.timer.timeLeft()
-            self.timerProgressView.updateSlider()
+            self.timerProgressView.updateProgressBar()
         }
     }
     

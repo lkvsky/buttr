@@ -15,6 +15,9 @@ class TimerProgressView: UIView {
     weak var slider: TimerProgressSlider!
     weak var warningSlider: WarningSlider!
     
+    // testing calayer animation
+    weak var circularProgressBar: CircularProgressBar!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -38,12 +41,16 @@ class TimerProgressView: UIView {
     
     func startTimer(duration: Int = 60, timeLeft: Int = 0, warnings: [Int]? = nil) {
         timerDuration = duration
-        let slider = TimerProgressSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
+        
+        // add circular progress bar
+        let circularProgressBar = CircularProgressBar(color: UIColor.primaryTextColor(), frame: self.bounds)
+        self.addSubview(circularProgressBar)
+        self.circularProgressBar = circularProgressBar
+        self.updateProgressBar(elapsedTime: Double(timeLeft))
+        
+        // add warning slider
         let warningSlider = WarningSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
-        self.addSubview(slider)
         self.addSubview(warningSlider)
-        self.slider = slider
-        self.slider?.addTimeUnitByAmmount(timeLeft)
         self.warningSlider = warningSlider
         
         if let warningTimes = warnings {
@@ -59,9 +66,11 @@ class TimerProgressView: UIView {
             self.warningSlider.setNeedsDisplay()
         }
     }
-    
-    func updateSlider() {
-        slider?.addTimeUnitByAmmount(-1)
-    }
 
+    func updateProgressBar(elapsedTime: Double = -1) {
+        let angleDifference = elapsedTime * Double(360.0) / Double(timerDuration)
+        let newAngle = circularProgressBar?.shiftAngleByAmount(angleDifference)
+        
+        circularProgressBar?.animatePath(newAngle!)
+    }
 }

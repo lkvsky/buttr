@@ -34,8 +34,7 @@ class EditTimerViewController: UIViewController {
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
         startButton.addTarget(self, action: "onStartTap:", forControlEvents: .TouchUpInside)
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen")
-        tapGesture.numberOfTapsRequired = 2;
+        var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen:")
         self.view.addGestureRecognizer(tapGesture)
     }
     
@@ -150,10 +149,15 @@ class EditTimerViewController: UIViewController {
         }
     }
     
-    func onShowAltEditScreen() {
-        var altEditTimerVC = AltEditTimerViewController.init(nibName: "AltEditTimerViewController", bundle: nil)
-        self.showViewController(altEditTimerVC, sender: self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onAltTimerSet:", name: "AltTimerSet", object: nil)
+    func onShowAltEditScreen(tap: UITapGestureRecognizer) {
+        let touchPoint = tap.locationInView(self.view)
+        let labelTouchPoint = self.view.convertPoint(touchPoint, toView: self.timerLabelView)
+        
+        if (CGRectContainsPoint(self.timerLabelView.bounds, labelTouchPoint)) {
+            var altEditTimerVC = AltEditTimerViewController.init(nibName: "AltEditTimerViewController", bundle: nil)
+            self.showViewController(altEditTimerVC, sender: self)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "onAltTimerSet:", name: "AltTimerSet", object: nil)
+        }
     }
     
     func onAltTimerSet(notification: NSNotification) {
