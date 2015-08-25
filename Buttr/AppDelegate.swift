@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:UIUserNotificationType.Alert|UIUserNotificationType.Badge|UIUserNotificationType.Sound, categories: nil))
         }
         
+        
         return true
     }
 
@@ -55,6 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     alarm.fireDate = projectedEndDate
                     alarm.alertBody = "Timer is up!"
                     alarm.category = "BUTTR_ALERT_CATEGORY"
+                    alarm.soundName = "butter_bark.wav"
                     UIApplication.sharedApplication().scheduleLocalNotification(alarm)
                     
                     for warning in timer.warnings {
@@ -65,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             alarm.fireDate = projectedFireDate
                             alarm.alertBody = (warning as! Warning).alertMessage()
                             alarm.category = "BUTTR_ALERT_CATEGORY"
+                            alarm.soundName = "butter_growl.wav"
                             UIApplication.sharedApplication().scheduleLocalNotification(alarm)
                         }
                     }

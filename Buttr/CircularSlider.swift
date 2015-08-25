@@ -123,9 +123,15 @@ class CircularSlider: UIControl {
     func moveHandle(point: CGPoint) {
         let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
         let startAngle: Double = angle
-        let updatedAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
+        let updatedAngle: Double = 360.0 - MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
         
-        angle = 360.0 - updatedAngle
+        // prevent the user from winding the slider backwards by accident
+        if (!self.isMovingClockwise(startAngle: startAngle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE >= floor(startAngle) && Config.BT_STARTING_ANGLE < floor(updatedAngle) && abs(angle - updatedAngle) < 180 && startAngle != updatedAngle)) {
+            angle = Config.BT_STARTING_ANGLE
+        } else {
+            angle = updatedAngle
+        }
+        
         setNeedsDisplay()
     }
     

@@ -167,25 +167,34 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.buttrCartoon.stickOutTongue()
     }
     
+    func hideResetButton (completion: ((Bool)->())? = nil) {
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
+            }, completion: completion)
+    }
+    
+    func showResetButton () {
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.resetButton.transform = CGAffineTransformMakeScale(1.1, 1.1)
+            }) {
+                [unowned self] (Bool finished) -> Void in
+                self.resetButton.transform = CGAffineTransformIdentity
+        }
+    }
+    
     func animateButtrToZero() {
         if (self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.straightenHead()
-            
-            UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
-                [unowned self] () -> Void in
-                self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
-                }, completion: nil)
+            self.hideResetButton()
         }
     }
     
     func animateButtrToActive() {
         if (!self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.tiltHead()
-            
-            UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
-                [unowned self] () -> Void in
-                self.resetButton.transform = CGAffineTransformIdentity
-                }, completion: nil)
+            self.showResetButton()
         }
     }
     
@@ -219,6 +228,11 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             
             // add timer progress vc
             self.addTimerProgressVC(timer)
+            self.hideResetButton() {
+                [unowned self] (Bool finished) -> Void in
+                self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
+                self.resetButton.enabled = true
+            }
         }
     }
     
@@ -229,17 +243,15 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func didGiveTimerValue(sender: EditTimerViewController) {
         if (!self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.tiltHead()
-            
-            UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
-                [unowned self] () -> Void in
-                    self.resetButton.transform = CGAffineTransformIdentity
-                }, completion: nil)
+            self.showResetButton()
         }
     }
     
     func didFinishTimer(sender: TimerProgressViewController) {
         self.buttrCartoon.tiltHead(direction: -1)
         self.resetButton.standardBackgroundImage = UIImage(named: "bark_speech_bubble")
+        self.resetButton.enabled = false
+        self.showResetButton()
         
         UIView.animateWithDuration(0.3,
             delay: 0,
@@ -250,11 +262,30 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 [unowned self]() -> Void in
                 // slide up container to expose done button
                 self.containerView.transform = CGAffineTransformMakeTranslation(0, -66.0)
-                self.resetButton.transform = CGAffineTransformMakeScale(1.1, 1.1)
                 sender.view.transform = CGAffineTransformMakeScale(0, 0)
-            }) {
-                [unowned self] (finished Bool) -> Void in
-                self.resetButton.transform = CGAffineTransformIdentity
+            }, completion: nil)
+    }
+    
+    func didPauseTimer(sender: TimerProgressViewController) {
+        self.showResetButton()
+    }
+    
+    func didRestartTimer(sender: TimerProgressViewController) {
+        self.hideResetButton()
+    }
+    
+    func didFireWarning(sender: TimerProgressViewController) {
+        self.resetButton.standardBackgroundImage = UIImage(named: "grr_speech_bubble")
+        self.resetButton.enabled = false
+        self.showResetButton()
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            [unowned self] () -> Void in
+            self.hideResetButton() {
+                [unowned self] (Bool finished) -> Void in
+                self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
+                self.resetButton.enabled = true
             }
+        }
     }
 }

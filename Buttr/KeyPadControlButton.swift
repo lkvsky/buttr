@@ -35,6 +35,7 @@ import UIKit
     override func awakeFromNib() {
         self.setBackgroundImage(standardBackgroundImage, forState: .Normal)
         self.setBackgroundImage(highlightedBackgroundImage, forState: .Highlighted)
+        self.adjustsImageWhenDisabled = false
     }
     
     #endif

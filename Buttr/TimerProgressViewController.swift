@@ -81,7 +81,7 @@ class TimerProgressViewController: UIViewController {
         
         butterBarker.play()
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        nsTimerAlertInstance = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "alert", userInfo: nil, repeats: true)
+        nsTimerAlertInstance = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "vibrate", userInfo: nil, repeats: true)
     }
     
     func fireWarning() {
@@ -94,6 +94,11 @@ class TimerProgressViewController: UIViewController {
             butterGrowler.play()
         }
         
+        self.vibrate()
+        self.delegate?.didFireWarning(self)
+    }
+    
+    func vibrate() {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
@@ -169,6 +174,7 @@ class TimerProgressViewController: UIViewController {
             nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
             timerIsPaused = false
             timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
+            self.delegate?.didRestartTimer(self)
         } else {
             self.timer.pauseTime = NSDate()
             DataManager.sharedInstance.save()
@@ -176,6 +182,7 @@ class TimerProgressViewController: UIViewController {
             nsTimerInstance.invalidate()
             timerIsPaused = true
             timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
+            self.delegate?.didPauseTimer(self)
         }
     }
     
@@ -204,4 +211,7 @@ class TimerProgressViewController: UIViewController {
 
 protocol TimerProgressDelegate {
     func didFinishTimer(sender: TimerProgressViewController)
+    func didPauseTimer(sender: TimerProgressViewController)
+    func didRestartTimer(sender: TimerProgressViewController)
+    func didFireWarning(sender: TimerProgressViewController)
 }

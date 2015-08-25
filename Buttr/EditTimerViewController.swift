@@ -178,18 +178,13 @@ class EditTimerViewController: UIViewController {
     func onAltTimerSet(notification: NSNotification) {
         let timeSet = notification.userInfo!["times"] as! [String: Int]
         
-        self.timerControlView.resetSliders()
-        
-        timerLabelView.seconds = timeSet["seconds"]!
+        timerControlView.resetSliders()
+        timerLabelView.setTime(seconds: timeSet["seconds"]!, minutes: timeSet["minutes"]!, hours: timeSet["hours"]!)
         timerControlView.secondSlider.addTimeUnitByAmmount(timeSet["seconds"]!)
-        
-        timerLabelView.minutes = timeSet["minutes"]!
         timerControlView.minuteSlider.addTimeUnitByAmmount(timeSet["minutes"]!)
-        
-        timerLabelView.hours = timeSet["hours"]!
         timerControlView.hourSlider.addTimeUnitByAmmount(timeSet["hours"]!)
         
-        if (self.timerControlView.getTotalTime() == 0) {
+        if (timerControlView.getTotalTime() == 0) {
             self.didClearTimerValue()
         } else {
             self.didGiveTimerValue()
