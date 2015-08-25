@@ -10,12 +10,22 @@ import UIKit
 
 class WarningSlider: CircularSlider {
 
-    let warningIcon: UIImage = UIImage(named: "warning_icon")!
+    let warningIcon: UIImage = UIImage(named: "bone_warning")!
     var warningAngles: [Int: Double]!
     var warningTimes: [Int]!
     var numberOfWarnings: Int = 0
-    var draggedWarningIndex: Int!
+    var draggedWarningIndex: Int?
     
+    // bound for range where time has passed, so don't allow warnings
+    var maxAllowedAngle: Double = Config.BT_STARTING_ANGLE
+    
+    // TODO: Why can't I seem to write this as an override of circular slider's init?
+    convenience init(color: UIColor, frame: CGRect, maxTimeUnits: Int = 60) {
+        self.init(frame: frame)
+        self.color = color
+        self.maxTimeUnits = maxTimeUnits
+    }
+
     // MARK: Drawing Methods
     
     override func drawRect(rect: CGRect) {
@@ -24,8 +34,30 @@ class WarningSlider: CircularSlider {
         
         if let warningPoints = self.warningAngles {
             for (index, angle) in warningPoints {
-                self.drawWarningAtAngle(ctx, angleVal: angle, withLabel: true)
+                if (index == self.draggedWarningIndex) {
+                    self.drawWarningAtAngle(ctx, angleVal: angle, withLabel: false)
+                } else {
+                    self.drawWarningAtAngle(ctx, angleVal: angle, withLabel: true)
+                }
             }
+        }
+        
+        if let warningToBeSet = self.draggedWarningIndex {
+            let centerYOffset: CGFloat = 30
+            let centerWarningLabelText = "warning set"
+            let centerWarningLabelSize = centerWarningLabelText.sizeWithAttributes([NSFontAttributeName: UIFont(name: "Bitter-Bold", size: 17.0)!])
+            let centerWarningLabelStart = CGPointMake(self.center.x - (centerWarningLabelSize.width / 2), self.center.y + centerYOffset)
+            
+            let warningTimeText = self.getTextLabelForWarningAtAngle(self.warningAngles[warningToBeSet]!)
+            let warnintTimeLabelSize = warningTimeText.sizeWithAttributes([NSFontAttributeName: UIFont(name: "Lato-Regular", size: 17.0)!])
+            let warningLabelStart = CGPointMake(self.center.x - (warnintTimeLabelSize.width / 2), self.center.y + centerYOffset + centerWarningLabelSize.height)
+            
+            centerWarningLabelText.drawAtPoint(centerWarningLabelStart, withAttributes: [
+                NSFontAttributeName: UIFont(name: "Bitter-Bold", size: 17.0)!,
+                NSForegroundColorAttributeName: self.color])
+            warningTimeText.drawAtPoint(warningLabelStart, withAttributes: [
+                NSFontAttributeName: UIFont(name: "Lato-Regular", size: 17.0)!,
+                NSForegroundColorAttributeName: self.color])
         }
     }
     
@@ -36,18 +68,7 @@ class WarningSlider: CircularSlider {
         warningIcon.drawAtPoint(point)
         
         if (withLabel) {
-            let time = self.getTimeUnitFromAngleInt(angleVal)
-            let seconds = time % 60
-            let minutes = (time / 60) % 60
-            let hours = time / 3600
-            var text: NSString!
-            
-            if (hours > 0) {
-                text = NSString(format: "%02ld:%02ld:%02ld", hours, minutes, seconds)
-            } else {
-                text = NSString(format: "%02ld:%02ld", minutes, seconds)
-            }
-            
+            let text = getTextLabelForWarningAtAngle(angleVal)
             let textPoint = self.pointForLabel(angleVal)
             text.drawAtPoint(textPoint, withAttributes: [
                 NSFontAttributeName: UIFont(name: "Lato-Black", size: 12.0)!,
@@ -57,11 +78,27 @@ class WarningSlider: CircularSlider {
         CGContextRestoreGState(ctx)
     }
     
+    func getTextLabelForWarningAtAngle(angleVal: Double) -> NSString {
+        let time = self.getTimeUnitFromAngleInt(angleVal)
+        let seconds = time % 60
+        let minutes = (time / 60) % 60
+        let hours = time / 3600
+        var text: NSString!
+        
+        if (hours > 0) {
+            text = NSString(format: "%02ld:%02ld:%02ld", hours, minutes, seconds)
+        } else {
+            text = NSString(format: "%02ld:%02ld", minutes, seconds)
+        }
+        
+        return text
+    }
+    
     func pointForLabel(angleVal: Double) -> CGPoint {
         var result: CGPoint = CGPointZero
         var circleCenter = CGPointMake(self.frame.size.width/2.0 - self.warningIcon.size.height/2.0, self.frame.size.height/2.0 - self.warningIcon.size.height/2.0)
-        let y = round(Double(radius - 1.5*self.warningIcon.size.width) * sin(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.y)
-        let x = round(Double(radius - 1.5*self.warningIcon.size.width) * cos(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.x)
+        let y = round(Double(radius - 1.3*self.warningIcon.size.width) * sin(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.y)
+        let x = round(Double(radius - 1.3*self.warningIcon.size.width) * cos(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.x)
         result.y = CGFloat(y)
         result.x = CGFloat(x)
         
@@ -84,13 +121,18 @@ class WarningSlider: CircularSlider {
     
     func warningAngleForPoint(point: CGPoint) -> Double {
         let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
-        let currentAngle: Double = MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
         
-        return 360.0 - currentAngle
+        return 360.0 - MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
     }
     
-    // TODO: Changing the labels to render the amount of time remaining rather than elapsed time,
-    // So this and accompanying alert logc should change
+    func getAngleForMovingWarning(#startAngle: Double, updatedAngle: Double) -> Double {
+        if (!self.isMovingClockwise(startAngle: startAngle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE >= floor(startAngle) && Config.BT_STARTING_ANGLE < floor(updatedAngle) && abs(startAngle - updatedAngle) < 180 && startAngle != updatedAngle)) {
+            return Config.BT_STARTING_ANGLE
+        } else {
+            return updatedAngle
+        }
+    }
+    
     func timeForWarningAngle(angleVal: Double) -> Int {
         return self.maxTimeUnits - self.getTimeUnitFromAngleInt(angleVal)
     }
@@ -117,6 +159,29 @@ class WarningSlider: CircularSlider {
         }
         
         return nil
+    }
+    
+    func warningShouldBeRemoved(warningAngle: Double) -> Bool {
+        let warningTime = self.getTimeUnitFromAngleInt(warningAngle)
+        let timeLeft = self.getTimeUnitFromAngleInt(maxAllowedAngle)
+        
+        if (warningTime >= timeLeft || warningTime == 0) {
+            return true
+        }
+        
+        return false
+    }
+    
+    func removeFiredWarnings() {
+        if let warningPoints = self.warningAngles {
+            for (index, angle) in warningPoints {
+                if (self.warningShouldBeRemoved(angle)) {
+                    self.removeWarning(index)
+                }
+            }
+        }
+        
+        self.setNeedsDisplay()
     }
     
     // MARK: Gestures and Events
@@ -153,7 +218,10 @@ class WarningSlider: CircularSlider {
     
     override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         if let warningIndex = self.draggedWarningIndex {
-            self.warningAngles[warningIndex] = self.warningAngleForPoint(touch.locationInView(self))
+            let startAngle = self.warningAngles[warningIndex]!
+            let endAngle = self.warningAngleForPoint(touch.locationInView(self))
+            
+            self.warningAngles[warningIndex] = self.getAngleForMovingWarning(startAngle: startAngle, updatedAngle: endAngle)
         }
         
         self.setNeedsDisplay()
@@ -166,7 +234,7 @@ class WarningSlider: CircularSlider {
             var warningTimes = [Int]()
 
             for (index, angle) in self.warningAngles {
-                if (self.getTimeUnitFromAngleInt(angle) == 0) {
+                if (self.warningShouldBeRemoved(angle)) {
                     self.removeWarning(index)
                 } else {
                     warningTimes.append(self.getTimeUnitFromAngleInt(angle))
@@ -175,6 +243,9 @@ class WarningSlider: CircularSlider {
             
             self.warningTimes = warningTimes
         }
+        
+        self.draggedWarningIndex = nil
+        self.setNeedsDisplay()
         
         self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
     }

@@ -45,10 +45,10 @@ class TimerProgressView: UIView {
         self.updateProgressBar(elapsedTime: Double(timeLeft))
         
         // add warning slider
-        let warningSlider = WarningSlider(color: UIColor.primaryTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
+        let warningSlider = WarningSlider(color: UIColor.warningTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
         self.addSubview(warningSlider)
         self.warningSlider = warningSlider
-        
+
         if let warningTimes = warnings {
             self.warningSlider.warningTimes = warningTimes
             self.warningSlider.numberOfWarnings = warningTimes.count
@@ -56,7 +56,10 @@ class TimerProgressView: UIView {
             
             for (index, warningTime) in enumerate(self.warningSlider.warningTimes) {
                 let warningAngle: Double = 90.0 - (Double(warningTime) * Double(360.0) / Double(self.warningSlider.maxTimeUnits))
-                self.warningSlider.warningAngles[index + 1] = warningAngle
+                
+                if (!warningSlider.warningShouldBeRemoved(warningAngle)) {
+                    self.warningSlider.warningAngles[index + 1] = warningAngle
+                }
             }
             
             self.warningSlider.setNeedsDisplay()
@@ -68,5 +71,6 @@ class TimerProgressView: UIView {
         let newAngle = circularProgressBar?.shiftAngleByAmount(angleDifference)
         
         circularProgressBar?.animateProgressBar(endAngle: newAngle!)
+        warningSlider?.maxAllowedAngle = 360.0 + newAngle!
     }
 }

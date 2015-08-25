@@ -16,11 +16,13 @@ class TimerProgressViewController: UIViewController {
     var timeLeft: Int! {
         didSet {
             self.updateTimerLabel()
+            self.timerProgressView.updateProgressBar()
             
             if let warnings = self.timerProgressView?.warningSlider?.warningTimes {
                 for warningTime in warnings {
                     if (timeLeft == warningTime) {
                         self.fireWarning()
+                        self.timerProgressView.warningSlider.removeFiredWarnings()
                     }
                 }
             }
@@ -60,7 +62,6 @@ class TimerProgressViewController: UIViewController {
         self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
         self.timerControlButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
         self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
-
         
         // start tracking timer
         nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
@@ -162,7 +163,6 @@ class TimerProgressViewController: UIViewController {
             self.delegate?.didFinishTimer(self)
         } else {
             timeLeft = self.timer.timeLeft()
-            self.timerProgressView.updateProgressBar()
         }
     }
     

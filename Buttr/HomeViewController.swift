@@ -128,6 +128,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         }
         
         self.animateButtrToZero()
+        self.hideResetButton()
     }
     
     @IBAction func onDoneTap(sender: UIButton) {
@@ -154,7 +155,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 }) {
                     [unowned self] (finished Bool) -> Void in
                     self.animateButtrToZero()
+                    self.hideResetButton()
                     self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
+                    self.resetButton.enabled = true
                 }
         }
     }
@@ -187,14 +190,12 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func animateButtrToZero() {
         if (self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.straightenHead()
-            self.hideResetButton()
         }
     }
     
     func animateButtrToActive() {
         if (!self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.tiltHead()
-            self.showResetButton()
         }
     }
     
@@ -238,6 +239,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func didClearTimerValue(sender: EditTimerViewController) {
         self.animateButtrToZero()
+        self.hideResetButton()
     }
     
     func didGiveTimerValue(sender: EditTimerViewController) {

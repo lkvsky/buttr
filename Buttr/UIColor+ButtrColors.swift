@@ -25,4 +25,9 @@ extension UIColor {
     class func tertiaryTextColor() -> UIColor {
         return UIColor(red: 246.0/255.0, green: 207.0/255.0, blue: 145.0/255.0, alpha: 1.0)
     }
+    
+    class func warningTextColor() -> UIColor {
+        return UIColor(red: 220.0/255.0, green: 199.0/255.0, blue: 165.0/255.0, alpha: 1.0)
+
+    }
 }
