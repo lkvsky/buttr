@@ -64,7 +64,11 @@ class TimerProgressViewController: UIViewController {
         self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
         
         // start tracking timer
-        nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+        if (self.timer.isPaused()) {
+            self.setPausedTimerState()
+        } else {
+            nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+        }
     }
     
     deinit {
@@ -154,6 +158,20 @@ class TimerProgressViewController: UIViewController {
         self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Top, relatedBy: .Equal, toItem: timerProgressView, attribute: .Bottom, multiplier: 1.0, constant: 8))
     }
     
+    func setPausedTimerState() {
+        nsTimerInstance?.invalidate()
+        timerIsPaused = true
+        timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
+        self.delegate?.didPauseTimer(self)
+    }
+    
+    func setTimerRestartState() {
+        nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+        timerIsPaused = false
+        timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
+        self.delegate?.didRestartTimer(self)
+    }
+    
     // MARK: Gestures and Events
     
     func timerFired() {
@@ -170,19 +188,11 @@ class TimerProgressViewController: UIViewController {
         if (timerIsPaused) {
             self.timer.resetStartTime()
             DataManager.sharedInstance.save()
-
-            nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
-            timerIsPaused = false
-            timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
-            self.delegate?.didRestartTimer(self)
+            self.setTimerRestartState()
         } else {
             self.timer.pauseTime = NSDate()
             DataManager.sharedInstance.save()
-            
-            nsTimerInstance.invalidate()
-            timerIsPaused = true
-            timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
-            self.delegate?.didPauseTimer(self)
+            self.setPausedTimerState()
         }
     }
     

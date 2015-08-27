@@ -21,6 +21,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
@@ -95,20 +96,29 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     // MARK: Gestures and Events
     
     func launchTimerOrEditScreen() {
-        for childVc in self.childViewControllers {
-            if let view = childVc.view {
-                view?.removeFromSuperview()
+        // make sure container is in correct position
+        self.containerView.transform = CGAffineTransformIdentity
+        var editChildVc: EditTimerViewController? = self.childViewControllers.first as? EditTimerViewController
+        var timer: Timer? = Timer.getCurrentTimer()
+        
+        if (nil == timer && nil != editChildVc) {
+            // do nothing
+        } else {
+            for childVc in self.childViewControllers {
+                if let view = childVc.view {
+                    view?.removeFromSuperview()
+                }
+                
+                childVc.removeFromParentViewController()
             }
             
-            childVc.removeFromParentViewController()
-        }
-        
-        if let timer = Timer.getCurrentTimer() {
-            self.addTimerProgressVC(timer)
-            self.animateButtrToActive()
-        } else {
-            self.addEditTimerVC()
-            self.animateButtrToZero()
+            if (nil != timer) {
+                self.addTimerProgressVC(timer!)
+                self.animateButtrToActive()
+            } else {
+                self.addEditTimerVC()
+                self.animateButtrToZero()
+            }
         }
         
         self.buttrTailAnimationTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "animateButtrTail", userInfo: nil, repeats: true)

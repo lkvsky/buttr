@@ -46,6 +46,7 @@ class TimerProgressView: UIView {
         
         // add warning slider
         let warningSlider = WarningSlider(color: UIColor.warningTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
+        warningSlider.maxAllowedAngle = 360.0 + self.circularProgressBar.currentAngle
         self.addSubview(warningSlider)
         self.warningSlider = warningSlider
 

@@ -31,7 +31,16 @@ extension Timer {
     }
     
     func timeLeft() -> Int {
-        return Int(self.duration) - Int(NSDate().timeIntervalSinceDate(self.startTime))
+        let duration: Double = Double(self.duration)
+        var elapsedTime: Double!
+        
+        if (self.isPaused()) {
+            elapsedTime = Double(self.pauseTime.timeIntervalSinceDate(self.startTime))
+        } else {
+            elapsedTime = Double(NSDate().timeIntervalSinceDate(self.startTime))
+        }
+    
+        return Int(duration - elapsedTime)
     }
     
     func isActive() -> Bool {
