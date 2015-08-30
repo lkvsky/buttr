@@ -21,7 +21,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
@@ -96,8 +95,15 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     // MARK: Gestures and Events
     
     func launchTimerOrEditScreen() {
-        // make sure container is in correct position
+        // make sure container is in correct position and reset button
+        // is in correct state
         self.containerView.transform = CGAffineTransformIdentity
+        self.hideResetButton() {
+            [unowned self] Void -> Void in
+            self.resetButton.enabled = true
+            self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
+        }
+        
         var editChildVc: EditTimerViewController? = self.childViewControllers.first as? EditTimerViewController
         var timer: Timer? = Timer.getCurrentTimer()
         
