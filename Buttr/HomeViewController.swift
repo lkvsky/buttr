@@ -95,14 +95,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     // MARK: Gestures and Events
     
     func launchTimerOrEditScreen() {
-        // make sure container is in correct position and reset button
-        // is in correct state
+        // make sure container is in correct position
         self.containerView.transform = CGAffineTransformIdentity
-        self.hideResetButton() {
-            [unowned self] Void -> Void in
-            self.resetButton.enabled = true
-            self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
-        }
         
         var editChildVc: EditTimerViewController? = self.childViewControllers.first as? EditTimerViewController
         var timer: Timer? = Timer.getCurrentTimer()
@@ -244,11 +238,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             
             // add timer progress vc
             self.addTimerProgressVC(timer)
-            self.hideResetButton() {
-                [unowned self] (Bool finished) -> Void in
-                self.resetButton.standardBackgroundImage = UIImage(named: "reset_speech_bubble")
-                self.resetButton.enabled = true
-            }
         }
     }
     

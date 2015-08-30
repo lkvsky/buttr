@@ -25,9 +25,11 @@ extension Timer {
     }
     
     func projectedEndDate() -> NSDate {
-        let date = self.startTime.dateByAddingTimeInterval(NSTimeInterval(self.duration))
+        if (self.hasStarted()) {
+            return self.startTime.dateByAddingTimeInterval(NSTimeInterval(self.duration))
+        }
         
-        return date
+        return NSDate().dateByAddingTimeInterval(NSTimeInterval(self.duration))
     }
     
     func timeLeft() -> Int {
@@ -45,7 +47,7 @@ extension Timer {
     }
     
     func isActive() -> Bool {
-        return self.hasStarted() && self.projectedEndDate().timeIntervalSinceNow > 0.0 && !self.canceled.boolValue
+        return self.hasStarted() && !self.canceled.boolValue
     }
     
     func hasStarted() -> Bool {
@@ -54,6 +56,10 @@ extension Timer {
         }
         
         return false
+    }
+    
+    func isDone() -> Bool {
+        return self.projectedEndDate().timeIntervalSinceNow <= 0.0
     }
     
     func addWarnings(warningTimes: [Int]) {

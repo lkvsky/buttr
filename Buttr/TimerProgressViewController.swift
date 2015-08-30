@@ -64,10 +64,12 @@ class TimerProgressViewController: UIViewController {
         self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
         
         // start tracking timer
-        if (self.timer.isPaused.boolValue) {
+        if (self.timer.isDone()) {
+            self.delegate?.didFinishTimer(self)
+        } else if (self.timer.isPaused.boolValue) {
             self.setPausedTimerState()
         } else if (self.timer.hasStarted()) {
-            nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+            self.setTimerRestartState()
         }
     }
     
