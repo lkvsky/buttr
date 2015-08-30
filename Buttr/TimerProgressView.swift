@@ -35,7 +35,7 @@ class TimerProgressView: UIView {
     
     // MARK: Public Methods
     
-    func startTimer(duration: Int = 60, timeLeft: Int = 0, warnings: [Int]? = nil) {
+    func setupTimerProgressView(duration: Int = 60, timeLeft: Int = 0, warnings: [Int]? = nil) {
         timerDuration = duration
         
         // add circular progress bar

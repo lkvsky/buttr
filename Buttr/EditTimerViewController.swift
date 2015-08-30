@@ -12,7 +12,7 @@ class EditTimerViewController: UIViewController {
     
     weak var timerLabelView: TimerLabelView!
     weak var timerControlView: TimerControlView!
-    weak var startButton: KeyPadControlButton!
+    weak var setTimerButton: KeyPadControlButton!
     
     var delegate: EditTimerDelegate?
     
@@ -26,7 +26,7 @@ class EditTimerViewController: UIViewController {
         self.view.setNeedsUpdateConstraints()
         self.view.backgroundColor = UIColor.backgroundColor()
         self.view.sendSubviewToBack(self.timerLabelView)
-        self.startButton.transform = CGAffineTransformMakeScale(0, 0)
+        self.setTimerButton.transform = CGAffineTransformMakeScale(0, 0)
         
         // initialize gestures and actions
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: .ValueChanged)
@@ -34,7 +34,7 @@ class EditTimerViewController: UIViewController {
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: .ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onRevolutionCompletion:", forControlEvents: .ApplicationReserved)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
-        startButton.addTarget(self, action: "onStartTap:", forControlEvents: .TouchUpInside)
+        setTimerButton.addTarget(self, action: "onSetTimerTap:", forControlEvents: .TouchUpInside)
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen:")
         self.view.addGestureRecognizer(tapGesture)
@@ -86,8 +86,8 @@ class EditTimerViewController: UIViewController {
         let startButton = KeyPadControlButton(frame: CGRectZero)
         startButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(startButton)
-        self.startButton = startButton
-        self.startButton.standardBackgroundImage = UIImage(named: "start_button")
+        self.setTimerButton = startButton
+        self.setTimerButton.standardBackgroundImage = UIImage(named: "start_button")
         
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 93.3333 : 120))
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
@@ -100,7 +100,7 @@ class EditTimerViewController: UIViewController {
     private func didClearTimerValue() {
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            self.startButton.transform = CGAffineTransformMakeScale(0, 0)
+            self.setTimerButton.transform = CGAffineTransformMakeScale(0, 0)
         })
         
         self.delegate?.didClearTimerValue(self)
@@ -109,7 +109,7 @@ class EditTimerViewController: UIViewController {
     private func didGiveTimerValue() {
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            self.startButton.transform = CGAffineTransformIdentity
+            self.setTimerButton.transform = CGAffineTransformIdentity
         })
         
         self.delegate?.didGiveTimerValue(self)
@@ -193,7 +193,7 @@ class EditTimerViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func onStartTap(sender: UIButton) {
+    func onSetTimerTap(sender: UIButton) {
         delegate?.didSetTimer(timerControlView.getTotalTime(), sender: self)
     }
     
@@ -202,7 +202,7 @@ class EditTimerViewController: UIViewController {
     func reset() {
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            self.startButton.transform = CGAffineTransformMakeScale(0, 0)
+            self.setTimerButton.transform = CGAffineTransformMakeScale(0, 0)
         })
         
         self.timerControlView.resetSliders()

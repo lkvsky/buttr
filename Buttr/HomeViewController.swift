@@ -232,7 +232,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // instantiate timer object
         let timer = Timer(context: DataManager.sharedInstance.mainMoc)
         timer.duration = duration
-        timer.startTime = NSDate()
         DataManager.sharedInstance.save()
         
         sender.timerControlView.animatedTransition()

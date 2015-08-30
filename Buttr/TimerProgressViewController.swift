@@ -59,14 +59,14 @@ class TimerProgressViewController: UIViewController {
 
         // init actions and animation
         self.timeLeft = self.timer.timeLeft()
-        self.timerProgressView.startTimer(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
+        self.timerProgressView.setupTimerProgressView(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
         self.timerControlButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
         self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
         
         // start tracking timer
-        if (self.timer.isPaused()) {
+        if (self.timer.isPaused.boolValue) {
             self.setPausedTimerState()
-        } else {
+        } else if (self.timer.hasStarted()) {
             nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
         }
     }
@@ -150,7 +150,7 @@ class TimerProgressViewController: UIViewController {
         timerControlButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerControlButton)
         self.timerControlButton = timerControlButton
-        self.timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
+        self.timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
         
         self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 93.3333 : 120))
         self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
@@ -185,11 +185,18 @@ class TimerProgressViewController: UIViewController {
     }
     
     func toggleTimerState() {
-        if (timerIsPaused) {
+        if (!self.timer.hasStarted()) {
+            self.timer.startTime = NSDate()
+            DataManager.sharedInstance.save()
+            self.timerFired()
+            self.setTimerRestartState()
+        } else if (timerIsPaused) {
+            self.timer.isPaused = NSNumber(bool: false)
             self.timer.resetStartTime()
             DataManager.sharedInstance.save()
             self.setTimerRestartState()
         } else {
+            self.timer.isPaused = NSNumber(bool: true)
             self.timer.pauseTime = NSDate()
             DataManager.sharedInstance.save()
             self.setPausedTimerState()

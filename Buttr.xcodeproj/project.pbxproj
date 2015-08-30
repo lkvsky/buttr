@@ -13,8 +13,8 @@
 		3C633D921B81107B007DC9AF /* Timer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D911B81107B007DC9AF /* Timer+Utilities.swift */; };
 		3C633D941B812220007DC9AF /* ButtrCartoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D931B812220007DC9AF /* ButtrCartoonView.swift */; };
 		3C633D981B812CF0007DC9AF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D971B812CF0007DC9AF /* HomeViewController.swift */; };
+		3C68E9C51B93AA35006BF764 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C41B93AA35006BF764 /* Timer.swift */; };
 		3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */; };
-		3C7CD16B1B82A4F700FEED2D /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16A1B82A4F700FEED2D /* Timer.swift */; };
 		3C7CD16D1B82A4F700FEED2D /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16C1B82A4F700FEED2D /* Warning.swift */; };
 		3C7CD16F1B82A7AC00FEED2D /* Warning+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16E1B82A7AC00FEED2D /* Warning+Utilities.swift */; };
 		3C7CD1B11B87C46100FEED2D /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD1B01B87C46100FEED2D /* CircularProgressBar.swift */; };
@@ -64,9 +64,10 @@
 		3C633D911B81107B007DC9AF /* Timer+Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Timer+Utilities.swift"; sourceTree = "<group>"; };
 		3C633D931B812220007DC9AF /* ButtrCartoonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtrCartoonView.swift; sourceTree = "<group>"; };
 		3C633D971B812CF0007DC9AF /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3C68E9C31B93AA0A006BF764 /* Butter0.0.11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.11.xcdatamodel; sourceTree = "<group>"; };
+		3C68E9C41B93AA35006BF764 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningSlider.swift; sourceTree = "<group>"; };
 		3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.6.xcdatamodel; sourceTree = "<group>"; };
-		3C7CD16A1B82A4F700FEED2D /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		3C7CD16C1B82A4F700FEED2D /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
 		3C7CD16E1B82A7AC00FEED2D /* Warning+Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Warning+Utilities.swift"; sourceTree = "<group>"; };
 		3C7CD1B01B87C46100FEED2D /* CircularProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
@@ -126,9 +127,9 @@
 		3CC0DABC1B77995D002FB268 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3C68E9C41B93AA35006BF764 /* Timer.swift */,
 				3C7CD16C1B82A4F700FEED2D /* Warning.swift */,
 				3C7CD16E1B82A7AC00FEED2D /* Warning+Utilities.swift */,
-				3C7CD16A1B82A4F700FEED2D /* Timer.swift */,
 				3C633D911B81107B007DC9AF /* Timer+Utilities.swift */,
 				3CF1FDC61B7D499C0017F1AE /* Buttr-Bridging-Header.h */,
 			);
@@ -402,7 +403,6 @@
 				3C633D941B812220007DC9AF /* ButtrCartoonView.swift in Sources */,
 				3C7CD1B31B87CBE800FEED2D /* HandleView.swift in Sources */,
 				3C633D981B812CF0007DC9AF /* HomeViewController.swift in Sources */,
-				3C7CD16B1B82A4F700FEED2D /* Timer.swift in Sources */,
 				3CF1FDB61B7CFC860017F1AE /* DataManager.swift in Sources */,
 				3C7CD16F1B82A7AC00FEED2D /* Warning+Utilities.swift in Sources */,
 				3CE7F9FB1B73DF870015EED7 /* TimerControlView.swift in Sources */,
@@ -421,6 +421,7 @@
 				3CC0DAC21B79149E002FB268 /* TimerProgressView.swift in Sources */,
 				3CF1FD811B7C4C700017F1AE /* KeyPadControlButton.swift in Sources */,
 				3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */,
+				3C68E9C51B93AA35006BF764 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,11 +651,12 @@
 		3CE7F9D51B73B75A0015EED7 /* Buttr.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3C68E9C31B93AA0A006BF764 /* Butter0.0.11.xcdatamodel */,
 				3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */,
 				3C633D8E1B7ECC4A007DC9AF /* Butter0.0.5.xcdatamodel */,
 				3CE7F9D61B73B75A0015EED7 /* Buttr.xcdatamodel */,
 			);
-			currentVersion = 3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */;
+			currentVersion = 3C68E9C31B93AA0A006BF764 /* Butter0.0.11.xcdatamodel */;
 			path = Buttr.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

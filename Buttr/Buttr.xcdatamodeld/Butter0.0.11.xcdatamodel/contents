@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="0.0.11" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14F27" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Timer" representedClassName="Buttr.Timer" syncable="YES">
+        <attribute name="canceled" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="isPaused" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="pauseTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="warnings" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Warning" inverseName="timer" inverseEntity="Warning" syncable="YES"/>
+    </entity>
+    <entity name="Warning" representedClassName="Buttr.Warning" syncable="YES">
+        <attribute name="elapsedTime" optional="YES" attributeType="Integer 32" minValueString="0" defaultValueString="0" syncable="YES"/>
+        <relationship name="timer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Timer" inverseName="warnings" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Timer" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Warning" positionX="106" positionY="-18" width="128" height="73"/>
+    </elements>
+</model>

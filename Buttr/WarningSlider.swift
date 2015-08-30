@@ -164,12 +164,15 @@ class WarningSlider: CircularSlider {
     func warningShouldBeRemoved(warningAngle: Double) -> Bool {
         let warningTime = self.getTimeUnitFromAngleInt(warningAngle)
         let timeLeft = self.getTimeUnitFromAngleInt(maxAllowedAngle)
+        let warningIsAtZero = warningTime == 0
         
-        if (warningTime >= timeLeft || warningTime == 0) {
-            return true
+        // check if timer hasn't started yet
+        if (maxAllowedAngle == Config.BT_STARTING_ANGLE) {
+            return warningIsAtZero
         }
         
-        return false
+        // otherwise remove if warning has exceeded the time left, or is at zero
+        return warningTime >= timeLeft || warningIsAtZero
     }
     
     func removeFiredWarnings() {

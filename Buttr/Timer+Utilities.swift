@@ -19,9 +19,9 @@ extension Timer {
     // MARK: Instance Methods
     
     func resetStartTime() {
-        let durationInt = Int(self.duration)
-        let timeLeftToTrack = Int(self.duration) + Int(self.startTime.timeIntervalSinceDate(self.pauseTime))
-        self.startTime = NSDate(timeIntervalSinceNow: -NSTimeInterval(durationInt - timeLeftToTrack))
+        let duration = Double(self.duration)
+        let timeLeftToTrack = Double(self.duration) + Double(self.startTime.timeIntervalSinceDate(self.pauseTime))
+        self.startTime = NSDate(timeIntervalSinceNow: -NSTimeInterval(duration - timeLeftToTrack))
     }
     
     func projectedEndDate() -> NSDate {
@@ -32,11 +32,12 @@ extension Timer {
     
     func timeLeft() -> Int {
         let duration: Double = Double(self.duration)
-        var elapsedTime: Double!
+        var elapsedTime: Double = 0
         
-        if (self.isPaused()) {
+        
+        if (self.isPaused.boolValue) {
             elapsedTime = Double(self.pauseTime.timeIntervalSinceDate(self.startTime))
-        } else {
+        } else if (self.hasStarted()) {
             elapsedTime = Double(NSDate().timeIntervalSinceDate(self.startTime))
         }
     
@@ -44,11 +45,15 @@ extension Timer {
     }
     
     func isActive() -> Bool {
-        return self.projectedEndDate().timeIntervalSinceNow > 0.0 && !self.canceled.boolValue
+        return self.hasStarted() && self.projectedEndDate().timeIntervalSinceNow > 0.0 && !self.canceled.boolValue
     }
     
-    func isPaused() -> Bool {
-        return self.pauseTime.timeIntervalSinceDate(self.startTime) > 0.0
+    func hasStarted() -> Bool {
+        if let startTime = self.startTime {
+            return true
+        }
+        
+        return false
     }
     
     func addWarnings(warningTimes: [Int]) {
