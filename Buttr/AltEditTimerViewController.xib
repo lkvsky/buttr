@@ -4,6 +4,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="Bitter-Bold.otf">
+            <string>Bitter-Bold</string>
+        </mutableArray>
         <mutableArray key="Lato-Regular.ttf">
             <string>Lato-Regular</string>
             <string>Lato-Regular</string>
@@ -18,11 +21,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AltEditTimerViewController" customModule="Buttr" customModuleProvider="target">
             <connections>
-                <outlet property="cancelKey" destination="0pf-65-8Zl" id="e8g-6e-qoB"/>
                 <outlet property="hoursLabel" destination="M0F-SA-HLm" id="ba2-zC-FT1"/>
                 <outlet property="minutesLabel" destination="G5c-0R-quf" id="Egl-5W-mlC"/>
                 <outlet property="secondsLabel" destination="uhg-lX-XkH" id="HNU-E5-1aD"/>
-                <outlet property="startKey" destination="826-GZ-Erl" id="ccp-4l-YZB"/>
+                <outlet property="timeKeyContainer" destination="2yq-gB-3fN" id="F3X-sg-1ZU"/>
+                <outlet property="timerLabelContainer" destination="1CD-9X-cyI" id="pM2-o2-H5W"/>
                 <outlet property="topLayoutConstraint" destination="sGv-7s-uFd" id="Hji-pd-rH0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="timeKeys" destination="9JN-3Y-svs" collectionClass="NSMutableArray" id="9dg-hS-1Ak"/>
@@ -50,8 +53,23 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcF-Cn-UNf">
+                    <rect key="frame" x="0.0" y="534" width="600" height="66"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="66" id="KoJ-cL-vGs"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
+                    <state key="normal" title="DONE">
+                        <color key="titleColor" red="0.87450980389999999" green="0.66274509800000003" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onCloseKeyTap" destination="-1" eventType="touchUpInside" id="Y10-vs-dvS"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yq-gB-3fN">
-                    <rect key="frame" x="171" y="244" width="259" height="348"/>
+                    <rect key="frame" x="171" y="136" width="259" height="348"/>
                     <subviews>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JN-3Y-svs" customClass="PawButton" customModule="Buttr" customModuleProvider="target">
                             <rect key="frame" x="8" y="8" width="58" height="66"/>
@@ -170,23 +188,6 @@
                                 <action selector="onTimeKeyTap:" destination="-1" eventType="touchUpInside" id="ijb-gs-UId"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pf-65-8Zl" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
-                            <rect key="frame" x="8" y="305" width="58" height="36"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="36" id="3pL-TL-1g5"/>
-                                <constraint firstAttribute="width" constant="58" id="e1O-xc-dXk"/>
-                            </constraints>
-                            <state key="normal" backgroundImage="delete_button">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="delete_button"/>
-                                <userDefinedRuntimeAttribute type="image" keyPath="highlightedBackgroundImage" value="delete_button_filled"/>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="onDeleteTap" destination="-1" eventType="touchUpInside" id="5wa-vE-mwf"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KR2-C4-yyl" customClass="PawButton" customModule="Buttr" customModuleProvider="target">
                             <rect key="frame" x="98" y="275" width="58" height="66"/>
                             <constraints>
@@ -200,35 +201,15 @@
                                 <action selector="onTimeKeyTap:" destination="-1" eventType="touchUpInside" id="QJG-Xc-1Vy"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="826-GZ-Erl" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
-                            <rect key="frame" x="188" y="304" width="58" height="36"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="58" id="LzG-zQ-bya"/>
-                                <constraint firstAttribute="height" constant="36" id="nTF-78-Rr4"/>
-                            </constraints>
-                            <state key="normal" backgroundImage="okay_button">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="okay_button"/>
-                                <userDefinedRuntimeAttribute type="image" keyPath="highlightedBackgroundImage" value="okay_button_filled"/>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="onStartKeyTap" destination="-1" eventType="touchUpInside" id="Aja-p9-tpz"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="fyB-fn-r8n" firstAttribute="leading" secondItem="2yq-gB-3fN" secondAttribute="leading" constant="8" id="08o-8O-fyc"/>
                         <constraint firstItem="Zhx-hJ-Igz" firstAttribute="leading" secondItem="GaE-je-CDh" secondAttribute="trailing" constant="32" id="1Y2-0a-6ho"/>
                         <constraint firstItem="9JN-3Y-svs" firstAttribute="leading" secondItem="2yq-gB-3fN" secondAttribute="leading" constant="8" id="2On-V7-Ydj"/>
                         <constraint firstItem="95p-My-hph" firstAttribute="leading" secondItem="maT-1Z-ppH" secondAttribute="trailing" constant="32" id="4O3-XD-hUv"/>
-                        <constraint firstItem="826-GZ-Erl" firstAttribute="top" secondItem="95p-My-hph" secondAttribute="bottom" constant="50" id="74r-uK-1n5"/>
-                        <constraint firstItem="826-GZ-Erl" firstAttribute="top" secondItem="95p-My-hph" secondAttribute="bottom" constant="50" id="7cG-Xp-5ab"/>
                         <constraint firstItem="HUv-hD-746" firstAttribute="leading" secondItem="Z4E-zx-sdO" secondAttribute="trailing" constant="32" id="C2j-7N-e6X"/>
                         <constraint firstItem="Zhx-hJ-Igz" firstAttribute="leading" secondItem="GaE-je-CDh" secondAttribute="trailing" constant="32" id="CvW-UW-isr"/>
                         <constraint firstItem="GaE-je-CDh" firstAttribute="leading" secondItem="9JN-3Y-svs" secondAttribute="trailing" constant="32" id="D1d-gP-LDh"/>
-                        <constraint firstItem="KR2-C4-yyl" firstAttribute="leading" secondItem="0pf-65-8Zl" secondAttribute="trailing" constant="32" id="E50-hg-ebO"/>
                         <constraint firstItem="HUv-hD-746" firstAttribute="top" secondItem="Zhx-hJ-Igz" secondAttribute="bottom" constant="24" id="HQa-rd-seu"/>
                         <constraint firstAttribute="trailing" secondItem="95p-My-hph" secondAttribute="trailing" constant="13" id="IHH-ZR-hat"/>
                         <constraint firstItem="Z4E-zx-sdO" firstAttribute="leading" secondItem="fyB-fn-r8n" secondAttribute="trailing" constant="32" id="LIv-FU-sUH"/>
@@ -244,29 +225,25 @@
                         <constraint firstItem="Z4E-zx-sdO" firstAttribute="leading" secondItem="fyB-fn-r8n" secondAttribute="trailing" constant="32" id="YQ3-Lv-KCn"/>
                         <constraint firstAttribute="trailing" secondItem="Zhx-hJ-Igz" secondAttribute="trailing" constant="13" id="bAb-Hw-gmB"/>
                         <constraint firstItem="9JN-3Y-svs" firstAttribute="top" secondItem="2yq-gB-3fN" secondAttribute="top" constant="8" id="beP-yn-fhb"/>
+                        <constraint firstItem="KR2-C4-yyl" firstAttribute="leading" secondItem="maT-1Z-ppH" secondAttribute="leading" id="csQ-c6-noO"/>
                         <constraint firstItem="95p-My-hph" firstAttribute="top" secondItem="HUv-hD-746" secondAttribute="bottom" constant="24" id="esz-aO-7Eh"/>
                         <constraint firstItem="Z4E-zx-sdO" firstAttribute="top" secondItem="GaE-je-CDh" secondAttribute="bottom" constant="24" id="fsy-en-ZjA"/>
-                        <constraint firstItem="826-GZ-Erl" firstAttribute="leading" secondItem="KR2-C4-yyl" secondAttribute="trailing" constant="32" id="gHt-UK-V6R"/>
                         <constraint firstItem="95p-My-hph" firstAttribute="top" secondItem="HUv-hD-746" secondAttribute="bottom" constant="24" id="gQO-0s-Vw0"/>
                         <constraint firstItem="fyB-fn-r8n" firstAttribute="top" secondItem="9JN-3Y-svs" secondAttribute="bottom" constant="24" id="hPH-K0-tR3"/>
-                        <constraint firstItem="826-GZ-Erl" firstAttribute="leading" secondItem="KR2-C4-yyl" secondAttribute="trailing" constant="32" id="jZC-xO-Yzi"/>
                         <constraint firstAttribute="trailing" secondItem="HUv-hD-746" secondAttribute="trailing" constant="13" id="kdW-C3-ugk"/>
                         <constraint firstItem="maT-1Z-ppH" firstAttribute="top" secondItem="Z4E-zx-sdO" secondAttribute="bottom" constant="24" id="ngo-x0-TUy"/>
                         <constraint firstItem="KdK-Xn-SvS" firstAttribute="top" secondItem="fyB-fn-r8n" secondAttribute="bottom" constant="24" id="njJ-To-J01"/>
-                        <constraint firstAttribute="bottom" secondItem="826-GZ-Erl" secondAttribute="bottom" constant="8" id="pUF-iD-943"/>
                         <constraint firstItem="Zhx-hJ-Igz" firstAttribute="top" secondItem="2yq-gB-3fN" secondAttribute="top" constant="8" id="rhD-P9-zIL"/>
                         <constraint firstItem="maT-1Z-ppH" firstAttribute="leading" secondItem="KdK-Xn-SvS" secondAttribute="trailing" constant="32" id="rkX-NT-2qz"/>
                         <constraint firstItem="KR2-C4-yyl" firstAttribute="top" secondItem="maT-1Z-ppH" secondAttribute="bottom" constant="21" id="roh-lZ-0XD"/>
                         <constraint firstItem="GaE-je-CDh" firstAttribute="top" secondItem="2yq-gB-3fN" secondAttribute="top" constant="8" id="t0A-UL-Vqc"/>
                         <constraint firstItem="maT-1Z-ppH" firstAttribute="leading" secondItem="KdK-Xn-SvS" secondAttribute="trailing" constant="32" id="tY6-bH-LuB"/>
                         <constraint firstItem="KdK-Xn-SvS" firstAttribute="top" secondItem="fyB-fn-r8n" secondAttribute="bottom" constant="24" id="uKZ-7r-aOl"/>
-                        <constraint firstItem="0pf-65-8Zl" firstAttribute="top" secondItem="KdK-Xn-SvS" secondAttribute="bottom" constant="51" id="uU5-eU-gnb"/>
-                        <constraint firstAttribute="trailing" secondItem="826-GZ-Erl" secondAttribute="trailing" constant="13" id="yOG-wK-Dfi"/>
                         <constraint firstItem="maT-1Z-ppH" firstAttribute="top" secondItem="Z4E-zx-sdO" secondAttribute="bottom" constant="24" id="ylW-Ap-OeW"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1CD-9X-cyI">
-                    <rect key="frame" x="125" y="72" width="350" height="111"/>
+                    <rect key="frame" x="125" y="44" width="350" height="111"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0F-SA-HLm">
                             <rect key="frame" x="32" y="8" width="74" height="97"/>
@@ -375,21 +352,46 @@
                         <constraint firstItem="9NJ-lF-YOw" firstAttribute="top" secondItem="M0F-SA-HLm" secondAttribute="bottom" constant="-23" id="y4Z-Ve-edg"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pf-65-8Zl" customClass="KeyPadControlButton" customModule="Buttr" customModuleProvider="target">
+                    <rect key="frame" x="561" y="87" width="31" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="3pL-TL-1g5"/>
+                        <constraint firstAttribute="width" constant="31" id="e1O-xc-dXk"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="delete_key">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="image" keyPath="standardBackgroundImage" value="delete_key"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onDeleteTap" destination="-1" eventType="touchUpInside" id="5wa-vE-mwf"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="zcF-Cn-UNf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="0Zi-gY-ZEm"/>
                 <constraint firstAttribute="centerX" secondItem="1CD-9X-cyI" secondAttribute="centerX" id="0lk-B3-wpm"/>
-                <constraint firstAttribute="bottom" secondItem="2yq-gB-3fN" secondAttribute="bottom" constant="8" id="Yo9-ni-eWT"/>
+                <constraint firstItem="1CD-9X-cyI" firstAttribute="centerY" secondItem="0pf-65-8Zl" secondAttribute="centerY" id="8HQ-EB-2Ef"/>
+                <constraint firstAttribute="trailing" secondItem="0pf-65-8Zl" secondAttribute="trailing" constant="8" id="Cf7-Uf-QxK"/>
+                <constraint firstAttribute="bottom" secondItem="zcF-Cn-UNf" secondAttribute="bottom" id="Y7g-rJ-rV5"/>
+                <constraint firstItem="zcF-Cn-UNf" firstAttribute="top" secondItem="2yq-gB-3fN" secondAttribute="bottom" constant="50" id="Yul-Bm-w4w"/>
                 <constraint firstAttribute="centerX" secondItem="2yq-gB-3fN" secondAttribute="centerX" id="ZGx-yp-xjS"/>
-                <constraint firstItem="1CD-9X-cyI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="72" id="sGv-7s-uFd"/>
+                <constraint firstItem="0pf-65-8Zl" firstAttribute="leading" secondItem="1CD-9X-cyI" secondAttribute="trailing" constant="8" id="now-h4-jpt"/>
+                <constraint firstItem="1CD-9X-cyI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="sGv-7s-uFd"/>
+                <constraint firstAttribute="trailing" secondItem="zcF-Cn-UNf" secondAttribute="trailing" id="xHG-9I-bL6"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="now-h4-jpt"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="397" y="324"/>
         </view>
     </objects>
     <resources>
-        <image name="delete_button" width="61" height="38"/>
-        <image name="delete_button_filled" width="60" height="38"/>
-        <image name="okay_button" width="60" height="38"/>
-        <image name="okay_button_filled" width="60" height="38"/>
+        <image name="delete_key" width="32" height="27"/>
         <image name="paw_print" width="59" height="67"/>
     </resources>
 </document>

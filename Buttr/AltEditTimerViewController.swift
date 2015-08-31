@@ -11,9 +11,9 @@ import UIKit
 class AltEditTimerViewController: UIViewController {
     
     // buttons
-    @IBOutlet var timeKeys: [UIButton]!
-    @IBOutlet var startKey: UIButton!
-    @IBOutlet var cancelKey: UIButton!
+    @IBOutlet var timeKeys: [PawButton]!
+    @IBOutlet weak var timeKeyContainer: UIView!
+    @IBOutlet weak var timerLabelContainer: UIView!
     
     // labels
     @IBOutlet var tertiaryColorLabels: [UILabel]!
@@ -50,6 +50,9 @@ class AltEditTimerViewController: UIViewController {
         
         if (UIScreen.mainScreen().bounds.size.width <= 320) {
             self.topLayoutConstraint.constant = 8
+            var translationTransform = CGAffineTransformMakeTranslation(0, 60)
+            self.timeKeyContainer.transform = CGAffineTransformScale(translationTransform, 0.8, 0.8)
+            self.timerLabelContainer.transform = CGAffineTransformMakeScale(0.8, 0.8)
         }
     }
     
@@ -89,12 +92,17 @@ class AltEditTimerViewController: UIViewController {
         }
     }
     
-    @IBAction func onStartKeyTap() {
+    @IBAction func onCloseKeyTap() {
         let parsedTime = self.parseTime()
         let totalSeconds = parsedTime["seconds"]! + (parsedTime["minutes"]! * 60) + (parsedTime["hours"]! * 3600)
-        let actualTimes = ["seconds": totalSeconds % 60, "minutes": (totalSeconds / 60) % 60, "hours": totalSeconds / 3600]
         
-        NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: ["times": actualTimes])
+        if (totalSeconds == 0) {
+            NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: nil)
+        } else {
+            let actualTimes = ["seconds": totalSeconds % 60, "minutes": (totalSeconds / 60) % 60, "hours": totalSeconds / 3600]
+            NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: ["times": actualTimes])
+        }
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

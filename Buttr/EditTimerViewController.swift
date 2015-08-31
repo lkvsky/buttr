@@ -87,9 +87,9 @@ class EditTimerViewController: UIViewController {
         startButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(startButton)
         self.setTimerButton = startButton
-        self.setTimerButton.standardBackgroundImage = UIImage(named: "start_button")
+        self.setTimerButton.standardBackgroundImage = UIImage(named: "set_timer_button")
         
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 93.3333 : 120))
+        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 152 : 179))
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Top, relatedBy: .Equal, toItem: timerControlView, attribute: .Bottom, multiplier: 1.0, constant: 8))
@@ -176,18 +176,19 @@ class EditTimerViewController: UIViewController {
     }
     
     func onAltTimerSet(notification: NSNotification) {
-        let timeSet = notification.userInfo!["times"] as! [String: Int]
-        
-        timerControlView.resetSliders()
-        timerLabelView.setTime(seconds: timeSet["seconds"]!, minutes: timeSet["minutes"]!, hours: timeSet["hours"]!)
-        timerControlView.secondSlider.addTimeUnitByAmmount(timeSet["seconds"]!)
-        timerControlView.minuteSlider.addTimeUnitByAmmount(timeSet["minutes"]!)
-        timerControlView.hourSlider.addTimeUnitByAmmount(timeSet["hours"]!)
-        
-        if (timerControlView.getTotalTime() == 0) {
-            self.didClearTimerValue()
-        } else {
-            self.didGiveTimerValue()
+        if let userInfo = notification.userInfo {
+            let timeSet = userInfo["times"] as! [String: Int]
+            timerControlView.resetSliders()
+            timerLabelView.setTime(seconds: timeSet["seconds"]!, minutes: timeSet["minutes"]!, hours: timeSet["hours"]!)
+            timerControlView.secondSlider.addTimeUnitByAmmount(timeSet["seconds"]!)
+            timerControlView.minuteSlider.addTimeUnitByAmmount(timeSet["minutes"]!)
+            timerControlView.hourSlider.addTimeUnitByAmmount(timeSet["hours"]!)
+            
+            if (timerControlView.getTotalTime() == 0) {
+                self.didClearTimerValue()
+            } else {
+                self.didGiveTimerValue()
+            }
         }
         
         NSNotificationCenter.defaultCenter().removeObserver(self)
