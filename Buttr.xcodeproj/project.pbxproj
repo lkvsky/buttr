@@ -14,6 +14,7 @@
 		3C633D941B812220007DC9AF /* ButtrCartoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D931B812220007DC9AF /* ButtrCartoonView.swift */; };
 		3C633D981B812CF0007DC9AF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D971B812CF0007DC9AF /* HomeViewController.swift */; };
 		3C68E9C51B93AA35006BF764 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C41B93AA35006BF764 /* Timer.swift */; };
+		3C68E9C71B962096006BF764 /* TimerDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C61B962096006BF764 /* TimerDoneView.swift */; };
 		3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */; };
 		3C7CD16D1B82A4F700FEED2D /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16C1B82A4F700FEED2D /* Warning.swift */; };
 		3C7CD16F1B82A7AC00FEED2D /* Warning+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16E1B82A7AC00FEED2D /* Warning+Utilities.swift */; };
@@ -66,6 +67,7 @@
 		3C633D971B812CF0007DC9AF /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3C68E9C31B93AA0A006BF764 /* Butter0.0.11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.11.xcdatamodel; sourceTree = "<group>"; };
 		3C68E9C41B93AA35006BF764 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		3C68E9C61B962096006BF764 /* TimerDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerDoneView.swift; sourceTree = "<group>"; };
 		3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningSlider.swift; sourceTree = "<group>"; };
 		3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.6.xcdatamodel; sourceTree = "<group>"; };
 		3C7CD16C1B82A4F700FEED2D /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				3CF1FD801B7C4C700017F1AE /* KeyPadControlButton.swift */,
 				3C633D931B812220007DC9AF /* ButtrCartoonView.swift */,
 				3C7CD1B21B87CBE800FEED2D /* HandleView.swift */,
+				3C68E9C61B962096006BF764 /* TimerDoneView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */,
 				3CE7F9D41B73B75A0015EED7 /* AppDelegate.swift in Sources */,
 				3CE7F9D71B73B75A0015EED7 /* Buttr.xcdatamodeld in Sources */,
+				3C68E9C71B962096006BF764 /* TimerDoneView.swift in Sources */,
 				3CE7F9F91B73C0270015EED7 /* CircularSlider.swift in Sources */,
 				3CC0DAC61B791B0F002FB268 /* TimerProgressViewController.swift in Sources */,
 				3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */,

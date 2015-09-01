@@ -272,7 +272,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 [unowned self]() -> Void in
                 // slide up container to expose done button
                 self.containerView.transform = CGAffineTransformMakeTranslation(0, -66.0)
-                sender.view.transform = CGAffineTransformMakeScale(0, 0)
             }, completion: nil)
     }
     

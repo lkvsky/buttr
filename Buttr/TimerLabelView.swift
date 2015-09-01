@@ -146,7 +146,7 @@ class TimerLabelView: UIView {
     private func createUnitLabel(boundView: UIView, textColor: UIColor) -> UILabel {
         let unitTextLabel = UILabel()
         unitTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        unitTextLabel.font = UIFont(name: "Lato-Regular", size: 17)
+        unitTextLabel.font = UIFont(name: "Lato-Light", size: 24)
         unitTextLabel.textColor = textColor
         unitTextLabel.textAlignment = .Center
         unitTextLabel.backgroundColor = UIColor.backgroundColor()
