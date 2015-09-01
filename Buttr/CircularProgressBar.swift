@@ -18,15 +18,17 @@ class CircularProgressBar: UIView {
     var currentAngle: Double = Config.BT_STARTING_ANGLE
     var clockwise: Bool = false
     var drawTracks: Bool = false
+    var trackCount: Int = 59
     var color: UIColor!
     
-    init(color: UIColor, frame: CGRect, clockwise: Bool = false, drawTracks: Bool = false) {
+    init(color: UIColor, frame: CGRect, clockwise: Bool = false, drawTracks: Bool = false, trackCount: Int = 59) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
         radius = (self.frame.size.width / 2) - Config.BT_SLIDER_PADDING
         self.clockwise = clockwise
         self.drawTracks = drawTracks
         self.color = color
+        self.trackCount = trackCount
         
         // layer for the animated portion of the progress bar
         animatedArcLayer = CAShapeLayer()
@@ -47,7 +49,7 @@ class CircularProgressBar: UIView {
         self.layer.addSublayer(staticLayer)
         
         // add progress bar handle
-        let handleView = HandleView(color: color, frame: HandleView.rectForHandle(self.center, radius: radius))
+        let handleView = HandleView(color: color, frame: HandleView.rectForHandle(self.getCircleCenterBasedOnHandle(), radius: radius))
         self.addSubview(handleView)
         self.handleView = handleView
     }
@@ -63,9 +65,9 @@ class CircularProgressBar: UIView {
             
             self.color.set()
             
-            for i in 0...59 {
-                let circleCenter = CGPointMake(self.frame.size.width/2.0 - Config.BT_HANDLE_WIDTH/2.0, self.frame.size.height/2.0 - Config.BT_HANDLE_WIDTH/2.0)
-                let angleVal = Double(i) * 6.0
+            for i in 0...trackCount {
+                let circleCenter = self.getCircleCenterBasedOnHandle()
+                let angleVal = Double(i) * (360.0 / (Double(trackCount) + 1.0))
                 let notchPoint: CGPoint = MathHelpers.pointOnCircumference(angleVal, circleCenter: circleCenter, radius: radius)
                 let offset: CGFloat = Config.BT_HANDLE_WIDTH / 2 - 1.5
                 
@@ -90,15 +92,19 @@ class CircularProgressBar: UIView {
         return endAngle
     }
     
+    private func getCircleCenterBasedOnHandle() -> CGPoint {
+        return CGPointMake(self.frame.size.width/2.0 - Config.BT_HANDLE_WIDTH/2.0, self.frame.size.height/2.0 - Config.BT_HANDLE_WIDTH/2.0)
+    }
+    
     // abstraction method for generating arced bezier path
-    func getArcedPath(#center: CGPoint, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool) -> UIBezierPath {
+    private func getArcedPath(#center: CGPoint, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool) -> UIBezierPath {
         let staticPath = UIBezierPath()
         staticPath.addArcWithCenter(center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
         
         return staticPath
     }
     
-    func getStrokeAnimation(#clockwise: Bool) -> CABasicAnimation {
+    private func getStrokeAnimation(#clockwise: Bool) -> CABasicAnimation {
         let arcAnimation = CABasicAnimation(keyPath: "strokeEnd")
         arcAnimation.duration = 0.3
         arcAnimation.repeatCount = 0
@@ -117,7 +123,7 @@ class CircularProgressBar: UIView {
         return arcAnimation
     }
     
-    func getHandleAnimationObject() -> CAKeyframeAnimation {
+    private func getHandleAnimationObject() -> CAKeyframeAnimation {
         let handleAnimation = CAKeyframeAnimation(keyPath: "position")
         handleAnimation.duration = 0.3
         handleAnimation.repeatCount = 0
@@ -127,6 +133,26 @@ class CircularProgressBar: UIView {
     }
     
     // MARK: Public Methods
+    
+    func animateProgresBarReveal(completion: ((Bool) -> Void)? = nil) {
+        let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - 91)))
+        let endAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
+        let center = CGPoint(x: self.frame.size.width / 2.0, y: self.frame.size.height / 2.0)
+        let animationPath = self.getArcedPath(center: center, startAngle: originAngle, endAngle: endAngle, clockwise: false)
+        let arcAnimation = self.getStrokeAnimation(clockwise: false)
+        
+        self.handleView.layer.opacity = 0
+        self.handleView.transform = CGAffineTransformMakeTranslation(0, -10)
+        animatedArcLayer.path = animationPath.CGPath
+        animatedArcLayer.strokeColor = UIColor.backgroundColor().CGColor
+        animatedArcLayer.addAnimation(arcAnimation, forKey: "progressBarReveal")
+        
+        UIView.animateWithDuration(0.3, delay: 0.3, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.handleView.layer.opacity = 1
+            self.handleView.transform = CGAffineTransformIdentity
+        }, completion: completion)
+    }
     
     func animateProgressBar(#endAngle: Double) {
         let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))

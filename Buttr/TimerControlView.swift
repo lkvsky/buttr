@@ -41,6 +41,7 @@ import UIKit
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.backgroundColor = UIColor.clearColor()
         self.addSliders()
+        self.animatedInitialization()
     }
     
     override init(frame: CGRect) {
@@ -49,6 +50,9 @@ import UIKit
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.backgroundColor = UIColor.clearColor()
         self.addSliders()
+        
+        // test intro animation
+        self.animatedInitialization()
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -93,16 +97,61 @@ import UIKit
         self.hourSlider.setNeedsDisplay()
     }
     
-    func animatedTransition() {
-        let hourProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true)
+    func animatedInitialization() {
+        let hourProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true, trackCount: 23)
         hourProgress.center = hourSlider.center
         hourProgress.currentAngle = hourSlider.angle
         
-        let minuteProgress = CircularProgressBar(color: UIColor.primaryTextColor(), frame: self.minuteSlider.bounds, clockwise: true, drawTracks: true)
+        let minuteProgress = CircularProgressBar(color: UIColor.primaryTextColor(), frame: self.minuteSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
         minuteProgress.center = minuteSlider.center
         minuteProgress.currentAngle = minuteSlider.angle
         
-        let secondProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true)
+        let secondProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
+        secondProgress.center = secondSlider.center
+        secondProgress.currentAngle = secondSlider.angle
+        
+        self.addSubview(hourProgress)
+        self.addSubview(secondProgress)
+        self.addSubview(minuteProgress)
+        
+        self.hourSlider.layer.opacity = 0
+        self.minuteSlider.layer.opacity = 0
+        self.secondSlider.layer.opacity = 0
+        
+        hourProgress.animateProgresBarReveal() {
+            [unowned self] (Bool finished) -> Void in
+            if (finished) {
+                hourProgress.removeFromSuperview()
+                self.hourSlider.layer.opacity = 1
+            }
+        }
+        minuteProgress.animateProgresBarReveal() {
+            [unowned self] (Bool finished) -> Void in
+            if (finished) {
+                minuteProgress.removeFromSuperview()
+                self.minuteSlider.layer.opacity = 1
+            }
+        }
+        secondProgress.animateProgresBarReveal() {
+            [unowned self] (Bool finished) -> Void in
+            if (finished) {
+                secondProgress.removeFromSuperview()
+                self.secondSlider.layer.opacity = 1
+            }
+        }
+        
+    }
+    
+    func animatedTransition() {
+        let hourProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true, trackCount: 23)
+        hourProgress.center = hourSlider.center
+        hourProgress.currentAngle = hourSlider.angle
+        
+        let minuteProgress = CircularProgressBar(color: UIColor.primaryTextColor(), frame: self.minuteSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
+        minuteProgress.center = minuteSlider.center
+        minuteProgress.currentAngle = minuteSlider.angle
+        
+        let secondProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
         secondProgress.center = secondSlider.center
         secondProgress.currentAngle = secondSlider.angle
         
