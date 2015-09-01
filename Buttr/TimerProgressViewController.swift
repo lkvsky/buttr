@@ -70,6 +70,8 @@ class TimerProgressViewController: UIViewController {
             self.setPausedTimerState()
         } else if (self.timer.hasStarted()) {
             self.setTimerRestartState()
+        } else {
+            self.delegate?.shouldShowSetWarningPrompt(self)
         }
     }
     
@@ -192,6 +194,7 @@ class TimerProgressViewController: UIViewController {
             DataManager.sharedInstance.save()
             self.timerFired()
             self.setTimerRestartState()
+            self.delegate?.shouldHideSetWarningPrompt(self)
         } else if (timerIsPaused) {
             self.timer.isPaused = NSNumber(bool: false)
             self.timer.resetStartTime()
@@ -233,4 +236,6 @@ protocol TimerProgressDelegate {
     func didPauseTimer(sender: TimerProgressViewController)
     func didRestartTimer(sender: TimerProgressViewController)
     func didFireWarning(sender: TimerProgressViewController)
+    func shouldHideSetWarningPrompt(sender: TimerProgressViewController)
+    func shouldShowSetWarningPrompt(sender: TimerProgressViewController)
 }

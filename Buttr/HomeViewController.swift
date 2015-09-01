@@ -14,6 +14,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
     @IBOutlet weak var resetButton: KeyPadControlButton!
     @IBOutlet weak var resetButtonLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var setWarningPrompt: UIView!
     
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
@@ -25,6 +26,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
         self.buttrCartoon.wagTail()
+        
+        // hide render warning copy by default
+        self.setWarningPrompt.transform = CGAffineTransformMakeScale(0, 0)
         
         // shift reset button
         if (self.scaleDownViews()) {
@@ -79,7 +83,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func addChildVCConstraints(childView: UIView) {
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 40))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: 50))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.0, constant: 0))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.1, constant: 0))
         
@@ -293,5 +297,19 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 self.resetButton.enabled = true
             }
         }
+    }
+    
+    func shouldHideSetWarningPrompt(sender: TimerProgressViewController) {
+        UIView.animateWithDuration(0.3, animations: {
+            [unowned self] () -> Void in
+            self.setWarningPrompt.transform = CGAffineTransformMakeScale(0, 0)
+        })
+    }
+    
+    func shouldShowSetWarningPrompt(sender: TimerProgressViewController) {
+        UIView.animateWithDuration(0.3, animations: {
+            [unowned self] () -> Void in
+            self.setWarningPrompt.transform = CGAffineTransformIdentity
+        })
     }
 }

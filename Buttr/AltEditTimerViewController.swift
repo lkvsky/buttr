@@ -13,7 +13,6 @@ class AltEditTimerViewController: UIViewController {
     // buttons
     @IBOutlet var timeKeys: [PawButton]!
     @IBOutlet weak var timeKeyContainer: UIView!
-    @IBOutlet weak var timerLabelContainer: UIView!
     
     // labels
     @IBOutlet var tertiaryColorLabels: [UILabel]!
@@ -52,7 +51,6 @@ class AltEditTimerViewController: UIViewController {
             self.topLayoutConstraint.constant = 8
             var translationTransform = CGAffineTransformMakeTranslation(0, 60)
             self.timeKeyContainer.transform = CGAffineTransformScale(translationTransform, 0.8, 0.8)
-            self.timerLabelContainer.transform = CGAffineTransformMakeScale(0.8, 0.8)
         }
     }
     
