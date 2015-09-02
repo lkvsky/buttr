@@ -95,10 +95,22 @@
                                             <constraint firstAttribute="centerX" secondItem="0yN-vf-GGa" secondAttribute="centerX" id="rIT-XY-y3F"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HGY-zo-fxP">
+                                        <rect key="frame" x="84" y="375" width="150" height="150"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="150" id="OVh-dK-Aym"/>
+                                            <constraint firstAttribute="height" constant="150" id="PTN-mF-Tjn"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="notifications_alert">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="NVI-NB-tf5" firstAttribute="top" secondItem="HGY-zo-fxP" secondAttribute="bottom" constant="-102" id="2yv-9w-7NK"/>
                                     <constraint firstItem="Iho-vW-Zre" firstAttribute="leading" secondItem="Gca-ta-IZS" secondAttribute="leading" id="CDj-3k-psn"/>
+                                    <constraint firstItem="NVI-NB-tf5" firstAttribute="leading" secondItem="HGY-zo-fxP" secondAttribute="trailing" constant="-20" id="J9F-do-TkG"/>
                                     <constraint firstAttribute="trailing" secondItem="Iho-vW-Zre" secondAttribute="trailing" id="KQf-Hi-yG3"/>
                                     <constraint firstItem="7PC-VE-4oF" firstAttribute="leading" secondItem="NVI-NB-tf5" secondAttribute="trailing" constant="8" id="mPQ-A3-5Z3"/>
                                     <constraint firstAttribute="centerX" secondItem="NVI-NB-tf5" secondAttribute="centerX" id="nVf-Hu-slE"/>
@@ -121,7 +133,9 @@
                     </view>
                     <connections>
                         <outlet property="buttrCartoon" destination="NVI-NB-tf5" id="3wd-DR-vLT"/>
+                        <outlet property="buttrCenter" destination="nVf-Hu-slE" id="9Gj-bR-fGp"/>
                         <outlet property="containerView" destination="Gca-ta-IZS" id="d1T-Se-5ny"/>
+                        <outlet property="notificationWarning" destination="HGY-zo-fxP" id="I5M-Ng-vhb"/>
                         <outlet property="resetButton" destination="7PC-VE-4oF" id="KjZ-M9-yqQ"/>
                         <outlet property="resetButtonLeadingConstraint" destination="mPQ-A3-5Z3" id="gBq-x9-GIu"/>
                         <outlet property="setWarningPrompt" destination="Iho-vW-Zre" id="pis-Ug-4Jr"/>
@@ -134,6 +148,7 @@
     </scenes>
     <resources>
         <image name="bone_warning" width="31" height="29"/>
+        <image name="notifications_alert" width="155" height="155"/>
         <image name="reset_speech_bubble" width="83" height="58"/>
     </resources>
 </document>

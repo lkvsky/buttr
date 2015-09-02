@@ -19,7 +19,7 @@ class TimerLabelView: UIView {
     var minutesCenterXConstraint: NSLayoutConstraint!
     var hoursCenterXConstraint: NSLayoutConstraint!
     
-    var fontSize: CGFloat = 40.0
+    var scaledDown: Bool = false
     
     var seconds: Int = 0 {
         didSet {
@@ -50,10 +50,10 @@ class TimerLabelView: UIView {
         self.adjustCenterConstraints()
     }
     
-    init(frame: CGRect, fontSize: CGFloat = 40.0) {
+    init(frame: CGRect, scaledDown: Bool = false) {
         super.init(frame: frame)
         
-        self.fontSize = fontSize
+        self.scaledDown = scaledDown
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.backgroundColor = UIColor.clearColor()
         
@@ -134,7 +134,7 @@ class TimerLabelView: UIView {
     
     private func createLabel(textColor: UIColor) -> UILabel {
         let label = UILabel(frame: CGRectZero)
-        label.font = UIFont(name: "Lato-Regular", size: self.fontSize)!
+        label.font = UIFont(name: "Lato-Regular", size: self.scaledDown ? 30 : 40)!
         label.textColor = textColor
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         label.textAlignment = .Center
@@ -146,7 +146,7 @@ class TimerLabelView: UIView {
     private func createUnitLabel(boundView: UIView, textColor: UIColor) -> UILabel {
         let unitTextLabel = UILabel()
         unitTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        unitTextLabel.font = UIFont(name: "Lato-Light", size: 24)
+        unitTextLabel.font = UIFont(name: "Lato-Light", size: self.scaledDown ? 17 : 24)
         unitTextLabel.textColor = textColor
         unitTextLabel.textAlignment = .Center
         unitTextLabel.backgroundColor = UIColor.backgroundColor()

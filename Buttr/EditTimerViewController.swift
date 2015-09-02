@@ -71,7 +71,7 @@ class EditTimerViewController: UIViewController {
     }
     
     private func addTimerLabel() {
-        let timerLabelView = TimerLabelView(frame: CGRectZero, fontSize: self.scaleDownViews() ? 30 : 40)
+        let timerLabelView = TimerLabelView(frame: CGRectZero, scaledDown: self.scaleDownViews())
         timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerLabelView)
         self.timerLabelView = timerLabelView

@@ -15,6 +15,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     @IBOutlet weak var resetButton: KeyPadControlButton!
     @IBOutlet weak var resetButtonLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var setWarningPrompt: UIView!
+    @IBOutlet weak var notificationWarning: UIButton!
+    @IBOutlet weak var buttrCenter: NSLayoutConstraint!
     
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
@@ -25,6 +27,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.resetButton.transform = CGAffineTransformMakeScale(0, 0)
+        self.notificationWarning.transform = CGAffineTransformMakeScale(0, 0)
         self.buttrCartoon.wagTail()
         
         // hide render warning copy by default
@@ -38,6 +41,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // Listen for app to become active. If there's an active timer, render its progress. Otherwise
         // add the edit timer screen.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerOrEditScreen", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        // Listen for notification registration. Let the user know that if he or she declines to set notifications
+        // then they will not receive an alert when the timer is finished
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDeniedNotifications:", name: "UserDeniedNotifications", object: nil)
     }
     
     deinit {
@@ -60,6 +67,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // bring butter up front -- necessary for smaller screen sizes
         self.containerView.bringSubviewToFront(self.buttrCartoon)
         self.containerView.bringSubviewToFront(self.resetButton)
+        
+        // alert gets clipped by child view controller
+        self.containerView.bringSubviewToFront(self.notificationWarning)
     }
     
     func addTimerProgressVC(timer: Timer) {
@@ -79,6 +89,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // bring butter up front -- necessary for smaller screen sizes
         self.containerView.bringSubviewToFront(self.buttrCartoon)
         self.containerView.bringSubviewToFront(self.resetButton)
+        
+        // alert gets clipped by child view controller
+        self.containerView.bringSubviewToFront(self.notificationWarning)
     }
     
     func addChildVCConstraints(childView: UIView) {
@@ -176,6 +189,28 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         }
     }
     
+    func userDeniedNotifications(notification: NSNotification) {
+        self.notificationWarning.addTarget(self, action: "dismissedNotificationAlert", forControlEvents: .TouchUpInside)
+        self.buttrCenter.constant = -60
+
+        UIView.animateWithDuration(0.3,
+            delay: 0.125,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 12.0,
+            options: nil,
+            animations: {
+                [unowned self]() -> Void in
+                self.containerView.layoutIfNeeded()
+                self.notificationWarning.transform = CGAffineTransformMakeScale(1, 1)
+            }, completion: nil)
+    }
+    
+    func dismissedNotificationAlert() {
+        if (self.buttrCenter.constant != 0) {
+            self.hideNotificationWarning()
+        }
+    }
+    
     func animateButtrTail() {
         self.buttrCartoon.wagTail()
     }
@@ -199,6 +234,21 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 [unowned self] (Bool finished) -> Void in
                 self.resetButton.transform = CGAffineTransformIdentity
         }
+    }
+    
+    func hideNotificationWarning() {
+        self.buttrCenter.constant = 0
+
+        UIView.animateWithDuration(0.3,
+            delay: 0.125,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 12.0,
+            options: nil,
+            animations: {
+                [unowned self]() -> Void in
+                self.containerView.layoutIfNeeded()
+                self.notificationWarning.transform = CGAffineTransformMakeScale(0, 0)
+            }, completion: nil)
     }
     
     func animateButtrToZero() {
@@ -251,6 +301,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func didGiveTimerValue(sender: EditTimerViewController) {
+        self.hideNotificationWarning()
+        
         if (!self.buttrCartoon.headIsTilted) {
             self.buttrCartoon.tiltHead()
             self.showResetButton()
@@ -259,6 +311,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func didFinishTimer(sender: TimerProgressViewController) {
         self.buttrCartoon.tiltHead(direction: -1)
+        self.buttrCartoon.stickOutTongue()
         self.resetButton.standardBackgroundImage = UIImage(named: "bark_speech_bubble")
         self.resetButton.enabled = false
         self.showResetButton()
@@ -287,6 +340,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.resetButton.standardBackgroundImage = UIImage(named: "grr_speech_bubble")
         self.resetButton.enabled = false
         self.showResetButton()
+        self.buttrCartoon.stickOutTongue()
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             [unowned self] () -> Void in

@@ -138,13 +138,13 @@ class TimerProgressViewController: UIViewController {
     }
     
     private func addTimerLabel() {
-        let timerLabelView = TimerLabelView(frame: CGRectZero, fontSize: self.scaleDownViews() ? 30 : 40)
+        let timerLabelView = TimerLabelView(frame: CGRectZero, scaledDown: self.scaleDownViews())
         timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerLabelView)
         self.timerLabelView = timerLabelView
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 170))
-        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 72))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 120 : 170))
+        self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 60 : 72))
         self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterX, relatedBy: .Equal, toItem: timerProgressView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterY, relatedBy: .Equal, toItem: timerProgressView, attribute: .CenterY, multiplier: 1.0, constant: 0))
     }

@@ -96,6 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        if (nil == notificationSettings.types) {
+            NSNotificationCenter.defaultCenter().postNotificationName("UserDeniedNotifications", object: self, userInfo: ["notificationSettingsObject": notificationSettings])
+        }
+    }
 
     // MARK: - Core Data stack
 
