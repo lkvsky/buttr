@@ -111,33 +111,26 @@ import UIKit
         secondProgress.currentAngle = secondSlider.angle
         
         self.addSubview(hourProgress)
-        self.addSubview(secondProgress)
         self.addSubview(minuteProgress)
+        self.addSubview(secondProgress)
+
         
         self.hourSlider.layer.opacity = 0
         self.minuteSlider.layer.opacity = 0
         self.secondSlider.layer.opacity = 0
         
-        hourProgress.animateProgresBarReveal() {
-            [unowned self] (Bool finished) -> Void in
-            if (finished) {
-                hourProgress.removeFromSuperview()
-                self.hourSlider.layer.opacity = 1
-            }
-        }
-        minuteProgress.animateProgresBarReveal() {
-            [unowned self] (Bool finished) -> Void in
-            if (finished) {
-                minuteProgress.removeFromSuperview()
-                self.minuteSlider.layer.opacity = 1
-            }
-        }
-        secondProgress.animateProgresBarReveal() {
-            [unowned self] (Bool finished) -> Void in
-            if (finished) {
-                secondProgress.removeFromSuperview()
-                self.secondSlider.layer.opacity = 1
-            }
+        hourProgress.animateProgresBarReveal()
+        minuteProgress.animateProgresBarReveal()
+        secondProgress.animateProgresBarReveal()
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.6 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            [unowned self] () -> Void in
+            self.hourSlider.layer.opacity = 1
+            self.minuteSlider.layer.opacity = 1
+            self.secondSlider.layer.opacity = 1
+            hourProgress.removeFromSuperview()
+            minuteProgress.removeFromSuperview()
+            secondProgress.removeFromSuperview()
         }
         
     }

@@ -134,7 +134,7 @@ class CircularProgressBar: UIView {
     
     // MARK: Public Methods
     
-    func animateProgresBarReveal(completion: ((Bool) -> Void)? = nil) {
+    func animateProgresBarReveal() {
         let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - 91)))
         let endAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
         let center = CGPoint(x: self.frame.size.width / 2.0, y: self.frame.size.height / 2.0)
@@ -151,7 +151,7 @@ class CircularProgressBar: UIView {
             [unowned self] () -> Void in
             self.handleView.layer.opacity = 1
             self.handleView.transform = CGAffineTransformIdentity
-        }, completion: completion)
+        }, completion: nil)
     }
     
     func animateProgressBar(#endAngle: Double) {
