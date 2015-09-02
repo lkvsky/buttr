@@ -12,8 +12,11 @@ class TimerLabelView: UIView {
     // MARK: Initialization
     
     weak var secondsLabel: UILabel!
+    weak var secondsUnitLabel: UILabel!
     weak var minutesLabel: UILabel!
+    weak var minutesUnitLabel: UILabel!
     weak var hoursLabel: UILabel!
+    weak var hoursUnitLabel: UILabel!
     
     var secondsCenterXConstraint: NSLayoutConstraint!
     var minutesCenterXConstraint: NSLayoutConstraint!
@@ -23,19 +26,19 @@ class TimerLabelView: UIView {
     
     var seconds: Int = 0 {
         didSet {
-            self.secondsLabel.text = "\(seconds)"
+            self.secondsLabel.text = self.getFormattedTimeText(seconds)
         }
     }
     
     var minutes: Int = 0 {
         didSet {
-            self.minutesLabel.text = "\(minutes)"
+            self.minutesLabel.text = self.getFormattedTimeText(minutes)
         }
     }
     
     var hours: Int = 0 {
         didSet {
-            self.hoursLabel.text = "\(hours)"
+            self.hoursLabel.text = self.getFormattedTimeText(hours)
         }
     }
     
@@ -71,7 +74,7 @@ class TimerLabelView: UIView {
     private func addSecondsLabel() {
         // set properties
         let secondsLabel = self.createLabel(UIColor.secondaryTextColor())
-        secondsLabel.text = "\(seconds)"
+        secondsLabel.text = self.getFormattedTimeText(seconds)
         
         // add label and store reference
         self.addSubview(secondsLabel)
@@ -87,12 +90,14 @@ class TimerLabelView: UIView {
         // create unit type label
         let secondsTextLabel = self.createUnitLabel(secondsLabel, textColor: UIColor.secondaryTextColor())
         secondsTextLabel.text = "secs"
+        self.secondsUnitLabel = secondsTextLabel
     }
     
     private func addMinutesLabel() {
         // set properties
         let minutesLabel = self.createLabel(UIColor.primaryTextColor())
-        minutesLabel.text = "\(minutes)"
+        minutesLabel.text = self.getFormattedTimeText(minutes)
+        minutesLabel.layer.opacity = 0
         
         // add label and store reference
         self.addSubview(minutesLabel)
@@ -108,11 +113,15 @@ class TimerLabelView: UIView {
         // create unit type label
         let minutesTextLabel = self.createUnitLabel(minutesLabel, textColor: UIColor.primaryTextColor())
         minutesTextLabel.text = "mins"
+        minutesTextLabel.layer.opacity = 0
+        self.minutesUnitLabel = minutesTextLabel
     }
     
     private func addHoursLabel() {
         // set properties
         let hoursLabel = self.createLabel(UIColor.tertiaryTextColor())
+        hoursLabel.text = self.getFormattedTimeText(hours)
+        hoursLabel.layer.opacity = 0
         
         // add label and store reference
         self.addSubview(hoursLabel)
@@ -128,9 +137,15 @@ class TimerLabelView: UIView {
         // create unit type label
         let hoursTextLabel = self.createUnitLabel(hoursLabel, textColor: UIColor.tertiaryTextColor())
         hoursTextLabel.text = "hrs"
+        hoursTextLabel.layer.opacity = 0
+        self.hoursUnitLabel = hoursTextLabel
     }
     
     // MARK: Label Convenience Methods
+    
+    private func getFormattedTimeText(time: Int) -> String {
+        return String(NSString(format: NSString(string: "%02ld"), time))
+    }
     
     private func createLabel(textColor: UIColor) -> UILabel {
         let label = UILabel(frame: CGRectZero)
@@ -206,25 +221,40 @@ class TimerLabelView: UIView {
             secondsCenterXConstraint.constant = 0
             minutesCenterXConstraint.constant = 0
             hoursCenterXConstraint.constant = 0
+            minutesLabel.layer.opacity = 0
+            minutesUnitLabel.layer.opacity = 0
+            hoursLabel.layer.opacity = 0
+            hoursUnitLabel.layer.opacity = 0
             break
             
         case 2:
             secondsCenterXConstraint.constant = frameWidth / CGFloat(numberOfLabels)
             minutesCenterXConstraint.constant = -frameWidth / CGFloat(numberOfLabels)
             hoursCenterXConstraint.constant = 0
+            minutesLabel.layer.opacity = 1
+            minutesUnitLabel.layer.opacity = 1
+            hoursLabel.layer.opacity = 0
+            hoursUnitLabel.layer.opacity = 0
             break
             
         case 3:
             secondsCenterXConstraint.constant = frameWidth
             minutesCenterXConstraint.constant = 0
             hoursCenterXConstraint.constant = -frameWidth
+            minutesLabel.layer.opacity = 1
+            minutesUnitLabel.layer.opacity = 1
+            hoursLabel.layer.opacity = 1
+            hoursUnitLabel.layer.opacity = 1
             break
             
         default:
             break
         }
         
-        self.setNeedsUpdateConstraints()
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.setNeedsLayout()
+        }, completion: nil)
     }
     
 }

@@ -284,7 +284,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         sender.timerControlView.animatedTransition()
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.425 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             [unowned self] () -> Void in
             // remove edit timer vc
             sender.view.removeFromSuperview()

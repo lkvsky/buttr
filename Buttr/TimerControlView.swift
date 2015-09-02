@@ -161,11 +161,13 @@ import UIKit
         secondProgress.animateProgressBar(endAngle: 91)
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            () -> Void in
+            [unowned self] () -> Void in
             UIView.animateWithDuration(0.125, animations: {
-                () -> Void in
-                minuteProgress.transform = CGAffineTransformMakeScale(1.2, 1.2)
-                secondProgress.transform = CGAffineTransformMakeScale(1.4, 1.4)
+                [unowned self] () -> Void in
+                let minuteTransform = CGFloat(Double(hourProgress.frame.size.width) / Double(minuteProgress.frame.size.width))
+                let secondTransform = CGFloat(Double(hourProgress.frame.size.width) / Double(secondProgress.frame.size.width))
+                minuteProgress.transform = CGAffineTransformMakeScale(minuteTransform, minuteTransform)
+                secondProgress.transform = CGAffineTransformMakeScale(secondTransform, secondTransform)
                 hourProgress.layer.opacity = 0
                 secondProgress.layer.opacity = 0
             })

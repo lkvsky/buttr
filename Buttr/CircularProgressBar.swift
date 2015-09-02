@@ -134,6 +134,11 @@ class CircularProgressBar: UIView {
     
     // MARK: Public Methods
     
+    /**
+    * Intro animation for the edit timer function.
+    * Reveals the tracks of the slider with a stroke
+    * animation, then drops the slider handles into space.
+    */
     func animateProgresBarReveal() {
         let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - 91)))
         let endAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
@@ -147,13 +152,18 @@ class CircularProgressBar: UIView {
         animatedArcLayer.strokeColor = UIColor.backgroundColor().CGColor
         animatedArcLayer.addAnimation(arcAnimation, forKey: "progressBarReveal")
         
-        UIView.animateWithDuration(0.3, delay: 0.3, options: nil, animations: {
+        UIView.animateWithDuration(0.3, delay: 0.3, usingSpringWithDamping: 0.5, initialSpringVelocity: 12.0, options: nil, animations: {
             [unowned self] () -> Void in
             self.handleView.layer.opacity = 1
             self.handleView.transform = CGAffineTransformIdentity
         }, completion: nil)
     }
     
+    /**
+    * Animates the progression of the progress bar,
+    * either clockwise or counterclockwise between
+    * the currentAngle and endAngle.
+    */
     func animateProgressBar(#endAngle: Double) {
         let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
         let animationStartAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - currentAngle)))
