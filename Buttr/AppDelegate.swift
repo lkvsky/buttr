@@ -24,13 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Init Data Manager managed object contexts
         DataManager.sharedInstance.setContexts(self.managedObjectContext!)
         
-        // Ask user for permission to enable alerts
+//        // Ask user for permission to enable alerts
         if (UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
             let notificationCategory = UIMutableUserNotificationCategory()
             notificationCategory.identifier = "BUTTR_ALERT_CATEGORY"
             application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:UIUserNotificationType.Alert|UIUserNotificationType.Badge|UIUserNotificationType.Sound, categories: nil))
         }
-        
         
         return true
     }
@@ -98,9 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        if (nil == notificationSettings.types) {
-            NSNotificationCenter.defaultCenter().postNotificationName("UserDeniedNotifications", object: self, userInfo: ["notificationSettingsObject": notificationSettings])
-        }
+        
     }
 
     // MARK: - Core Data stack

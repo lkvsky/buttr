@@ -18,7 +18,7 @@ struct Config {
     static let BT_TOUCH_AREA: CGFloat = 30.0
 }
 
-class CircularSlider: UIControl {
+class CircularSlider: UIControl, UIGestureRecognizerDelegate {
     
     // MARK: Properties
     
@@ -26,14 +26,7 @@ class CircularSlider: UIControl {
     var radius: CGFloat = 0
     
     // current angle of the slider
-    var angle: Double = Config.BT_STARTING_ANGLE {
-        willSet(newValue) {
-            // fire custom event to signal revolution completion
-            if (self.isMovingClockwise(startAngle: angle, endAngle: newValue) && (Config.BT_STARTING_ANGLE < floor(angle) && Config.BT_STARTING_ANGLE >= floor(newValue) && abs(angle - newValue) < 100)) {
-                self.sendActionsForControlEvents(UIControlEvents.ApplicationReserved)
-            }
-        }
-    }
+    var angle: Double = Config.BT_STARTING_ANGLE
     
     // color of the slider path/handle
     var color: UIColor = UIColor.blackColor()
@@ -120,16 +113,23 @@ class CircularSlider: UIControl {
         return MathHelpers.pointOnCircumference(angleVal, circleCenter: circleCenter, radius: radius)
     }
     
-    func moveHandle(point: CGPoint) {
+    func moveHandle(point: CGPoint, ignoreDirection: Bool = false) {
         let centerPoint: CGPoint  = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
         let startAngle: Double = angle
         let updatedAngle: Double = 360.0 - MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
+        let userIsTryingToMoveBackwards: Bool = !self.isMovingClockwise(startAngle: startAngle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE >= floor(startAngle) && Config.BT_STARTING_ANGLE < floor(updatedAngle) && abs(angle - updatedAngle) < 180 && startAngle != updatedAngle)
+        let userCompletedRevolution: Bool = self.isMovingClockwise(startAngle: angle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE < floor(angle) && Config.BT_STARTING_ANGLE >= floor(updatedAngle) && abs(angle - updatedAngle) < 100)
         
         // prevent the user from winding the slider backwards by accident
-        if (!self.isMovingClockwise(startAngle: startAngle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE >= floor(startAngle) && Config.BT_STARTING_ANGLE < floor(updatedAngle) && abs(angle - updatedAngle) < 180 && startAngle != updatedAngle)) {
+        if (userIsTryingToMoveBackwards && !ignoreDirection) {
             angle = Config.BT_STARTING_ANGLE
         } else {
             angle = updatedAngle
+        }
+        
+        // check if the user is completing a revolution. if so, notify observer
+        if (userCompletedRevolution && !ignoreDirection) {
+            self.sendActionsForControlEvents(UIControlEvents.ApplicationReserved)
         }
         
         setNeedsDisplay()
@@ -172,9 +172,18 @@ class CircularSlider: UIControl {
     
     // MARK: Gestures & Events
     
+    func tapRecieved(sender: UITapGestureRecognizer) {
+        let touchLocation = sender.locationInView(self)
+        
+        if (self.touchedSliderPath(touchLocation)) {
+            self.moveHandle(touchLocation, ignoreDirection: true)
+            self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
+        }
+    }
+    
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
-        
+
         return self.touchedSliderPath(touch.locationInView(self))
     }
     
@@ -185,13 +194,6 @@ class CircularSlider: UIControl {
         self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
         
         return true
-    }
-    
-    override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
-        super.endTrackingWithTouch(touch, withEvent: event)
-        
-        self.moveHandle(touch.locationInView(self))
-        self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
     }
 
 }

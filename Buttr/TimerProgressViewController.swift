@@ -42,8 +42,8 @@ class TimerProgressViewController: UIViewController {
     
     weak var timerProgressView: TimerProgressView!
     weak var timerLabelView: TimerLabelView!
-    weak var timerControlButton: KeyPadControlButton!
     weak var timerDoneView: TimerDoneView!
+    weak var timerActionView: TimerActionView!
     
     var delegate: TimerProgressDelegate?
     
@@ -60,21 +60,21 @@ class TimerProgressViewController: UIViewController {
             // add subviews
             self.addTimerProgressView()
             self.addTimerLabel()
-            self.addTimerControlButton()
+            self.addTimerActionView()
             self.view.sendSubviewToBack(self.timerLabelView)
             
             // init actions and animation
             self.timeLeft = self.timer.timeLeft()
             self.timerProgressView.setupTimerProgressView(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
-            self.timerControlButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
             self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
+            self.timerActionView.startButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
+            self.timerActionView.pauseButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
+            self.timerActionView.resetButton.addTarget(self, action: "reset", forControlEvents: .TouchUpInside)
             
             if (self.timer.isPaused.boolValue) {
                 self.setPausedTimerState()
             } else if (self.timer.hasStarted()) {
                 self.setTimerRestartState()
-            } else {
-                self.delegate?.shouldShowSetWarningPrompt(self)
             }
         }
     }
@@ -149,17 +149,16 @@ class TimerProgressViewController: UIViewController {
         self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterY, relatedBy: .Equal, toItem: timerProgressView, attribute: .CenterY, multiplier: 1.0, constant: 0))
     }
     
-    private func addTimerControlButton() {
-        let timerControlButton = KeyPadControlButton(frame: CGRectZero)
-        timerControlButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.view.addSubview(timerControlButton)
-        self.timerControlButton = timerControlButton
-        self.timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
+    private func addTimerActionView() {
+        let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: self.scaleDownViews(), initWithStartShowing: true)
+        timerActionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.view.addSubview(timerActionView)
+        self.timerActionView = timerActionView
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 93.3333 : 120))
-        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
-        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: timerControlButton, attribute: .Top, relatedBy: .Equal, toItem: timerProgressView, attribute: .Bottom, multiplier: 1.0, constant: 8))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Top, relatedBy: .Equal, toItem: timerProgressView, attribute: .Bottom, multiplier: 1.0, constant: 8))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 50))
     }
     
     private func addTimerDoneView() {
@@ -189,21 +188,21 @@ class TimerProgressViewController: UIViewController {
     func setPausedTimerState() {
         nsTimerInstance?.invalidate()
         timerIsPaused = true
-        timerControlButton.standardBackgroundImage = UIImage(named: "start_button")
+        self.timerActionView.showStartAndResetButtons()
         self.delegate?.didPauseTimer(self)
     }
     
     func setTimerRestartState() {
         nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timeLeftHasDecreased", userInfo: nil, repeats: true)
         timerIsPaused = false
-        timerControlButton.standardBackgroundImage = UIImage(named: "pause_button")
+        self.timerActionView.showPauseButton()
         self.delegate?.didRestartTimer(self)
     }
     
     func setTimerDoneState() {
         self.timerProgressView?.removeFromSuperview()
         self.timerLabelView?.removeFromSuperview()
-        self.timerControlButton?.removeFromSuperview()
+        self.timerActionView?.removeFromSuperview()
         self.addTimerDoneView()
         nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timeSinceFinishHasIncreased", userInfo: nil, repeats: true)
         self.delegate?.didFinishTimer(self)
@@ -231,7 +230,6 @@ class TimerProgressViewController: UIViewController {
             DataManager.sharedInstance.save()
             self.timeLeftHasDecreased()
             self.setTimerRestartState()
-            self.delegate?.shouldHideSetWarningPrompt(self)
         } else if (timerIsPaused) {
             self.timer.isPaused = NSNumber(bool: false)
             self.timer.resetStartTime()
@@ -257,7 +255,7 @@ class TimerProgressViewController: UIViewController {
         self.timer.canceled = 1
         DataManager.sharedInstance.save()
         self.invalidateTimersAndAlerts()
-        self.delegate?.shouldHideSetWarningPrompt(self)
+        self.delegate?.didResetTimer(self)
     }
     
     func invalidateTimersAndAlerts() {
@@ -273,6 +271,7 @@ protocol TimerProgressDelegate {
     func didFinishTimer(sender: TimerProgressViewController)
     func didPauseTimer(sender: TimerProgressViewController)
     func didRestartTimer(sender: TimerProgressViewController)
+    func didResetTimer(sender: TimerProgressViewController)
     func didFireWarning(sender: TimerProgressViewController)
     func shouldHideSetWarningPrompt(sender: TimerProgressViewController)
     func shouldShowSetWarningPrompt(sender: TimerProgressViewController)

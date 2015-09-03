@@ -71,10 +71,12 @@ import UIKit
         let minuteSlider: CircularSlider = CircularSlider(color: UIColor.primaryTextColor(), frame: CGRectMake(origin.x + sliderSpacing, origin.y + sliderSpacing, size.width - 2*sliderSpacing, size.height - 2*sliderSpacing))
         let secondSlider: CircularSlider = CircularSlider(color: UIColor.secondaryTextColor(), frame: CGRectMake(origin.x + 2*sliderSpacing, origin.y + 2*sliderSpacing, size.width - 4*sliderSpacing, size.height - 4*sliderSpacing))
         
-        // add to view
-        self.addSubview(hourSlider)
-        self.addSubview(minuteSlider)
-        self.addSubview(secondSlider)
+        // add to view and enable tap gesture to add time without sliding
+        for slider in [hourSlider, minuteSlider, secondSlider] {
+            self.addSubview(slider)
+            let tap = UITapGestureRecognizer(target: slider, action: "tapRecieved:")
+            slider.addGestureRecognizer(tap)
+        }
         
         // store references
         self.hourSlider = hourSlider

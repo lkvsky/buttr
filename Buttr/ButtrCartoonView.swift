@@ -13,6 +13,8 @@ class ButtrCartoonView: UIView {
     weak var head: UIImageView!
     weak var body: UIImageView!
     weak var tail: UIImageView!
+    weak var alarmDialogue: UIImageView!
+    
     var headIsTilted: Bool = false
     
     override func awakeFromNib() {
@@ -33,9 +35,12 @@ class ButtrCartoonView: UIView {
         
         // apply layout constraints
         self.applyConstraints()
+        
+        // set up alarm dialogue view
+        self.addAlarmDialogue()
     }
     
-    func applyConstraints() {
+    private func applyConstraints() {
         let scale: CGFloat = UIScreen.mainScreen().bounds.size.width <= 320 ? 0.8 : 1.0
         
         head.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -63,7 +68,46 @@ class ButtrCartoonView: UIView {
         self.addConstraint(NSLayoutConstraint(item: tail, attribute: .Bottom, relatedBy: .Equal, toItem: body, attribute: .Bottom, multiplier: 1.0, constant: -43.0 * scale))
     }
     
+    private func addAlarmDialogue() {
+        let imageView = UIImageView(frame: CGRectZero)
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        self.addSubview(imageView)
+        self.alarmDialogue = imageView
+        
+        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 79))
+        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 53))
+        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 15))
+        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
+        
+        self.alarmDialogue.transform = CGAffineTransformMakeScale(0, 0)
+    }
+    
     // MARK: Animation Methods
+    
+    private func showAlarmDialogue(image: UIImage) {
+        self.alarmDialogue.image = image
+        
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.alarmDialogue.transform = CGAffineTransformIdentity
+        }, completion: nil)
+    }
+    
+    func hideAlarmDialogue() {
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.alarmDialogue.transform = CGAffineTransformMakeScale(0, 0)
+            }, completion: nil)
+    }
+    
+    func growl() {
+        self.showAlarmDialogue(UIImage(named: "bark_speech_bubble")!)
+    }
+    
+    func bark() {
+        self.showAlarmDialogue(UIImage(named: "bark_speech_bubble")!)
+    }
     
     func wagTail() {
         UIView.animateWithDuration(0.1, delay: 0, options: .Autoreverse, animations: {

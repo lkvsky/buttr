@@ -12,7 +12,7 @@ class EditTimerViewController: UIViewController {
     
     weak var timerLabelView: TimerLabelView!
     weak var timerControlView: TimerControlView!
-    weak var setTimerButton: KeyPadControlButton!
+    weak var timerActionView: TimerActionView!
     
     var delegate: EditTimerDelegate?
     
@@ -22,11 +22,11 @@ class EditTimerViewController: UIViewController {
         // add subviews and base styles
         self.addTimerControlView()
         self.addTimerLabel()
-        self.addStartButton()
+        self.addTimerActionView()
         self.view.setNeedsUpdateConstraints()
         self.view.backgroundColor = UIColor.backgroundColor()
         self.view.sendSubviewToBack(self.timerLabelView)
-        self.setTimerButton.transform = CGAffineTransformMakeScale(0, 0)
+        self.timerActionView.transform = CGAffineTransformMakeScale(0, 0)
         
         // initialize gestures and actions
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: .ValueChanged)
@@ -34,7 +34,8 @@ class EditTimerViewController: UIViewController {
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: .ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onRevolutionCompletion:", forControlEvents: .ApplicationReserved)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
-        setTimerButton.addTarget(self, action: "onSetTimerTap:", forControlEvents: .TouchUpInside)
+        self.timerActionView.startButton.addTarget(self, action: "onSetTimerTap:", forControlEvents: .TouchUpInside)
+        self.timerActionView.resetButton.addTarget(self, action: "reset", forControlEvents: .TouchUpInside)
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen:")
         self.view.addGestureRecognizer(tapGesture)
@@ -82,17 +83,16 @@ class EditTimerViewController: UIViewController {
         self.view.addConstraint(NSLayoutConstraint(item: timerLabelView, attribute: .CenterY, relatedBy: .Equal, toItem: timerControlView, attribute: .CenterY, multiplier: 1.0, constant: 0))
     }
     
-    private func addStartButton() {
-        let startButton = KeyPadControlButton(frame: CGRectZero)
-        startButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.view.addSubview(startButton)
-        self.setTimerButton = startButton
-        self.setTimerButton.standardBackgroundImage = UIImage(named: "set_timer_button")
+    private func addTimerActionView() {
+        let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: self.scaleDownViews(), initWithStartShowing: true)
+        timerActionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.view.addSubview(timerActionView)
+        self.timerActionView = timerActionView
         
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 152 : 179))
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.scaleDownViews() ? 35 : 45))
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: startButton, attribute: .Top, relatedBy: .Equal, toItem: timerControlView, attribute: .Bottom, multiplier: 1.0, constant: 8))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Top, relatedBy: .Equal, toItem: timerControlView, attribute: .Bottom, multiplier: 1.0, constant: 8))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 50))
     }
 
     // MARK: Gestures and Events
@@ -100,7 +100,7 @@ class EditTimerViewController: UIViewController {
     private func didClearTimerValue() {
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            self.setTimerButton.transform = CGAffineTransformMakeScale(0, 0)
+            self.timerActionView.transform = CGAffineTransformMakeScale(0, 0)
         })
         
         self.delegate?.didClearTimerValue(self)
@@ -109,7 +109,7 @@ class EditTimerViewController: UIViewController {
     private func didGiveTimerValue() {
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            self.setTimerButton.transform = CGAffineTransformIdentity
+            self.timerActionView.transform = CGAffineTransformIdentity
         })
         
         self.delegate?.didGiveTimerValue(self)
@@ -203,11 +203,12 @@ class EditTimerViewController: UIViewController {
     func reset() {
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            self.setTimerButton.transform = CGAffineTransformMakeScale(0, 0)
+            self.timerActionView.transform = CGAffineTransformMakeScale(0, 0)
         })
         
         self.timerControlView.resetSliders()
         self.timerLabelView.resetLabel()
+        self.delegate?.didClearTimerValue(self)
     }
     
 }

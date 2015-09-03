@@ -15,6 +15,7 @@
 		3C633D981B812CF0007DC9AF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D971B812CF0007DC9AF /* HomeViewController.swift */; };
 		3C68E9C51B93AA35006BF764 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C41B93AA35006BF764 /* Timer.swift */; };
 		3C68E9C71B962096006BF764 /* TimerDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C61B962096006BF764 /* TimerDoneView.swift */; };
+		3C68E9C91B98D3A3006BF764 /* TimerActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C81B98D3A3006BF764 /* TimerActionView.swift */; };
 		3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */; };
 		3C7CD16D1B82A4F700FEED2D /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16C1B82A4F700FEED2D /* Warning.swift */; };
 		3C7CD16F1B82A7AC00FEED2D /* Warning+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16E1B82A7AC00FEED2D /* Warning+Utilities.swift */; };
@@ -68,6 +69,7 @@
 		3C68E9C31B93AA0A006BF764 /* Butter0.0.11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.11.xcdatamodel; sourceTree = "<group>"; };
 		3C68E9C41B93AA35006BF764 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		3C68E9C61B962096006BF764 /* TimerDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerDoneView.swift; sourceTree = "<group>"; };
+		3C68E9C81B98D3A3006BF764 /* TimerActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerActionView.swift; sourceTree = "<group>"; };
 		3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningSlider.swift; sourceTree = "<group>"; };
 		3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.6.xcdatamodel; sourceTree = "<group>"; };
 		3C7CD16C1B82A4F700FEED2D /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				3C633D931B812220007DC9AF /* ButtrCartoonView.swift */,
 				3C7CD1B21B87CBE800FEED2D /* HandleView.swift */,
 				3C68E9C61B962096006BF764 /* TimerDoneView.swift */,
+				3C68E9C81B98D3A3006BF764 /* TimerActionView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				3CC0DAC21B79149E002FB268 /* TimerProgressView.swift in Sources */,
 				3CF1FD811B7C4C700017F1AE /* KeyPadControlButton.swift in Sources */,
 				3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */,
+				3C68E9C91B98D3A3006BF764 /* TimerActionView.swift in Sources */,
 				3C68E9C51B93AA35006BF764 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
