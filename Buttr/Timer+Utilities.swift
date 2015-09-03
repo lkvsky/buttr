@@ -59,7 +59,7 @@ extension Timer {
     }
     
     func isDone() -> Bool {
-        return self.projectedEndDate().timeIntervalSinceNow <= 0.0
+        return !self.isPaused.boolValue && self.projectedEndDate().timeIntervalSinceNow <= 0.0
     }
     
     func addWarnings(warningTimes: [Int]) {

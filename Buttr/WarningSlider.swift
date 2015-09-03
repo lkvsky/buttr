@@ -161,7 +161,7 @@ class WarningSlider: CircularSlider {
         return nil
     }
     
-    func warningShouldBeRemoved(warningAngle: Double) -> Bool {
+    func warningShouldBeRemoved(warningIndex: Int, warningAngle: Double) -> Bool {
         let warningTime = self.getTimeUnitFromAngleInt(warningAngle)
         let timeLeft = self.getTimeUnitFromAngleInt(maxAllowedAngle)
         let warningIsAtZero = warningTime == 0
@@ -171,6 +171,15 @@ class WarningSlider: CircularSlider {
             return warningIsAtZero
         }
         
+        // check if a warning has already been set for that time
+        if let warningAngles = self.warningAngles {
+            for (index, angleVal) in warningAngles {
+                if (index != warningIndex && self.timeForWarningAngle(angleVal) == self.timeForWarningAngle(warningAngle)) {
+                    return true
+                }
+            }
+        }
+        
         // otherwise remove if warning has exceeded the time left, or is at zero
         return warningTime >= timeLeft || warningIsAtZero
     }
@@ -178,7 +187,7 @@ class WarningSlider: CircularSlider {
     func removeFiredWarnings() {
         if let warningPoints = self.warningAngles {
             for (index, angle) in warningPoints {
-                if (self.warningShouldBeRemoved(angle)) {
+                if (self.warningShouldBeRemoved(index, warningAngle: angle)) {
                     self.removeWarning(index)
                 }
             }
@@ -237,7 +246,7 @@ class WarningSlider: CircularSlider {
             var warningTimes = [Int]()
 
             for (index, angle) in self.warningAngles {
-                if (self.warningShouldBeRemoved(angle)) {
+                if (self.warningShouldBeRemoved(index, warningAngle: angle)) {
                     self.removeWarning(index)
                 } else {
                     warningTimes.append(self.getTimeUnitFromAngleInt(angle))

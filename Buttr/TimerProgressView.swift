@@ -57,9 +57,10 @@ class TimerProgressView: UIView {
             
             for (index, warningTime) in enumerate(self.warningSlider.warningTimes) {
                 let warningAngle: Double = 90.0 - (Double(warningTime) * Double(360.0) / Double(self.warningSlider.maxTimeUnits))
+                let warningIndex: Int = index + 1
                 
-                if (!warningSlider.warningShouldBeRemoved(warningAngle)) {
-                    self.warningSlider.warningAngles[index + 1] = warningAngle
+                if (!warningSlider.warningShouldBeRemoved(warningIndex, warningAngle: warningAngle)) {
+                    self.warningSlider.warningAngles[warningIndex] = warningAngle
                 }
             }
             

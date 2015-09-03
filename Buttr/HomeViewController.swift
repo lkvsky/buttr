@@ -290,7 +290,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             sender.view.removeFromSuperview()
             sender.removeFromParentViewController()
             
-            // add timer progress vc
+            // start timer add timer progress vc
+            timer.startTime = NSDate()
+            DataManager.sharedInstance.save()
             self.addTimerProgressVC(timer)
         }
     }
