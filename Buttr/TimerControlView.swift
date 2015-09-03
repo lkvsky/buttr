@@ -74,8 +74,8 @@ import UIKit
         // add to view and enable tap gesture to add time without sliding
         for slider in [hourSlider, minuteSlider, secondSlider] {
             self.addSubview(slider)
-            let tap = UITapGestureRecognizer(target: slider, action: "tapRecieved:")
-            slider.addGestureRecognizer(tap)
+//            let tap = UITapGestureRecognizer(target: slider, action: "tapRecieved:")
+//            slider.addGestureRecognizer(tap)
         }
         
         // store references

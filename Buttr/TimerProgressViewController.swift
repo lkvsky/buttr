@@ -204,7 +204,6 @@ class TimerProgressViewController: UIViewController {
         self.timerLabelView?.removeFromSuperview()
         self.timerActionView?.removeFromSuperview()
         self.addTimerDoneView()
-        nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timeSinceFinishHasIncreased", userInfo: nil, repeats: true)
         self.delegate?.didFinishTimer(self)
     }
     
@@ -218,10 +217,6 @@ class TimerProgressViewController: UIViewController {
         } else {
             timeLeft = self.timer.timeLeft()
         }
-    }
-    
-    func timeSinceFinishHasIncreased() {
-        self.timerDoneView?.timeSinceTimerStopped = Int(NSDate().timeIntervalSinceDate(self.timer.projectedEndDate()))
     }
     
     func toggleTimerState() {
