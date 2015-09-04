@@ -43,19 +43,13 @@ class WarningSlider: CircularSlider {
         }
         
         if let warningToBeSet = self.draggedWarningIndex {
-            let centerYOffset: CGFloat = 30
-            let centerWarningLabelText = "warning set"
-            let centerWarningLabelSize = centerWarningLabelText.sizeWithAttributes([NSFontAttributeName: UIFont(name: "Bitter-Bold", size: 17.0)!])
-            let centerWarningLabelStart = CGPointMake(self.center.x - (centerWarningLabelSize.width / 2), self.center.y + centerYOffset)
-            
             let warningTimeText = self.getTextLabelForWarningAtAngle(self.warningAngles[warningToBeSet]!)
-            let warnintTimeLabelSize = warningTimeText.sizeWithAttributes([NSFontAttributeName: UIFont(name: "Lato-Regular", size: 17.0)!])
-            let warningLabelStart = CGPointMake(self.center.x - (warnintTimeLabelSize.width / 2), self.center.y + centerYOffset + centerWarningLabelSize.height)
+            let warningTimeLabelSize = warningTimeText.sizeWithAttributes([NSFontAttributeName: UIFont(name: "Lato-Regular", size: 18.0)!])
+            let totalWidth = warningTimeLabelSize.width + warningIcon.size.width
+            let warningIconStart = CGPointMake(self.center.x - (totalWidth / 2), self.center.y + 40)
             
-            centerWarningLabelText.drawAtPoint(centerWarningLabelStart, withAttributes: [
-                NSFontAttributeName: UIFont(name: "Bitter-Bold", size: 17.0)!,
-                NSForegroundColorAttributeName: self.color])
-            warningTimeText.drawAtPoint(warningLabelStart, withAttributes: [
+            warningIcon.drawAtPoint(warningIconStart)
+            warningTimeText.drawAtPoint(CGPointMake(warningIconStart.x + warningIcon.size.width + 5, warningIconStart.y), withAttributes: [
                 NSFontAttributeName: UIFont(name: "Lato-Regular", size: 17.0)!,
                 NSForegroundColorAttributeName: self.color])
         }

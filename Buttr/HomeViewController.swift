@@ -15,6 +15,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
+    var userHasDeniedNotifications: Bool = false
+    var renderedNotificationWarningThisSession: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // Listen for app to become active. If there's an active timer, render its progress. Otherwise
         // add the edit timer screen.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerOrEditScreen", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        // Listen for users who rejected notifications
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDeniedNotifications", name: "UserDeniedNotifications", object: nil)
     }
     
     deinit {
@@ -47,6 +52,11 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         // bring butter up front -- necessary for smaller screen sizes
         self.containerView.bringSubviewToFront(self.buttrCartoon)
+        
+        if (self.userHasDeniedNotifications && !self.renderedNotificationWarningThisSession) {
+            self.buttrCartoon.showNotificationDialogue()
+            self.renderedNotificationWarningThisSession = true
+        }
     }
     
     func addTimerProgressVC(timer: Timer) {
@@ -144,6 +154,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         }
     }
     
+    func userDeniedNotifications() {
+        self.userHasDeniedNotifications = true
+    }
+    
     func animateButtrTail() {
         self.buttrCartoon.wagTail()
     }
@@ -177,7 +191,12 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     // MARK: Delegate Methods
     
-    func didSetTimer(duration: Int, sender: EditTimerViewController) {        
+    func didSetTimer(duration: Int, sender: EditTimerViewController) {
+        // hide notification alert if rendered
+        if (self.renderedNotificationWarningThisSession) {
+            self.buttrCartoon.removeNotificationDialogue()
+        }
+        
         // instantiate timer object
         let timer = Timer(context: DataManager.sharedInstance.mainMoc)
         timer.duration = duration

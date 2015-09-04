@@ -10,10 +10,15 @@ import UIKit
 
 class ButtrCartoonView: UIView {
 
+    // permanent views
     weak var head: UIImageView!
     weak var body: UIImageView!
     weak var tail: UIImageView!
     weak var alarmDialogue: UIImageView!
+
+    // conditional views
+    weak var notifDialogueLeft: UIImageView!
+    weak var notifDialogueRight: UIImageView!
     
     var headIsTilted: Bool = false
     
@@ -77,13 +82,45 @@ class ButtrCartoonView: UIView {
         
         self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 79))
         self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 53))
-        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 15))
+        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
         self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
         
         self.alarmDialogue.transform = CGAffineTransformMakeScale(0, 0)
     }
     
-    // MARK: Animation Methods
+    private func addNotifDialogueLeft() {
+        let imageView = UIImageView(frame: CGRectZero)
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.image = UIImage(named: "notif_dialogue_left")
+        
+        self.addSubview(imageView)
+        self.notifDialogueLeft = imageView
+        self.notifDialogueLeft.layer.opacity = 0
+        self.notifDialogueLeft.transform = CGAffineTransformMakeScale(0, 0)
+        
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 66))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Left, multiplier: 1.0, constant: -8))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
+    }
+    
+    private func addNotifDialogueRight() {
+        let imageView = UIImageView(frame: CGRectZero)
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.image = UIImage(named: "notif_dialogue_right")
+        
+        self.addSubview(imageView)
+        self.notifDialogueRight = imageView
+        self.notifDialogueRight.layer.opacity = 0
+        self.notifDialogueRight.transform = CGAffineTransformMakeScale(0, 0)
+        
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 104))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
+    }
+    
+    // MARK: Dialogue Box Methods
     
     private func showAlarmDialogue(image: UIImage) {
         self.alarmDialogue.image = image
@@ -91,7 +128,7 @@ class ButtrCartoonView: UIView {
         UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
             [unowned self] () -> Void in
             self.alarmDialogue.transform = CGAffineTransformIdentity
-        }, completion: nil)
+            }, completion: nil)
     }
     
     func hideAlarmDialogue() {
@@ -108,6 +145,35 @@ class ButtrCartoonView: UIView {
     func bark() {
         self.showAlarmDialogue(UIImage(named: "bark_speech_bubble")!)
     }
+    
+    func showNotificationDialogue() {
+        self.addNotifDialogueLeft()
+        self.addNotifDialogueRight()
+        
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.notifDialogueRight.layer.opacity = 1
+            self.notifDialogueRight.transform = CGAffineTransformIdentity
+            self.notifDialogueLeft.layer.opacity = 1
+            self.notifDialogueLeft.transform = CGAffineTransformIdentity
+            }, completion: nil)
+    }
+    
+    func removeNotificationDialogue() {
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.notifDialogueRight.layer.opacity = 0
+            self.notifDialogueRight.transform = CGAffineTransformMakeScale(0, 0)
+            self.notifDialogueLeft.layer.opacity = 0
+            self.notifDialogueLeft.transform = CGAffineTransformMakeScale(0, 0)
+            }) {
+                [unowned self] (Bool finished) -> Void in
+                self.notifDialogueLeft.removeFromSuperview()
+                self.notifDialogueRight.removeFromSuperview()
+        }
+    }
+    
+    // MARK: Animation Methods
     
     func wagTail() {
         UIView.animateWithDuration(0.1, delay: 0, options: .Autoreverse, animations: {

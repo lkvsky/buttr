@@ -15,8 +15,10 @@ class TimerLabelView: UIView {
     weak var secondsUnitLabel: UILabel!
     weak var minutesLabel: UILabel!
     weak var minutesUnitLabel: UILabel!
+    weak var minutesColon: UILabel!
     weak var hoursLabel: UILabel!
     weak var hoursUnitLabel: UILabel!
+    weak var hoursColon: UILabel!
     
     var secondsCenterXConstraint: NSLayoutConstraint!
     var minutesCenterXConstraint: NSLayoutConstraint!
@@ -63,6 +65,7 @@ class TimerLabelView: UIView {
         self.addHoursLabel()
         self.addMinutesLabel()
         self.addSecondsLabel()
+        self.addColons()
         self.adjustCenterConstraints()
     }
     
@@ -141,6 +144,26 @@ class TimerLabelView: UIView {
         self.hoursUnitLabel = hoursTextLabel
     }
     
+    private func addColons() {
+        let minutesColon = self.createLabel(UIColor.primaryTextColor())
+        let hoursColon = self.createLabel(UIColor.primaryTextColor())
+        
+        for label in [minutesColon, hoursColon] {
+            label.text = ":"
+            label.backgroundColor = UIColor.clearColor()
+            label.layer.opacity = 0
+            self.addSubview(label)
+            self.addConstraint(NSLayoutConstraint(item: label, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 15))
+            self.addConstraint(NSLayoutConstraint(item: label, attribute: .Height, relatedBy: .Equal, toItem: minutesLabel, attribute: .Height, multiplier: 1.0, constant: 0))
+            self.addConstraint(NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
+        }
+        
+        self.minutesColon = minutesColon
+        self.hoursColon = hoursColon
+        self.addConstraint(NSLayoutConstraint(item: minutesColon, attribute: .Leading, relatedBy: .Equal, toItem: minutesLabel, attribute: .Right, multiplier: 1.0, constant: -4))
+        self.addConstraint(NSLayoutConstraint(item: hoursColon, attribute: .Leading, relatedBy: .Equal, toItem: hoursLabel, attribute: .Right, multiplier: 1.0, constant: -4))
+    }
+    
     // MARK: Label Convenience Methods
     
     private func getFormattedTimeText(time: Int) -> String {
@@ -175,7 +198,7 @@ class TimerLabelView: UIView {
     }
     
     private func setInitialConstraintsForLabel(label: UILabel) {
-        self.addConstraint(NSLayoutConstraint(item: label, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1/3, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: label, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1/3, constant: -8))
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: -30))
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
     }
@@ -225,6 +248,8 @@ class TimerLabelView: UIView {
             minutesUnitLabel.layer.opacity = 0
             hoursLabel.layer.opacity = 0
             hoursUnitLabel.layer.opacity = 0
+            minutesColon.layer.opacity = 0
+            hoursColon.layer.opacity = 0
             break
             
         case 2:
@@ -235,6 +260,8 @@ class TimerLabelView: UIView {
             minutesUnitLabel.layer.opacity = 1
             hoursLabel.layer.opacity = 0
             hoursUnitLabel.layer.opacity = 0
+            minutesColon.layer.opacity = 1
+            hoursColon.layer.opacity = 0
             break
             
         case 3:
@@ -245,6 +272,8 @@ class TimerLabelView: UIView {
             minutesUnitLabel.layer.opacity = 1
             hoursLabel.layer.opacity = 1
             hoursUnitLabel.layer.opacity = 1
+            minutesColon.layer.opacity = 1
+            hoursColon.layer.opacity = 1
             break
             
         default:
