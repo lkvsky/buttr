@@ -25,6 +25,7 @@ class TimerLabelView: UIView {
     var hoursCenterXConstraint: NSLayoutConstraint!
     
     var scaledDown: Bool = false
+    var renderAllUnits: Bool = false
     
     var seconds: Int = 0 {
         didSet {
@@ -52,13 +53,13 @@ class TimerLabelView: UIView {
         self.addHoursLabel()
         self.addMinutesLabel()
         self.addSecondsLabel()
-        self.adjustCenterConstraints()
     }
     
-    init(frame: CGRect, scaledDown: Bool = false) {
+    init(frame: CGRect, scaledDown: Bool = false, renderAllUnits: Bool = false) {
         super.init(frame: frame)
         
         self.scaledDown = scaledDown
+        self.renderAllUnits = renderAllUnits
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.backgroundColor = UIColor.clearColor()
         
@@ -66,7 +67,12 @@ class TimerLabelView: UIView {
         self.addMinutesLabel()
         self.addSecondsLabel()
         self.addColons()
-        self.adjustCenterConstraints()
+        
+        if (renderAllUnits) {
+            self.renderEntireTimeString(CGFloat(170.0 / 3.0))
+        } else {
+            self.adjustCenterConstraints()
+        }
     }
     
     
@@ -212,7 +218,21 @@ class TimerLabelView: UIView {
         self.minutes = minutes
         self.hours = hours
         
-        self.adjustCenterConstraints()
+        if (!renderAllUnits) {
+            self.adjustCenterConstraints()
+        }
+    }
+    
+    func renderEntireTimeString(frameWidth: CGFloat) {
+        secondsCenterXConstraint.constant = frameWidth
+        minutesCenterXConstraint.constant = 0
+        hoursCenterXConstraint.constant = -frameWidth
+        minutesLabel.layer.opacity = 1
+        minutesUnitLabel.layer.opacity = 1
+        hoursLabel.layer.opacity = 1
+        hoursUnitLabel.layer.opacity = 1
+        minutesColon.layer.opacity = 1
+        hoursColon.layer.opacity = 1
     }
     
     // MARK: Constraint animation
@@ -265,15 +285,7 @@ class TimerLabelView: UIView {
             break
             
         case 3:
-            secondsCenterXConstraint.constant = frameWidth
-            minutesCenterXConstraint.constant = 0
-            hoursCenterXConstraint.constant = -frameWidth
-            minutesLabel.layer.opacity = 1
-            minutesUnitLabel.layer.opacity = 1
-            hoursLabel.layer.opacity = 1
-            hoursUnitLabel.layer.opacity = 1
-            minutesColon.layer.opacity = 1
-            hoursColon.layer.opacity = 1
+            self.renderEntireTimeString(frameWidth)
             break
             
         default:

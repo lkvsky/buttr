@@ -30,15 +30,25 @@ class EditTimerViewController: UIViewController {
         
         // initialize gestures and actions
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: .ValueChanged)
-        timerControlView.secondSlider.addTarget(self, action: "onRevolutionCompletion:", forControlEvents: .ApplicationReserved)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: .ValueChanged)
-        timerControlView.minuteSlider.addTarget(self, action: "onRevolutionCompletion:", forControlEvents: .ApplicationReserved)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
         self.timerActionView.startButton.addTarget(self, action: "onSetTimerTap:", forControlEvents: .TouchUpInside)
         self.timerActionView.resetButton.addTarget(self, action: "reset", forControlEvents: .TouchUpInside)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onRevolutionCompletion:", name: "UserPassedStartingAngle", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onRegisterNotifications:", name: "UserRegisteredNotifications", object: nil)
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen:")
         self.view.addGestureRecognizer(tapGesture)
+
+        // check if the user has notifications turned off
+        var userPrefs = NSUserDefaults.standardUserDefaults()
+        var userHasRegisteredForNotifications: Bool = userPrefs.objectForKey("HasRegisteredNotifications") != nil
+        
+        if (userHasRegisteredForNotifications && nil == UIApplication.sharedApplication().currentUserNotificationSettings().types) {
+            if let homeVc = self.parentViewController as? HomeViewController {
+                homeVc.userDeniedNotifications()
+            }
+        }
     }
     
     deinit {
@@ -72,7 +82,7 @@ class EditTimerViewController: UIViewController {
     }
     
     private func addTimerLabel() {
-        let timerLabelView = TimerLabelView(frame: CGRectZero, scaledDown: self.scaleDownViews())
+        let timerLabelView = TimerLabelView(frame: CGRectZero, scaledDown: self.scaleDownViews(), renderAllUnits: true)
         timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerLabelView)
         self.timerLabelView = timerLabelView
@@ -115,52 +125,55 @@ class EditTimerViewController: UIViewController {
         self.delegate?.didGiveTimerValue(self)
     }
     
-    func onSecondsChange(slider: CircularSlider) {
-        var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
-
-        timerLabelView.seconds = newTime == 60 ? 59 : newTime
-        timerLabelView.adjustCenterConstraints()
+    func onTimeChange() {
+        let totalTime = self.timerControlView.getTotalTime()
+        let timeIsZero = totalTime == 0
         
-        if (self.timerControlView.getTotalTime() == 0) {
+        if (timeIsZero) {
             self.didClearTimerValue()
         } else {
             self.didGiveTimerValue()
         }
+        
+        timerControlView.secondSlider.canMoveBackwards = totalTime > 0
+        timerControlView.minuteSlider.canMoveBackwards = totalTime >= 60
+        timerControlView.hourSlider.canMoveBackwards = totalTime >= 3600
+    }
+    
+    func onSecondsChange(slider: CircularSlider) {
+        var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
+
+        timerLabelView.seconds = newTime == 60 ? 0 : newTime
+        self.onTimeChange()
     }
     
     func onMinutesChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
-        timerLabelView.minutes = newTime == 60 ? 59 : newTime
-        timerLabelView.adjustCenterConstraints()
-        
-        if (self.timerControlView.getTotalTime() == 0) {
-            self.didClearTimerValue()
-        } else {
-            self.didGiveTimerValue()
-        }
+        timerLabelView.minutes = newTime == 60 ? 0 : newTime
+        self.onTimeChange()
     }
     
     func onHoursChange(slider: CircularSlider) {
         var newTime = slider.getTimeUnitFromAngleInt(slider.angle);
 
-        timerLabelView.hours = newTime == 24 ? 23 : newTime
-        timerLabelView.adjustCenterConstraints()
-        
-        if (self.timerControlView.getTotalTime() == 0) {
-            self.didClearTimerValue()
-        } else {
-            self.didGiveTimerValue()
-        }
+        timerLabelView.hours = newTime == 24 ? 0 : newTime
+        self.onTimeChange()
     }
     
-    func onRevolutionCompletion(slider: CircularSlider) {
-        if (slider === timerControlView.secondSlider) {
-            timerControlView.minuteSlider.addTimeUnitByAmmount(1)
-            timerLabelView.minutes += 1
-        } else if (slider === timerControlView.minuteSlider) {
-            timerControlView.hourSlider.addTimeUnitByAmmount(1)
-            timerLabelView.hours += 1
+    func onRevolutionCompletion(notification: NSNotification) {
+        let direction = notification.userInfo!["direction"] as! Int
+        
+        if (notification.object === timerControlView.secondSlider) {
+            if (timerLabelView.minutes + direction >= 0) {
+                timerControlView.minuteSlider.addTimeUnitByAmmount(direction)
+                timerLabelView.minutes += direction
+            }
+        } else if (notification.object === timerControlView.minuteSlider) {
+            if (timerLabelView.hours + direction >= 0) {
+                timerControlView.hourSlider.addTimeUnitByAmmount(direction)
+                timerLabelView.hours += direction
+            }
         }
     }
     
@@ -195,6 +208,18 @@ class EditTimerViewController: UIViewController {
     }
     
     func onSetTimerTap(sender: UIButton) {
+        if (UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
+            let notificationCategory = UIMutableUserNotificationCategory()
+            notificationCategory.identifier = "BUTTR_ALERT_CATEGORY"
+            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes:UIUserNotificationType.Alert|UIUserNotificationType.Badge|UIUserNotificationType.Sound, categories: nil))
+        }
+    }
+    
+    func onRegisterNotifications(notification: NSNotification) {
+        var userPrefs = NSUserDefaults.standardUserDefaults()
+        userPrefs.setObject(1, forKey: "HasRegisteredNotifications")
+        userPrefs.synchronize()
+        
         delegate?.didSetTimer(timerControlView.getTotalTime(), sender: self)
     }
     
