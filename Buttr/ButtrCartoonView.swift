@@ -21,11 +21,9 @@ class ButtrCartoonView: UIView {
     weak var notifDialogueRight: UIImageView?
     weak var setTimerDialogue: UIImageView?
     weak var dragBoneDialogue: UIImageView?
+    weak var clearBoneDialogue: UIImageView?
     
     var headIsTilted: Bool = false
-    var notificationDialogueShowing: Bool = false
-    var setTimerDialogueShowing: Bool = false
-    var dragBoneDialogueShowing: Bool = false
     
     override func awakeFromNib() {
         // initialize cartoon components
@@ -145,6 +143,18 @@ class ButtrCartoonView: UIView {
         self.addRightDialogueConstraints(self.dragBoneDialogue!, height: 163.0)
     }
     
+    private func addClearBoneDialogue() {
+        let imageView = UIImageView(frame: CGRectZero)
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.image = UIImage(named: "clear_bone_dialogue")
+        
+        self.addSubview(imageView)
+        self.clearBoneDialogue = imageView
+        self.clearBoneDialogue!.layer.opacity = 0
+        self.clearBoneDialogue!.transform = CGAffineTransformMakeScale(0, 0)
+        self.addRightDialogueConstraints(self.clearBoneDialogue!, height: 163.0)
+    }
+    
     private func addRightDialogueConstraints(view: UIView, height: CGFloat) {
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: height))
@@ -178,12 +188,7 @@ class ButtrCartoonView: UIView {
     }
     
     func showNotificationDialogue() {
-        if (self.notificationDialogueShowing) {
-            return
-        }
-        
         self.removeDialogues()
-        self.notificationDialogueShowing = true
         self.addNotifDialogueLeft()
         self.addNotifDialogueRight()
         self.animateWithoutCompletion() {
@@ -195,22 +200,8 @@ class ButtrCartoonView: UIView {
         }
     }
     
-    func removeNotificationDialogue() {
-        if (!self.notificationDialogueShowing) {
-            return
-        }
-        
-        self.notificationDialogueShowing = false
-        self.removeDialogues()
-    }
-    
     func showSetTimerDialogue() {
-        if (self.setTimerDialogueShowing) {
-            return
-        }
-        
         self.removeDialogues()
-        self.setTimerDialogueShowing = true
         self.addSetTimerDialogue()
         self.animateWithoutCompletion() {
             [unowned self] () -> Void in
@@ -219,22 +210,8 @@ class ButtrCartoonView: UIView {
         }
     }
     
-    func removeSetTimerDialogue() {
-        if (!self.setTimerDialogueShowing) {
-            return
-        }
-        
-        self.setTimerDialogueShowing = false
-        self.removeDialogues()
-    }
-    
     func showDragBoneDialogue() {
-        if (self.dragBoneDialogueShowing) {
-            return
-        }
-        
         self.removeDialogues()
-        self.dragBoneDialogueShowing = true
         self.addDragBoneDialogue()
         self.animateWithoutCompletion() {
             [unowned self] () -> Void in
@@ -243,17 +220,18 @@ class ButtrCartoonView: UIView {
         }
     }
     
-    func removeDragBoneDialogue() {
-        if (!self.dragBoneDialogueShowing) {
-            return
-        }
-        
-        self.dragBoneDialogueShowing = false
+    func showClearBoneDialogue() {
         self.removeDialogues()
+        self.addClearBoneDialogue()
+        self.animateWithoutCompletion() {
+            [unowned self] () -> Void in
+            self.clearBoneDialogue!.layer.opacity = 1
+            self.clearBoneDialogue!.transform = CGAffineTransformIdentity
+        }
     }
     
     func removeDialogues() {
-        let dialogues = [self.setTimerDialogue, self.notifDialogueLeft, self.notifDialogueRight, self.dragBoneDialogue]
+        let dialogues = [self.setTimerDialogue, self.notifDialogueLeft, self.notifDialogueRight, self.dragBoneDialogue, self.clearBoneDialogue]
         
         UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
             [unowned self] () -> Void in
@@ -301,6 +279,28 @@ class ButtrCartoonView: UIView {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             [unowned self] () -> Void in
             self.head.image = UIImage(named: "buttr_head")
+        }
+    }
+    
+    func closeEyes() {
+        self.head.image = UIImage(named: "buttr_eyes_closed")
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            [unowned self] () -> Void in
+            self.head.image = UIImage(named: "buttr_head")
+        }
+    }
+    
+    func respondToTouch() {
+        let randomSelectorInt = Int(arc4random_uniform(2))
+        
+        switch randomSelectorInt {
+        case 0:
+            self.stickOutTongue()
+            break
+        default:
+            self.closeEyes()
+            break
         }
     }
     

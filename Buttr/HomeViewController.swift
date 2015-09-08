@@ -16,6 +16,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
     var renderedNotificationWarningThisSession: Bool = false
+    var renderedSetTimerDialogue: Bool = false
+    var renderedDragBoneDialogue: Bool = false
+    var dontRenderDialogues: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,13 +34,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // check if the user has notifications turned off or is first load
         var userPrefs = NSUserDefaults.standardUserDefaults()
         var userHasRegisteredForNotifications: Bool = userPrefs.objectForKey("HasRegisteredNotifications") != nil
-        var userHasNotLoadedApp: Bool = userPrefs.objectForKey("UserHasLoadedApp") == nil
         
-        if (userHasNotLoadedApp) {
-            self.buttrCartoon.showSetTimerDialogue()
-            userPrefs.setObject(1, forKey: "UserHasLoadedApp")
-            userPrefs.synchronize()
-        } else if (userHasRegisteredForNotifications && nil == UIApplication.sharedApplication().currentUserNotificationSettings().types) {
+        if (userHasRegisteredForNotifications && nil == UIApplication.sharedApplication().currentUserNotificationSettings().types) {
             self.userDeniedNotifications()
         }
         
@@ -135,7 +133,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     @IBAction func onDoneTap(sender: UIButton) {
         if let timerProgressVC = self.childViewControllers.first as? TimerProgressViewController {
+            // allow user to tap butter again
+            self.dontRenderDialogues = false
             buttrCartoon.hideAlarmDialogue()
+            
             // clear NSTimer instances and mark timer as complete
             // also calls delegate method which removes the timer progress
             // view and adds the edit timer view
@@ -161,6 +162,20 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         if (!self.renderedNotificationWarningThisSession) {
             self.buttrCartoon.showNotificationDialogue()
             self.renderedNotificationWarningThisSession = true
+        }
+    }
+    
+    func showSetTimerDialogue() {
+        if (!self.renderedSetTimerDialogue) {
+            self.buttrCartoon.showSetTimerDialogue()
+            self.renderedSetTimerDialogue = true
+        }
+    }
+    
+    func showSetWarningDialogue() {
+        if (!self.renderedDragBoneDialogue) {
+            self.buttrCartoon.showDragBoneDialogue()
+            self.renderedDragBoneDialogue = true
         }
     }
     
@@ -226,13 +241,13 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         let touchedHead = CGRectContainsPoint(self.buttrCartoon.head.bounds, self.buttrCartoon.convertPoint(touchPoint, toView: self.buttrCartoon.head))
         let touchedBody = CGRectContainsPoint(self.buttrCartoon.body.bounds, self.buttrCartoon.convertPoint(touchPoint, toView: self.buttrCartoon.body))
         
-        if (touchedHead || touchedBody) {
-            self.buttrCartoon.stickOutTongue()
+        if ((touchedHead || touchedBody) && !self.dontRenderDialogues) {
+            self.buttrCartoon.respondToTouch()
             
             if (nil == Timer.getCurrentTimer()) {
-                self.buttrCartoon.showSetTimerDialogue()
+                self.showSetTimerDialogue()
             } else {
-                self.buttrCartoon.showDragBoneDialogue()
+                self.showSetWarningDialogue()
             }
         }
     }
@@ -249,6 +264,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func didFinishTimer(sender: TimerProgressViewController) {
+        // prevent tapping butter from rendering dialogue boxes until
+        // user has cancelled timer
+        self.dontRenderDialogues = true
         self.buttrCartoon.removeDialogues()
         self.buttrCartoon.tiltHead(direction: -1)
         self.buttrCartoon.stickOutTongue()
@@ -294,10 +312,31 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func shouldHideSetWarningPrompt(sender: TimerProgressViewController) {
-
+        self.buttrCartoon.removeDialogues()
+        
+        // check if this is user's first time setting warning
+        // if so, render instructions for removing bone
+        var userPrefs = NSUserDefaults.standardUserDefaults()
+        var usersFirstTimeSettingWarning = userPrefs.objectForKey("UsersFirstTimeSettingWarning") == nil
+        
+        if (usersFirstTimeSettingWarning) {
+            userPrefs.setObject(1, forKey: "UsersFirstTimeSettingWarning")
+            userPrefs.synchronize()
+            self.buttrCartoon.showClearBoneDialogue()
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                [unowned self] () -> Void in
+                self.buttrCartoon.removeDialogues()
+            }
+        }
     }
     
     func shouldShowSetWarningPrompt(sender: TimerProgressViewController) {
-
+        self.showSetWarningDialogue()
     }
+    
+    func shouldRenderSetTimerDialogue(sender: EditTimerViewController) {
+        self.showSetTimerDialogue()
+    }
+
 }

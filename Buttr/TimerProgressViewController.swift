@@ -76,6 +76,16 @@ class TimerProgressViewController: UIViewController {
             } else if (self.timer.hasStarted()) {
                 self.setTimerRestartState()
             }
+            
+            // check if user has seen warning instructions before
+            // if not, render dialogue
+            var userPrefs = NSUserDefaults.standardUserDefaults()
+            var userHasSeenWarningInstructions = userPrefs.objectForKey("UserHasSeenWarningInstructions") != nil
+            
+            if (!userHasSeenWarningInstructions) {
+                userPrefs.setObject(1, forKey: "UserHasSeenWarningInstructions")
+                self.delegate?.shouldShowSetWarningPrompt(self)
+            }
         }
     }
     
@@ -239,9 +249,9 @@ class TimerProgressViewController: UIViewController {
     }
     
     func onWarningsChange(slider: WarningSlider) {
-        // TODO: Store warnigns and set alarms accordingly
         self.timer.addWarnings(slider.warningTimes)
         DataManager.sharedInstance.save()
+        self.delegate?.shouldHideSetWarningPrompt(self)
     }
     
     // MARK: Public Methods

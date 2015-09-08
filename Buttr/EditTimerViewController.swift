@@ -39,6 +39,17 @@ class EditTimerViewController: UIViewController {
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen:")
         self.view.addGestureRecognizer(tapGesture)
+        
+        // check if a user has set a timer before.
+        // if not, render instructional dialogue
+        var userPrefs = NSUserDefaults.standardUserDefaults()
+        var userHasSeenSetTimerDialogue = userPrefs.objectForKey("UserHasSeenSetTimerDialogue") != nil
+        
+        if (!userHasSeenSetTimerDialogue) {
+            self.delegate?.shouldRenderSetTimerDialogue(self)
+            userPrefs.setObject(1, forKey: "UserHasSeenSetTimerDialogue")
+            userPrefs.synchronize()
+        }
     }
     
     deinit {
@@ -231,5 +242,6 @@ protocol EditTimerDelegate {
     func didSetTimer(duration: Int, sender: EditTimerViewController)
     func didGiveTimerValue(sender: EditTimerViewController)
     func didClearTimerValue(sender: EditTimerViewController)
+    func shouldRenderSetTimerDialogue(sender: EditTimerViewController)
 }
 
