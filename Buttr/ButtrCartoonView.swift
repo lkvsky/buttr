@@ -17,10 +17,15 @@ class ButtrCartoonView: UIView {
     weak var alarmDialogue: UIImageView!
 
     // conditional views
-    weak var notifDialogueLeft: UIImageView!
-    weak var notifDialogueRight: UIImageView!
+    weak var notifDialogueLeft: UIImageView?
+    weak var notifDialogueRight: UIImageView?
+    weak var setTimerDialogue: UIImageView?
+    weak var dragBoneDialogue: UIImageView?
     
     var headIsTilted: Bool = false
+    var notificationDialogueShowing: Bool = false
+    var setTimerDialogueShowing: Bool = false
+    var dragBoneDialogueShowing: Bool = false
     
     override func awakeFromNib() {
         // initialize cartoon components
@@ -95,13 +100,13 @@ class ButtrCartoonView: UIView {
         
         self.addSubview(imageView)
         self.notifDialogueLeft = imageView
-        self.notifDialogueLeft.layer.opacity = 0
-        self.notifDialogueLeft.transform = CGAffineTransformMakeScale(0, 0)
+        self.notifDialogueLeft!.layer.opacity = 0
+        self.notifDialogueLeft!.transform = CGAffineTransformMakeScale(0, 0)
         
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 66))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Left, multiplier: 1.0, constant: -8))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 66))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Left, multiplier: 1.0, constant: -8))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
     }
     
     private func addNotifDialogueRight() {
@@ -111,31 +116,57 @@ class ButtrCartoonView: UIView {
         
         self.addSubview(imageView)
         self.notifDialogueRight = imageView
-        self.notifDialogueRight.layer.opacity = 0
-        self.notifDialogueRight.transform = CGAffineTransformMakeScale(0, 0)
+        self.notifDialogueRight!.layer.opacity = 0
+        self.notifDialogueRight!.transform = CGAffineTransformMakeScale(0, 0)
+        self.addRightDialogueConstraints(self.notifDialogueRight!, height: 104.0)
+    }
+    
+    private func addSetTimerDialogue() {
+        let imageView = UIImageView(frame: CGRectZero)
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.image = UIImage(named: "set_timer_dialogue")
         
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 104))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueRight, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
+        self.addSubview(imageView)
+        self.setTimerDialogue = imageView
+        self.setTimerDialogue!.layer.opacity = 0
+        self.setTimerDialogue!.transform = CGAffineTransformMakeScale(0, 0)
+        self.addRightDialogueConstraints(self.setTimerDialogue!, height: 163.0)
+    }
+    
+    private func addDragBoneDialogue() {
+        let imageView = UIImageView(frame: CGRectZero)
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.image = UIImage(named: "drag_bone_dialogue")
+        
+        self.addSubview(imageView)
+        self.dragBoneDialogue = imageView
+        self.dragBoneDialogue!.layer.opacity = 0
+        self.dragBoneDialogue!.transform = CGAffineTransformMakeScale(0, 0)
+        self.addRightDialogueConstraints(self.dragBoneDialogue!, height: 163.0)
+    }
+    
+    private func addRightDialogueConstraints(view: UIView, height: CGFloat) {
+        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
+        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: height))
+        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
+        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
     }
     
     // MARK: Dialogue Box Methods
     
     private func showAlarmDialogue(image: UIImage) {
         self.alarmDialogue.image = image
-        
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+        self.animateWithoutCompletion() {
             [unowned self] () -> Void in
             self.alarmDialogue.transform = CGAffineTransformIdentity
-            }, completion: nil)
+        }
     }
     
     func hideAlarmDialogue() {
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+        self.animateWithoutCompletion() {
             [unowned self] () -> Void in
             self.alarmDialogue.transform = CGAffineTransformMakeScale(0, 0)
-            }, completion: nil)
+        }
     }
     
     func growl() {
@@ -147,30 +178,99 @@ class ButtrCartoonView: UIView {
     }
     
     func showNotificationDialogue() {
+        if (self.notificationDialogueShowing) {
+            return
+        }
+        
+        self.removeDialogues()
+        self.notificationDialogueShowing = true
         self.addNotifDialogueLeft()
         self.addNotifDialogueRight()
-        
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
+        self.animateWithoutCompletion() {
             [unowned self] () -> Void in
-            self.notifDialogueRight.layer.opacity = 1
-            self.notifDialogueRight.transform = CGAffineTransformIdentity
-            self.notifDialogueLeft.layer.opacity = 1
-            self.notifDialogueLeft.transform = CGAffineTransformIdentity
-            }, completion: nil)
+            self.notifDialogueRight!.layer.opacity = 1
+            self.notifDialogueRight!.transform = CGAffineTransformIdentity
+            self.notifDialogueLeft!.layer.opacity = 1
+            self.notifDialogueLeft!.transform = CGAffineTransformIdentity
+        }
     }
     
     func removeNotificationDialogue() {
+        if (!self.notificationDialogueShowing) {
+            return
+        }
+        
+        self.notificationDialogueShowing = false
+        self.removeDialogues()
+    }
+    
+    func showSetTimerDialogue() {
+        if (self.setTimerDialogueShowing) {
+            return
+        }
+        
+        self.removeDialogues()
+        self.setTimerDialogueShowing = true
+        self.addSetTimerDialogue()
+        self.animateWithoutCompletion() {
+            [unowned self] () -> Void in
+            self.setTimerDialogue!.layer.opacity = 1
+            self.setTimerDialogue!.transform = CGAffineTransformIdentity
+        }
+    }
+    
+    func removeSetTimerDialogue() {
+        if (!self.setTimerDialogueShowing) {
+            return
+        }
+        
+        self.setTimerDialogueShowing = false
+        self.removeDialogues()
+    }
+    
+    func showDragBoneDialogue() {
+        if (self.dragBoneDialogueShowing) {
+            return
+        }
+        
+        self.removeDialogues()
+        self.dragBoneDialogueShowing = true
+        self.addDragBoneDialogue()
+        self.animateWithoutCompletion() {
+            [unowned self] () -> Void in
+            self.dragBoneDialogue!.layer.opacity = 1
+            self.dragBoneDialogue!.transform = CGAffineTransformIdentity
+        }
+    }
+    
+    func removeDragBoneDialogue() {
+        if (!self.dragBoneDialogueShowing) {
+            return
+        }
+        
+        self.dragBoneDialogueShowing = false
+        self.removeDialogues()
+    }
+    
+    func removeDialogues() {
+        let dialogues = [self.setTimerDialogue, self.notifDialogueLeft, self.notifDialogueRight, self.dragBoneDialogue]
+        
         UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
             [unowned self] () -> Void in
-            self.notifDialogueRight.layer.opacity = 0
-            self.notifDialogueRight.transform = CGAffineTransformMakeScale(0, 0)
-            self.notifDialogueLeft.layer.opacity = 0
-            self.notifDialogueLeft.transform = CGAffineTransformMakeScale(0, 0)
+            for dialogue in dialogues {
+                dialogue?.layer.opacity = 0
+                dialogue?.transform = CGAffineTransformMakeScale(0, 0)
+            }
             }) {
                 [unowned self] (Bool finished) -> Void in
-                self.notifDialogueLeft.removeFromSuperview()
-                self.notifDialogueRight.removeFromSuperview()
+                for dialogue in dialogues {
+                    dialogue?.removeFromSuperview()
+                }
         }
+    }
+    
+    private func animateWithoutCompletion(block: (() -> ())) {
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: block, completion: nil)
     }
     
     // MARK: Animation Methods

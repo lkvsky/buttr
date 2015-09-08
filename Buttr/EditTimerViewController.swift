@@ -32,23 +32,13 @@ class EditTimerViewController: UIViewController {
         timerControlView.secondSlider.addTarget(self, action: "onSecondsChange:", forControlEvents: .ValueChanged)
         timerControlView.minuteSlider.addTarget(self, action: "onMinutesChange:", forControlEvents: .ValueChanged)
         timerControlView.hourSlider.addTarget(self, action: "onHoursChange:", forControlEvents: .ValueChanged)
-        self.timerActionView.startButton.addTarget(self, action: "onSetTimerTap:", forControlEvents: .TouchUpInside)
+        self.timerActionView.startButton.addTarget(self, action: "onSetTimerTap", forControlEvents: .TouchUpInside)
         self.timerActionView.resetButton.addTarget(self, action: "reset", forControlEvents: .TouchUpInside)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onRevolutionCompletion:", name: "UserPassedStartingAngle", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onRegisterNotifications:", name: "UserRegisteredNotifications", object: nil)
         
         var tapGesture = UITapGestureRecognizer(target: self, action: "onShowAltEditScreen:")
         self.view.addGestureRecognizer(tapGesture)
-
-        // check if the user has notifications turned off
-        var userPrefs = NSUserDefaults.standardUserDefaults()
-        var userHasRegisteredForNotifications: Bool = userPrefs.objectForKey("HasRegisteredNotifications") != nil
-        
-        if (userHasRegisteredForNotifications && nil == UIApplication.sharedApplication().currentUserNotificationSettings().types) {
-            if let homeVc = self.parentViewController as? HomeViewController {
-                homeVc.userDeniedNotifications()
-            }
-        }
     }
     
     deinit {
@@ -201,13 +191,12 @@ class EditTimerViewController: UIViewController {
                 self.didClearTimerValue()
             } else {
                 self.didGiveTimerValue()
+                self.onSetTimerTap()
             }
         }
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func onSetTimerTap(sender: UIButton) {
+    func onSetTimerTap() {
         if (UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
             let notificationCategory = UIMutableUserNotificationCategory()
             notificationCategory.identifier = "BUTTR_ALERT_CATEGORY"

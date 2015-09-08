@@ -27,6 +27,23 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // Listen for app to become active. If there's an active timer, render its progress. Otherwise
         // add the edit timer screen.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerOrEditScreen", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        // check if the user has notifications turned off or is first load
+        var userPrefs = NSUserDefaults.standardUserDefaults()
+        var userHasRegisteredForNotifications: Bool = userPrefs.objectForKey("HasRegisteredNotifications") != nil
+        var userHasNotLoadedApp: Bool = userPrefs.objectForKey("UserHasLoadedApp") == nil
+        
+        if (userHasNotLoadedApp) {
+            self.buttrCartoon.showSetTimerDialogue()
+            userPrefs.setObject(1, forKey: "UserHasLoadedApp")
+            userPrefs.synchronize()
+        } else if (userHasRegisteredForNotifications && nil == UIApplication.sharedApplication().currentUserNotificationSettings().types) {
+            self.userDeniedNotifications()
+        }
+        
+        // add tap gesture to buttr cartoon
+        var tap = UITapGestureRecognizer(target: self, action: "onButtrCartoonTap:")
+        self.buttrCartoon.addGestureRecognizer(tap)
     }
     
     deinit {
@@ -120,14 +137,9 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         if let timerProgressVC = self.childViewControllers.first as? TimerProgressViewController {
             buttrCartoon.hideAlarmDialogue()
             // clear NSTimer instances and mark timer as complete
+            // also calls delegate method which removes the timer progress
+            // view and adds the edit timer view
             timerProgressVC.reset()
-            
-            // remove timer vc
-            timerProgressVC.view.removeFromSuperview()
-            timerProgressVC.removeFromParentViewController()
-            
-            // add edit timer vc
-            self.addEditTimerVC()
             
             UIView.animateWithDuration(0.3,
                 delay: 0,
@@ -186,10 +198,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     // MARK: Delegate Methods
     
     func didSetTimer(duration: Int, sender: EditTimerViewController) {
-        // hide notification alert if rendered
-        if (self.renderedNotificationWarningThisSession) {
-            self.buttrCartoon.removeNotificationDialogue()
-        }
+        // hide any buttr notification/set timer dialogues
+        self.buttrCartoon.removeDialogues()
         
         // instantiate timer object
         let timer = Timer(context: DataManager.sharedInstance.mainMoc)
@@ -211,7 +221,24 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         }
     }
     
+    func onButtrCartoonTap(sender: UITapGestureRecognizer) {
+        let touchPoint = sender.locationInView(self.buttrCartoon)
+        let touchedHead = CGRectContainsPoint(self.buttrCartoon.head.bounds, self.buttrCartoon.convertPoint(touchPoint, toView: self.buttrCartoon.head))
+        let touchedBody = CGRectContainsPoint(self.buttrCartoon.body.bounds, self.buttrCartoon.convertPoint(touchPoint, toView: self.buttrCartoon.body))
+        
+        if (touchedHead || touchedBody) {
+            self.buttrCartoon.stickOutTongue()
+            
+            if (nil == Timer.getCurrentTimer()) {
+                self.buttrCartoon.showSetTimerDialogue()
+            } else {
+                self.buttrCartoon.showDragBoneDialogue()
+            }
+        }
+    }
+    
     func didClearTimerValue(sender: EditTimerViewController) {
+        self.buttrCartoon.removeDialogues()
         self.animateButtrToZero()
     }
     
@@ -222,6 +249,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func didFinishTimer(sender: TimerProgressViewController) {
+        self.buttrCartoon.removeDialogues()
         self.buttrCartoon.tiltHead(direction: -1)
         self.buttrCartoon.stickOutTongue()
         self.buttrCartoon.bark()
@@ -249,11 +277,13 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func didResetTimer(sender: TimerProgressViewController) {
         sender.view.removeFromSuperview()
         sender.removeFromParentViewController()
+        self.buttrCartoon.removeDialogues()
         self.addEditTimerVC()
         self.animateButtrToZero()
     }
     
     func didFireWarning(sender: TimerProgressViewController) {
+        self.buttrCartoon.removeDialogues()
         self.buttrCartoon.stickOutTongue()
         self.buttrCartoon.growl()
         

@@ -181,15 +181,6 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
     
     // MARK: Gestures & Events
     
-    func tapRecieved(sender: UITapGestureRecognizer) {
-        let touchLocation = sender.locationInView(self)
-        
-        if (self.touchedSliderPath(touchLocation)) {
-            self.moveHandle(touchLocation, ignoreDirection: true)
-            self.sendActionsForControlEvents(UIControlEvents.ValueChanged)
-        }
-    }
-    
     override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
 
