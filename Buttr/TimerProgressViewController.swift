@@ -172,15 +172,9 @@ class TimerProgressViewController: UIViewController {
     }
     
     private func addTimerDoneView() {
-        var frameWidth: CGFloat
+        var frameWidth = CGFloat(350)
         
-        if (self.scaleDownViews()) {
-            frameWidth = self.view.frame.size.height * 1/2
-        } else {
-            frameWidth = 350
-        }
-        
-        let timerDoneView = TimerDoneView(frame: CGRectMake(0, 0, frameWidth, frameWidth), dateWhenTimerStopped: self.timer.projectedEndDate())
+        let timerDoneView = TimerDoneView(frame: CGRectMake(0, 0, 350, 350), dateWhenTimerStopped: self.timer.projectedEndDate(), scaledDown: self.scaleDownViews())
         timerDoneView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerDoneView)
         self.timerDoneView = timerDoneView

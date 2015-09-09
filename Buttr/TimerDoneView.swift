@@ -10,6 +10,7 @@ import UIKit
 
 class TimerDoneView: UIView {
     var dateWhenTimerStopped: NSDate!
+    var scaledDown: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,14 +28,15 @@ class TimerDoneView: UIView {
         self.clipsToBounds = false
     }
     
-    convenience init(frame: CGRect, dateWhenTimerStopped: NSDate) {
+    convenience init(frame: CGRect, dateWhenTimerStopped: NSDate, scaledDown: Bool = false) {
         self.init(frame: frame)
         
         self.dateWhenTimerStopped = dateWhenTimerStopped
+        self.scaledDown = scaledDown
         self.addLabels()
     }
     
-    private func addLabels() {
+    func addLabels() {
         let dateWhenTimerStoppedLabel = UILabel()
         let timesUpLabel = UILabel()
         
@@ -54,7 +56,7 @@ class TimerDoneView: UIView {
         // specific properties for timesUpLabel
         self.addConstraint(NSLayoutConstraint(item: timesUpLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 200))
         self.addConstraint(NSLayoutConstraint(item: timesUpLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 72))
-        timesUpLabel.font = UIFont(name: "Lato-Black", size: 60)
+        timesUpLabel.font = UIFont(name: "Lato-Black", size: self.scaledDown ? 40 : 60)
         timesUpLabel.text = "TIME'S UP!"
         
         // specific properties for dateWhenTimerStoppedLabel

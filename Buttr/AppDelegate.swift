@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // queue up notifications for timer and warning intervals
         if let timer = Timer.getCurrentTimer() {
-            if (Int(timer.duration) > 0) {
+            if (Int(timer.duration) > 0 && !timer.isPaused.boolValue) {
                 let projectedEndDate = timer.projectedEndDate()
                 
                 if (projectedEndDate.timeIntervalSinceNow > 0.0) {

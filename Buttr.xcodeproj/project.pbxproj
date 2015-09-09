@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		3C4CE3951B763AE700B7ADD3 /* MathHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */; };
 		3C4CE3971B766CB500B7ADD3 /* TimerLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */; };
-		3C60E07E1B8B9E0300FE7AE4 /* butter_growl.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C60E07D1B8B9E0300FE7AE4 /* butter_growl.wav */; };
 		3C633D921B81107B007DC9AF /* Timer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D911B81107B007DC9AF /* Timer+Utilities.swift */; };
 		3C633D941B812220007DC9AF /* ButtrCartoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D931B812220007DC9AF /* ButtrCartoonView.swift */; };
 		3C633D981B812CF0007DC9AF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C633D971B812CF0007DC9AF /* HomeViewController.swift */; };
 		3C68E9C51B93AA35006BF764 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C41B93AA35006BF764 /* Timer.swift */; };
 		3C68E9C71B962096006BF764 /* TimerDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C61B962096006BF764 /* TimerDoneView.swift */; };
 		3C68E9C91B98D3A3006BF764 /* TimerActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68E9C81B98D3A3006BF764 /* TimerActionView.swift */; };
+		3C68E9CB1BA06A1C006BF764 /* butter_growl.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C68E9CA1BA06A1C006BF764 /* butter_growl.wav */; };
 		3C7CD1681B8274BC00FEED2D /* WarningSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */; };
 		3C7CD16D1B82A4F700FEED2D /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16C1B82A4F700FEED2D /* Warning.swift */; };
 		3C7CD16F1B82A7AC00FEED2D /* Warning+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CD16E1B82A7AC00FEED2D /* Warning+Utilities.swift */; };
@@ -61,7 +61,6 @@
 /* Begin PBXFileReference section */
 		3C4CE3941B763AE700B7ADD3 /* MathHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathHelpers.swift; sourceTree = "<group>"; };
 		3C4CE3961B766CB500B7ADD3 /* TimerLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerLabelView.swift; sourceTree = "<group>"; };
-		3C60E07D1B8B9E0300FE7AE4 /* butter_growl.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = butter_growl.wav; sourceTree = "<group>"; };
 		3C633D8E1B7ECC4A007DC9AF /* Butter0.0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.5.xcdatamodel; sourceTree = "<group>"; };
 		3C633D911B81107B007DC9AF /* Timer+Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Timer+Utilities.swift"; sourceTree = "<group>"; };
 		3C633D931B812220007DC9AF /* ButtrCartoonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtrCartoonView.swift; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		3C68E9C41B93AA35006BF764 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		3C68E9C61B962096006BF764 /* TimerDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerDoneView.swift; sourceTree = "<group>"; };
 		3C68E9C81B98D3A3006BF764 /* TimerActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerActionView.swift; sourceTree = "<group>"; };
+		3C68E9CA1BA06A1C006BF764 /* butter_growl.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = butter_growl.wav; sourceTree = "<group>"; };
 		3C7CD1671B8274BC00FEED2D /* WarningSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningSlider.swift; sourceTree = "<group>"; };
 		3C7CD1691B82A37900FEED2D /* Butter0.0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Butter0.0.6.xcdatamodel; sourceTree = "<group>"; };
 		3C7CD16C1B82A4F700FEED2D /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
@@ -268,8 +268,8 @@
 		3CF1FDC31B7D2EAA0017F1AE /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				3C68E9CA1BA06A1C006BF764 /* butter_growl.wav */,
 				3CF1FDC41B7D2EB00017F1AE /* butter_bark.wav */,
-				3C60E07D1B8B9E0300FE7AE4 /* butter_growl.wav */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -367,7 +367,7 @@
 				3CE7FA041B754ED70015EED7 /* Lato-Black.ttf in Resources */,
 				3CF1FDC51B7D2EB00017F1AE /* butter_bark.wav in Resources */,
 				3CE7FA051B754ED70015EED7 /* Lato-Light.ttf in Resources */,
-				3C60E07E1B8B9E0300FE7AE4 /* butter_growl.wav in Resources */,
+				3C68E9CB1BA06A1C006BF764 /* butter_growl.wav in Resources */,
 				3CE7FA061B754ED70015EED7 /* Lato-Regular.ttf in Resources */,
 				3CE7F9DC1B73B75A0015EED7 /* Main.storyboard in Resources */,
 				3CE7F9E11B73B75A0015EED7 /* LaunchScreen.xib in Resources */,

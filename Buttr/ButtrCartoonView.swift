@@ -25,6 +25,9 @@ class ButtrCartoonView: UIView {
     
     var headIsTilted: Bool = false
     
+    // flag if buttr is already rolled over, crowched
+    var inTransformativeState: Bool = false
+    
     override func awakeFromNib() {
         // initialize cartoon components
         let tailView = UIImageView(image: UIImage(named: "buttr_tail"))
@@ -97,6 +100,7 @@ class ButtrCartoonView: UIView {
         imageView.image = UIImage(named: "notif_dialogue_left")
         
         self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
         self.notifDialogueLeft = imageView
         self.notifDialogueLeft!.layer.opacity = 0
         self.notifDialogueLeft!.transform = CGAffineTransformMakeScale(0, 0)
@@ -113,6 +117,7 @@ class ButtrCartoonView: UIView {
         imageView.image = UIImage(named: "notif_dialogue_right")
         
         self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
         self.notifDialogueRight = imageView
         self.notifDialogueRight!.layer.opacity = 0
         self.notifDialogueRight!.transform = CGAffineTransformMakeScale(0, 0)
@@ -123,8 +128,13 @@ class ButtrCartoonView: UIView {
         let imageView = UIImageView(frame: CGRectZero)
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
         imageView.image = UIImage(named: "set_timer_dialogue")
+        imageView.userInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
+        imageView.addGestureRecognizer(tap)
         
         self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
         self.setTimerDialogue = imageView
         self.setTimerDialogue!.layer.opacity = 0
         self.setTimerDialogue!.transform = CGAffineTransformMakeScale(0, 0)
@@ -135,8 +145,13 @@ class ButtrCartoonView: UIView {
         let imageView = UIImageView(frame: CGRectZero)
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
         imageView.image = UIImage(named: "drag_bone_dialogue")
+        imageView.userInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
+        imageView.addGestureRecognizer(tap)
         
         self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
         self.dragBoneDialogue = imageView
         self.dragBoneDialogue!.layer.opacity = 0
         self.dragBoneDialogue!.transform = CGAffineTransformMakeScale(0, 0)
@@ -147,8 +162,13 @@ class ButtrCartoonView: UIView {
         let imageView = UIImageView(frame: CGRectZero)
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
         imageView.image = UIImage(named: "clear_bone_dialogue")
+        imageView.userInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
+        imageView.addGestureRecognizer(tap)
         
         self.addSubview(imageView)
+        self.sendSubviewToBack(imageView)
         self.clearBoneDialogue = imageView
         self.clearBoneDialogue!.layer.opacity = 0
         self.clearBoneDialogue!.transform = CGAffineTransformMakeScale(0, 0)
@@ -180,7 +200,7 @@ class ButtrCartoonView: UIView {
     }
     
     func growl() {
-        self.showAlarmDialogue(UIImage(named: "bark_speech_bubble")!)
+        self.showAlarmDialogue(UIImage(named: "grr_speech_bubble")!)
     }
     
     func bark() {
@@ -291,13 +311,92 @@ class ButtrCartoonView: UIView {
         }
     }
     
+    func crouch() {
+        if (self.inTransformativeState) {
+            return
+        }
+        
+        self.headIsTilted = false
+        self.inTransformativeState = true
+        self.head.image = UIImage(named:"buttr_head_crouched")
+        self.body.image = UIImage(named: "buttr_body_hunched")
+        self.tail.layer.opacity = 0
+        
+        UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+            [unowned self] () -> Void in
+            self.head.transform = CGAffineTransformMakeTranslation(0, 35)
+            var bodyTranslation = CGAffineTransformMakeTranslation(0, -40)
+            self.body.transform = CGAffineTransformScale(bodyTranslation, 1.7, 1.7)
+            }) {
+                [unowned self](Bool finished) -> Void in
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                    [unowned self] () -> Void in
+                    self.head.image = UIImage(named: "buttr_head")
+                    self.body.image = UIImage(named: "buttr_body")
+                    self.body.transform = CGAffineTransformIdentity
+                    
+                    UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+                        [unowned self] () -> Void in
+                        self.head.transform = CGAffineTransformIdentity
+                        self.tail.layer.opacity = 1
+                        self.inTransformativeState = false
+                    }, completion: nil)
+                }
+        }
+    }
+    
+    func rollOver() {
+        if (self.inTransformativeState) {
+            return
+        }
+        
+        self.headIsTilted = false
+        self.inTransformativeState = true
+        self.tail.layer.opacity = 0
+        
+        UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+            [unowned self] () -> Void in
+            var translation = CGAffineTransformMakeTranslation(self.body.frame.width / 2, self.body.frame.height / 2)
+            self.head.transform = CGAffineTransformRotate(translation, CGFloat(MathHelpers.DegreesToRadians(Double(130))))
+            
+            self.body.image = UIImage(named: "buttr_body_upside_down")
+            var bodyTranslation = CGAffineTransformMakeTranslation(-10, -20)
+            self.body.transform = CGAffineTransformScale(bodyTranslation, 2.2, 1.2)
+            }) {
+                [unowned self](Bool finished) -> Void in
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                    [unowned self] () -> Void in
+                    self.body.image = UIImage(named: "buttr_body")
+                    self.body.transform = CGAffineTransformIdentity
+                    
+                    UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+                        [unowned self] () -> Void in
+                        self.head.transform = CGAffineTransformIdentity
+                        self.tail.layer.opacity = 1
+                        self.inTransformativeState = false
+                        }, completion: nil)
+                }
+        }
+    }
+    
     func respondToTouch() {
-        let randomSelectorInt = Int(arc4random_uniform(2))
+        let randomSelectorInt = Int(arc4random_uniform(4))
         
         switch randomSelectorInt {
         case 0:
             self.stickOutTongue()
             break
+            
+        case 1:
+            self.crouch()
+            break
+            
+        case 2:
+            self.rollOver()
+            break
+            
         default:
             self.closeEyes()
             break

@@ -69,7 +69,8 @@ class TimerLabelView: UIView {
         self.addColons()
         
         if (renderAllUnits) {
-            self.renderEntireTimeString(CGFloat(170.0 / 3.0))
+            var width = self.scaledDown ? CGFloat(120.0 / 3.0) : CGFloat(170.0 / 3.0)
+            self.renderEntireTimeString(width)
         } else {
             self.adjustCenterConstraints()
         }
@@ -178,7 +179,7 @@ class TimerLabelView: UIView {
     
     private func createLabel(textColor: UIColor) -> UILabel {
         let label = UILabel(frame: CGRectZero)
-        label.font = UIFont(name: "Lato-Regular", size: self.scaledDown ? 30 : 40)!
+        label.font = UIFont(name: "Lato-Regular", size: self.scaledDown ? 26 : 40)!
         label.textColor = textColor
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         label.textAlignment = .Center
@@ -190,7 +191,7 @@ class TimerLabelView: UIView {
     private func createUnitLabel(boundView: UIView, textColor: UIColor) -> UILabel {
         let unitTextLabel = UILabel()
         unitTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        unitTextLabel.font = UIFont(name: "Lato-Light", size: self.scaledDown ? 17 : 24)
+        unitTextLabel.font = UIFont(name: "Lato-Light", size: self.scaledDown ? 15 : 24)
         unitTextLabel.textColor = textColor
         unitTextLabel.textAlignment = .Center
         unitTextLabel.backgroundColor = UIColor.backgroundColor()
@@ -239,12 +240,13 @@ class TimerLabelView: UIView {
     
     func adjustCenterConstraints() {
         var frameWidth: CGFloat
+        var totalWidth: CGFloat = self.scaledDown ? 120 : 170
         var numberOfLabels = 0
         
         if (self.frame.size.width > 0) {
             frameWidth = self.frame.size.width / CGFloat(3)
         } else {
-            frameWidth = 170 / CGFloat(3)
+            frameWidth = totalWidth / CGFloat(3)
         }
 
         if (seconds > 0) {
