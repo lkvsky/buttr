@@ -53,8 +53,8 @@ class TimerActionView: UIView {
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
         }
         
-        self.addConstraint(NSLayoutConstraint(item: start, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: -115.0/2.0))
-        self.addConstraint(NSLayoutConstraint(item: reset, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 115.0/2.0))
+        self.addConstraint(NSLayoutConstraint(item: start, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: -80))
+        self.addConstraint(NSLayoutConstraint(item: reset, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
         self.addConstraint(NSLayoutConstraint(item: pause, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
         
         self.startButton = start
