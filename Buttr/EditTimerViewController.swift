@@ -176,6 +176,7 @@ class EditTimerViewController: UIViewController {
                     
                     timerLabelView.minutes = 0
                     timerControlView.minuteSlider.angle = Config.BT_STARTING_ANGLE
+                    timerControlView.minuteSlider.setNeedsDisplay()
                 }
                 // else make sure that the new minutes value is less than the max allowed
                 else if (newMinutes < timerControlView.minuteSlider.maxTimeUnits) {
