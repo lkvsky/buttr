@@ -166,12 +166,26 @@ class EditTimerViewController: UIViewController {
         let direction = notification.userInfo!["direction"] as! Int
         
         if (notification.object === timerControlView.secondSlider) {
-            if (timerLabelView.minutes + direction >= 0) {
-                timerControlView.minuteSlider.addTimeUnitByAmmount(direction)
-                timerLabelView.minutes += direction
+            var newMinutes = timerLabelView.minutes + direction
+            
+            if (newMinutes >= 0) {
+                // check if user has spun enough to set 60 minutes. if so, clear minutes and add an hour
+                if (newMinutes == timerControlView.minuteSlider.maxTimeUnits && timerLabelView.hours < timerControlView.hourSlider.maxTimeUnits) {
+                    timerControlView.hourSlider.addTimeUnitByAmmount(direction)
+                    timerLabelView.hours += direction
+                    
+                    timerLabelView.minutes = 0
+                    timerControlView.minuteSlider.angle = Config.BT_STARTING_ANGLE
+                }
+                // else make sure that the new minutes value is less than the max allowed
+                else if (newMinutes < timerControlView.minuteSlider.maxTimeUnits) {
+                    timerControlView.minuteSlider.addTimeUnitByAmmount(direction)
+                    timerLabelView.minutes += direction
+                }
             }
         } else if (notification.object === timerControlView.minuteSlider) {
-            if (timerLabelView.hours + direction >= 0) {
+            // make sure that the hours value is neither negative nor above the allowed max
+            if (timerLabelView.hours + direction >= 0 && timerLabelView.hours + direction < timerControlView.hourSlider.maxTimeUnits) {
                 timerControlView.hourSlider.addTimeUnitByAmmount(direction)
                 timerLabelView.hours += direction
             }

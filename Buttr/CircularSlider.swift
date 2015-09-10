@@ -164,14 +164,8 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
     }
     
     func addTimeUnitByAmmount(timeInt: Int) {
-        let angleDifference = Double(timeInt) * Double(360.0) / Double(maxTimeUnits)
+        angle -= Double(timeInt) * Double(360.0) / Double(maxTimeUnits)
         
-        if (angle <= Config.BT_STARTING_ANGLE) {
-            angle -= angleDifference
-        } else {
-            angle += angleDifference
-        }
-
         self.setNeedsDisplay()
     }
     
