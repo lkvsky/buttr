@@ -18,7 +18,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     var renderedNotificationWarningThisSession: Bool = false
     var renderedSetTimerDialogue: Bool = false
     var renderedDragBoneDialogue: Bool = false
-    var dontRenderDialogues: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,8 +132,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     @IBAction func onDoneTap(sender: UIButton) {
         if let timerProgressVC = self.childViewControllers.first as? TimerProgressViewController {
-            // allow user to tap butter again
-            self.dontRenderDialogues = false
             buttrCartoon.hideAlarmDialogue()
             
             // clear NSTimer instances and mark timer as complete
@@ -241,13 +238,11 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         let touchedHead = CGRectContainsPoint(self.buttrCartoon.head.bounds, self.buttrCartoon.convertPoint(touchPoint, toView: self.buttrCartoon.head))
         let touchedBody = CGRectContainsPoint(self.buttrCartoon.body.bounds, self.buttrCartoon.convertPoint(touchPoint, toView: self.buttrCartoon.body))
         
-        if ((touchedHead || touchedBody) && !self.dontRenderDialogues) {
+        if (touchedHead || touchedBody) {
             self.buttrCartoon.respondToTouch()
             
-            if (nil == Timer.getCurrentTimer()) {
-                self.showSetTimerDialogue()
-            } else {
-                self.showSetWarningDialogue()
+            if (self.renderedNotificationWarningThisSession) {
+                self.buttrCartoon.removeDialogues()
             }
         }
     }
@@ -266,7 +261,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func didFinishTimer(sender: TimerProgressViewController) {
         // prevent tapping butter from rendering dialogue boxes until
         // user has cancelled timer
-        self.dontRenderDialogues = true
         self.buttrCartoon.removeDialogues()
         self.buttrCartoon.tiltHead(direction: -1)
         self.buttrCartoon.stickOutTongue()

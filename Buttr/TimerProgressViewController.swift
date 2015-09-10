@@ -103,7 +103,7 @@ class TimerProgressViewController: UIViewController {
         butterBarker = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
         
         butterBarker.play()
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        self.vibrate()
         nsTimerAlertInstance = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "vibrate", userInfo: nil, repeats: true)
     }
     

@@ -21,6 +21,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AltEditTimerViewController" customModule="Buttr" customModuleProvider="target">
             <connections>
+                <outlet property="deleteKey" destination="0pf-65-8Zl" id="GXV-2n-UuJ"/>
                 <outlet property="hoursLabel" destination="M0F-SA-HLm" id="ba2-zC-FT1"/>
                 <outlet property="minutesLabel" destination="G5c-0R-quf" id="Egl-5W-mlC"/>
                 <outlet property="secondsLabel" destination="uhg-lX-XkH" id="HNU-E5-1aD"/>

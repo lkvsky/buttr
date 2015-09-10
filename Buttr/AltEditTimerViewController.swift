@@ -13,6 +13,7 @@ class AltEditTimerViewController: UIViewController {
     // buttons
     @IBOutlet var timeKeys: [PawButton]!
     @IBOutlet weak var timeKeyContainer: UIView!
+    @IBOutlet weak var deleteKey: KeyPadControlButton!
     
     // labels
     @IBOutlet var tertiaryColorLabels: [UILabel]!
@@ -26,7 +27,15 @@ class AltEditTimerViewController: UIViewController {
     @IBOutlet var topLayoutConstraint: NSLayoutConstraint!
     
     // data
-    var timerValue: [Int] = [Int]()
+    var timerValue: [Int] = [Int]() {
+        didSet {
+            if (timerValue.count == 0) {
+                self.deleteKey.layer.opacity = 0
+            } else {
+                self.deleteKey.layer.opacity = 1
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +61,8 @@ class AltEditTimerViewController: UIViewController {
             var translationTransform = CGAffineTransformMakeTranslation(0, 60)
             self.timeKeyContainer.transform = CGAffineTransformScale(translationTransform, 0.8, 0.8)
         }
+        
+        self.deleteKey.layer.opacity = 0
     }
     
     func parseTime() -> [String: Int] {

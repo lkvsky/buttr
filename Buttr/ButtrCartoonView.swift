@@ -98,6 +98,10 @@ class ButtrCartoonView: UIView {
         let imageView = UIImageView(frame: CGRectZero)
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
         imageView.image = UIImage(named: "notif_dialogue_left")
+        imageView.userInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
+        imageView.addGestureRecognizer(tap)
         
         self.addSubview(imageView)
         self.sendSubviewToBack(imageView)
@@ -115,6 +119,10 @@ class ButtrCartoonView: UIView {
         let imageView = UIImageView(frame: CGRectZero)
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
         imageView.image = UIImage(named: "notif_dialogue_right")
+        imageView.userInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
+        imageView.addGestureRecognizer(tap)
         
         self.addSubview(imageView)
         self.sendSubviewToBack(imageView)
