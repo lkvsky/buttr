@@ -220,6 +220,8 @@ class EditTimerViewController: UIViewController {
                 self.onSetTimerTap()
             }
         }
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "AltTimerSet", object: nil)
     }
     
     func onSetTimerTap() {

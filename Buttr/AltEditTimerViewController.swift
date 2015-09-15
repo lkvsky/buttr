@@ -38,11 +38,13 @@ class AltEditTimerViewController: UIViewController {
                 self.cancelKeyRightConstraint.constant = 8
                 self.startKeyLeftConstraint.constant = 8
                 self.startKey.layer.opacity = 0
+                self.startKey.enabled = false
             } else {
                 self.deleteKey.layer.opacity = 1
                 self.cancelKeyRightConstraint.constant = self.view.frame.size.width / 2 + 4
                 self.startKeyLeftConstraint.constant = self.view.frame.size.width / 2 + 4
                 self.startKey.layer.opacity = 1
+                self.startKey.enabled = true
             }
             
             self.view.setNeedsUpdateConstraints()
@@ -80,6 +82,7 @@ class AltEditTimerViewController: UIViewController {
         
         self.deleteKey.layer.opacity = 0
         self.startKey.layer.opacity = 0
+        self.startKey.enabled = false
         self.cancelKey.backgroundColor = UIColor.clearColor()
         self.startKey.backgroundColor = UIColor.clearColor()
     }
