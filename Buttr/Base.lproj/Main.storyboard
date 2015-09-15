@@ -23,13 +23,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGm-L6-1E5">
-                                <rect key="frame" x="0.0" y="534" width="600" height="66"/>
+                                <rect key="frame" x="24" y="526" width="552" height="66"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="mVU-Td-U0a"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
-                                <state key="normal" title="DONE">
+                                <state key="normal" title="DONE" backgroundImage="bar_button_background">
                                     <color key="titleColor" red="0.87450980392156863" green="0.66274509803921566" blue="0.32156862745098042" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -59,9 +59,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FGm-L6-1E5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="0R9-Ql-ttE"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FGm-L6-1E5" secondAttribute="trailing" constant="-16" id="K2K-b4-cof"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FGm-L6-1E5" secondAttribute="bottom" id="Lwh-LM-Eu8"/>
+                            <constraint firstItem="FGm-L6-1E5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="0R9-Ql-ttE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FGm-L6-1E5" secondAttribute="trailing" constant="8" id="K2K-b4-cof"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FGm-L6-1E5" secondAttribute="bottom" constant="8" id="Lwh-LM-Eu8"/>
                             <constraint firstItem="Gca-ta-IZS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="OvD-9h-HM5"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gca-ta-IZS" secondAttribute="bottom" id="RxB-zP-5g0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Gca-ta-IZS" secondAttribute="trailing" constant="-16" id="iHj-8A-XWa"/>
@@ -71,6 +71,7 @@
                     <connections>
                         <outlet property="buttrCartoon" destination="NVI-NB-tf5" id="3wd-DR-vLT"/>
                         <outlet property="containerView" destination="Gca-ta-IZS" id="d1T-Se-5ny"/>
+                        <outlet property="doneButton" destination="FGm-L6-1E5" id="3aQ-Hz-UAJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -78,4 +79,7 @@
             <point key="canvasLocation" x="-70" y="388"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bar_button_background" width="333" height="69"/>
+    </resources>
 </document>

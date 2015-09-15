@@ -6,25 +6,30 @@
     <customFonts key="customFonts">
         <mutableArray key="Bitter-Bold.otf">
             <string>Bitter-Bold</string>
+            <string>Bitter-Bold</string>
         </mutableArray>
-        <mutableArray key="Lato-Regular.ttf">
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
+        <mutableArray key="Lato-Light.ttf">
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AltEditTimerViewController" customModule="Buttr" customModuleProvider="target">
             <connections>
+                <outlet property="cancelKey" destination="zcF-Cn-UNf" id="EpB-Zh-7wI"/>
+                <outlet property="cancelKeyRightConstraint" destination="xHG-9I-bL6" id="4oZ-eV-fJd"/>
                 <outlet property="deleteKey" destination="0pf-65-8Zl" id="GXV-2n-UuJ"/>
                 <outlet property="hoursLabel" destination="M0F-SA-HLm" id="ba2-zC-FT1"/>
                 <outlet property="minutesLabel" destination="G5c-0R-quf" id="Egl-5W-mlC"/>
                 <outlet property="secondsLabel" destination="uhg-lX-XkH" id="HNU-E5-1aD"/>
+                <outlet property="startKey" destination="gYn-Op-m9O" id="FM8-aP-LPV"/>
+                <outlet property="startKeyLeftConstraint" destination="0va-qT-UOS" id="sgM-VC-Q5l"/>
                 <outlet property="timeKeyContainer" destination="2yq-gB-3fN" id="F3X-sg-1ZU"/>
                 <outlet property="topLayoutConstraint" destination="sGv-7s-uFd" id="Hji-pd-rH0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -40,12 +45,12 @@
                 <outletCollection property="timeKeys" destination="KR2-C4-yyl" collectionClass="NSMutableArray" id="R6c-ca-CCQ"/>
                 <outletCollection property="primaryColorLabels" destination="Slq-ZS-PlO" collectionClass="NSMutableArray" id="jY5-Eb-kpu"/>
                 <outletCollection property="primaryColorLabels" destination="ziQ-Mm-bEa" collectionClass="NSMutableArray" id="e00-2U-jNF"/>
-                <outletCollection property="secondaryColorLabels" destination="uhg-lX-XkH" collectionClass="NSMutableArray" id="bPi-hx-Rpc"/>
-                <outletCollection property="secondaryColorLabels" destination="q4d-ln-feV" collectionClass="NSMutableArray" id="fcm-aS-Sb1"/>
-                <outletCollection property="tertiaryColorLabels" destination="M0F-SA-HLm" collectionClass="NSMutableArray" id="JwX-DV-pqp"/>
-                <outletCollection property="tertiaryColorLabels" destination="9NJ-lF-YOw" collectionClass="NSMutableArray" id="QkA-r1-r2Q"/>
                 <outletCollection property="primaryColorLabels" destination="gqe-Xd-Wuf" collectionClass="NSMutableArray" id="kEo-ag-rLd"/>
                 <outletCollection property="primaryColorLabels" destination="G5c-0R-quf" collectionClass="NSMutableArray" id="iCj-YM-mqT"/>
+                <outletCollection property="tertiaryColorLabels" destination="uhg-lX-XkH" collectionClass="NSMutableArray" id="U6g-pd-XZm"/>
+                <outletCollection property="tertiaryColorLabels" destination="q4d-ln-feV" collectionClass="NSMutableArray" id="fnt-sy-US4"/>
+                <outletCollection property="secondaryColorLabels" destination="M0F-SA-HLm" collectionClass="NSMutableArray" id="ik2-Nj-2bz"/>
+                <outletCollection property="secondaryColorLabels" destination="9NJ-lF-YOw" collectionClass="NSMutableArray" id="XLz-c6-8Km"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -53,14 +58,29 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYn-Op-m9O">
+                    <rect key="frame" x="8" y="526" width="584" height="66"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="66" id="xeN-ra-qGG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
+                    <state key="normal" title="START" backgroundImage="bar_button_background">
+                        <color key="titleColor" red="0.87450980389999999" green="0.66274509800000003" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onStartKeyTap" destination="-1" eventType="touchUpInside" id="X8b-28-ska"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcF-Cn-UNf">
-                    <rect key="frame" x="0.0" y="534" width="600" height="66"/>
+                    <rect key="frame" x="8" y="526" width="584" height="66"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="66" id="KoJ-cL-vGs"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
-                    <state key="normal" title="DONE">
+                    <state key="normal" title="CANCEL" backgroundImage="bar_button_background">
                         <color key="titleColor" red="0.87450980389999999" green="0.66274509800000003" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -69,7 +89,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yq-gB-3fN">
-                    <rect key="frame" x="171" y="136" width="259" height="348"/>
+                    <rect key="frame" x="171" y="128" width="259" height="348"/>
                     <subviews>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JN-3Y-svs" customClass="PawButton" customModule="Buttr" customModuleProvider="target">
                             <rect key="frame" x="8" y="8" width="58" height="66"/>
@@ -251,7 +271,7 @@
                                 <constraint firstAttribute="width" constant="60" id="2uP-Ni-dQe"/>
                                 <constraint firstAttribute="height" constant="97" id="YM4-iB-NK7"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="40"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="40"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -261,7 +281,7 @@
                                 <constraint firstAttribute="height" constant="97" id="Qbd-WD-0yB"/>
                                 <constraint firstAttribute="width" constant="60" id="x70-6W-A1w"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="40"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="40"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -271,7 +291,7 @@
                                 <constraint firstAttribute="height" constant="97" id="o7O-Xt-eaO"/>
                                 <constraint firstAttribute="width" constant="15" id="zta-CI-nzt"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="40"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="40"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -281,7 +301,7 @@
                                 <constraint firstAttribute="height" constant="29" id="kvg-Oz-VCr"/>
                                 <constraint firstAttribute="width" constant="60" id="qWi-jR-HkI"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="20"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="20"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -291,7 +311,7 @@
                                 <constraint firstAttribute="width" constant="60" id="a1i-dc-JTN"/>
                                 <constraint firstAttribute="height" constant="29" id="lPm-Vi-pIy"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="20"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="20"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -301,7 +321,7 @@
                                 <constraint firstAttribute="height" constant="97" id="ErK-M5-7Qd"/>
                                 <constraint firstAttribute="width" constant="15" id="nZ3-bB-te9"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="40"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="40"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -311,7 +331,7 @@
                                 <constraint firstAttribute="height" constant="97" id="QEi-29-Czj"/>
                                 <constraint firstAttribute="width" constant="60" id="Qg0-Oc-Jni"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="40"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="40"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -321,7 +341,7 @@
                                 <constraint firstAttribute="height" constant="29" id="HxG-Ym-kO5"/>
                                 <constraint firstAttribute="width" constant="60" id="rI6-pv-zZJ"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="20"/>
+                            <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="20"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -368,16 +388,19 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="zcF-Cn-UNf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="0Zi-gY-ZEm"/>
+                <constraint firstItem="zcF-Cn-UNf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="0Zi-gY-ZEm"/>
                 <constraint firstAttribute="centerX" secondItem="1CD-9X-cyI" secondAttribute="centerX" id="0lk-B3-wpm"/>
+                <constraint firstItem="gYn-Op-m9O" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="0va-qT-UOS"/>
                 <constraint firstItem="1CD-9X-cyI" firstAttribute="centerY" secondItem="0pf-65-8Zl" secondAttribute="centerY" id="8HQ-EB-2Ef"/>
                 <constraint firstAttribute="trailing" secondItem="0pf-65-8Zl" secondAttribute="trailing" constant="8" id="Cf7-Uf-QxK"/>
-                <constraint firstAttribute="bottom" secondItem="zcF-Cn-UNf" secondAttribute="bottom" id="Y7g-rJ-rV5"/>
+                <constraint firstAttribute="bottom" secondItem="zcF-Cn-UNf" secondAttribute="bottom" constant="8" id="Y7g-rJ-rV5"/>
+                <constraint firstAttribute="bottom" secondItem="gYn-Op-m9O" secondAttribute="bottom" constant="8" id="YuX-ji-jUN"/>
                 <constraint firstItem="zcF-Cn-UNf" firstAttribute="top" secondItem="2yq-gB-3fN" secondAttribute="bottom" constant="50" id="Yul-Bm-w4w"/>
                 <constraint firstAttribute="centerX" secondItem="2yq-gB-3fN" secondAttribute="centerX" id="ZGx-yp-xjS"/>
+                <constraint firstAttribute="trailing" secondItem="gYn-Op-m9O" secondAttribute="trailing" constant="8" id="d3g-RG-dpj"/>
                 <constraint firstItem="0pf-65-8Zl" firstAttribute="leading" secondItem="1CD-9X-cyI" secondAttribute="trailing" constant="8" id="now-h4-jpt"/>
                 <constraint firstItem="1CD-9X-cyI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="sGv-7s-uFd"/>
-                <constraint firstAttribute="trailing" secondItem="zcF-Cn-UNf" secondAttribute="trailing" id="xHG-9I-bL6"/>
+                <constraint firstAttribute="trailing" secondItem="zcF-Cn-UNf" secondAttribute="trailing" constant="8" id="xHG-9I-bL6"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
@@ -388,6 +411,7 @@
         </view>
     </objects>
     <resources>
+        <image name="bar_button_background" width="333" height="69"/>
         <image name="delete_key" width="32" height="27"/>
         <image name="paw_print" width="59" height="67"/>
     </resources>

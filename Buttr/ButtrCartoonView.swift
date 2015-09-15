@@ -146,7 +146,7 @@ class ButtrCartoonView: UIView {
         self.setTimerDialogue = imageView
         self.setTimerDialogue!.layer.opacity = 0
         self.setTimerDialogue!.transform = CGAffineTransformMakeScale(0, 0)
-        self.addRightDialogueConstraints(self.setTimerDialogue!, height: 163.0)
+        self.addRightDialogueConstraints(self.setTimerDialogue!, height: 112.0, bottomConstant: -self.body.frame.size.height / 2)
     }
     
     private func addDragBoneDialogue() {
@@ -183,11 +183,11 @@ class ButtrCartoonView: UIView {
         self.addRightDialogueConstraints(self.clearBoneDialogue!, height: 163.0)
     }
     
-    private func addRightDialogueConstraints(view: UIView, height: CGFloat) {
+    private func addRightDialogueConstraints(view: UIView, height: CGFloat, bottomConstant: CGFloat = 0) {
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: height))
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: bottomConstant))
     }
     
     // MARK: Dialogue Box Methods

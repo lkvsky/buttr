@@ -83,7 +83,7 @@ class TimerLabelView: UIView {
     
     private func addSecondsLabel() {
         // set properties
-        let secondsLabel = self.createLabel(UIColor.secondaryTextColor())
+        let secondsLabel = self.createLabel(UIColor.tertiaryTextColor())
         secondsLabel.text = self.getFormattedTimeText(seconds)
         
         // add label and store reference
@@ -98,7 +98,7 @@ class TimerLabelView: UIView {
         self.addConstraint(self.secondsCenterXConstraint)
         
         // create unit type label
-        let secondsTextLabel = self.createUnitLabel(secondsLabel, textColor: UIColor.secondaryTextColor())
+        let secondsTextLabel = self.createUnitLabel(secondsLabel, textColor: UIColor.tertiaryTextColor())
         secondsTextLabel.text = "secs"
         self.secondsUnitLabel = secondsTextLabel
     }
@@ -129,7 +129,7 @@ class TimerLabelView: UIView {
     
     private func addHoursLabel() {
         // set properties
-        let hoursLabel = self.createLabel(UIColor.tertiaryTextColor())
+        let hoursLabel = self.createLabel(UIColor.secondaryTextColor())
         hoursLabel.text = self.getFormattedTimeText(hours)
         hoursLabel.layer.opacity = 0
         
@@ -145,7 +145,7 @@ class TimerLabelView: UIView {
         self.addConstraint(self.hoursCenterXConstraint)
         
         // create unit type label
-        let hoursTextLabel = self.createUnitLabel(hoursLabel, textColor: UIColor.tertiaryTextColor())
+        let hoursTextLabel = self.createUnitLabel(hoursLabel, textColor: UIColor.secondaryTextColor())
         hoursTextLabel.text = "hrs"
         hoursTextLabel.layer.opacity = 0
         self.hoursUnitLabel = hoursTextLabel
@@ -179,7 +179,7 @@ class TimerLabelView: UIView {
     
     private func createLabel(textColor: UIColor) -> UILabel {
         let label = UILabel(frame: CGRectZero)
-        label.font = UIFont(name: "Lato-Regular", size: self.scaledDown ? 26 : 40)!
+        label.font = UIFont(name: "Lato-Light", size: self.scaledDown ? 26 : 40)!
         label.textColor = textColor
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         label.textAlignment = .Center

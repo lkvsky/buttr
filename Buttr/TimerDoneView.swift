@@ -10,7 +10,9 @@ import UIKit
 
 class TimerDoneView: UIView {
     var dateWhenTimerStopped: NSDate!
+    var dateWhenTimerStoppedLabel: UILabel!
     var scaledDown: Bool = false
+    var timeSinceEndingTimer: NSTimer!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,6 +36,11 @@ class TimerDoneView: UIView {
         self.dateWhenTimerStopped = dateWhenTimerStopped
         self.scaledDown = scaledDown
         self.addLabels()
+        self.timeSinceEndingTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "renderDate", userInfo: nil, repeats: true)
+    }
+    
+    deinit {
+        self.timeSinceEndingTimer.invalidate()
     }
     
     func addLabels() {
@@ -62,17 +69,28 @@ class TimerDoneView: UIView {
         // specific properties for dateWhenTimerStoppedLabel
         self.addConstraint(NSLayoutConstraint(item: dateWhenTimerStoppedLabel, attribute: .Top, relatedBy: .Equal, toItem: timesUpLabel, attribute: .Bottom, multiplier: 1.0, constant: 0))
         self.addConstraint(NSLayoutConstraint(item: dateWhenTimerStoppedLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 22))
-        dateWhenTimerStoppedLabel.font = UIFont(name: "Lato-Black", size: 18)
-        self.renderDate(dateWhenTimerStoppedLabel)
+        dateWhenTimerStoppedLabel.font = UIFont(name: "Lato-Regular", size: 18)
+        self.dateWhenTimerStoppedLabel = dateWhenTimerStoppedLabel
+        self.renderDate()
     }
     
-    private func renderDate(label: UILabel) {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "hh:mm"
-        let formattedDate = dateFormatter.stringFromDate(dateWhenTimerStopped)
-        let timeStopped = self.dateWhenTimerStopped
-        let text = NSString(format: NSString(string: "timer ended at %@"), formattedDate)
-        label.text = String(text)
+    func renderDate() {
+        let timeSinceTimerStopped = Int(NSDate().timeIntervalSinceDate(self.dateWhenTimerStopped))
+        let seconds = timeSinceTimerStopped % 60
+        let minutes = (timeSinceTimerStopped / 60) % 60
+        let hours = timeSinceTimerStopped / 3600
+        var timeString: NSString!
+        
+        if (hours > 0) {
+            timeString = NSString(format: NSString(string: "%02ld:%02ld:%02ld hrs ago"), hours, minutes, seconds)
+        } else if (minutes > 0) {
+            timeString = NSString(format: NSString(string: "%02ld:%02ld mins ago"), minutes, seconds)
+        } else {
+            timeString = NSString(format: NSString(string: "%02ld secs ago"), seconds)
+        }
+        
+        let text = NSString(format: NSString(string: "timer ended %@"), timeString)
+        dateWhenTimerStoppedLabel.text = String(text)
     }
     
     required init(coder aDecoder: NSCoder) {

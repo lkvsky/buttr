@@ -67,9 +67,9 @@ import UIKit
         // instantiate sliders
         let origin = self.bounds.origin
         let size = self.bounds.size
-        let hourSlider: CircularSlider = CircularSlider(color: UIColor.tertiaryTextColor(), frame: self.bounds, maxTimeUnits: 24)
+        let hourSlider: CircularSlider = CircularSlider(color: UIColor.secondaryTextColor(), frame: self.bounds, maxTimeUnits: 24)
         let minuteSlider: CircularSlider = CircularSlider(color: UIColor.primaryTextColor(), frame: CGRectMake(origin.x + sliderSpacing, origin.y + sliderSpacing, size.width - 2*sliderSpacing, size.height - 2*sliderSpacing), maxTimeUnits: 60)
-        let secondSlider: CircularSlider = CircularSlider(color: UIColor.secondaryTextColor(), frame: CGRectMake(origin.x + 2*sliderSpacing, origin.y + 2*sliderSpacing, size.width - 4*sliderSpacing, size.height - 4*sliderSpacing), maxTimeUnits: 60)
+        let secondSlider: CircularSlider = CircularSlider(color: UIColor.tertiaryTextColor(), frame: CGRectMake(origin.x + 2*sliderSpacing, origin.y + 2*sliderSpacing, size.width - 4*sliderSpacing, size.height - 4*sliderSpacing), maxTimeUnits: 60)
         
         // add to view and enable tap gesture to add time without sliding
         for slider in [hourSlider, minuteSlider, secondSlider] {
@@ -98,7 +98,7 @@ import UIKit
     }
     
     func animatedInitialization() {
-        let hourProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true, trackCount: 23)
+        let hourProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true, trackCount: 23)
         hourProgress.center = hourSlider.center
         hourProgress.currentAngle = hourSlider.angle
         
@@ -106,7 +106,7 @@ import UIKit
         minuteProgress.center = minuteSlider.center
         minuteProgress.currentAngle = minuteSlider.angle
         
-        let secondProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
+        let secondProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
         secondProgress.center = secondSlider.center
         secondProgress.currentAngle = secondSlider.angle
         
@@ -136,7 +136,7 @@ import UIKit
     }
     
     func animatedTransition() {
-        let hourProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true, trackCount: 23)
+        let hourProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.hourSlider.bounds, clockwise: true, drawTracks: true, trackCount: 23)
         hourProgress.center = hourSlider.center
         hourProgress.currentAngle = hourSlider.angle
         
@@ -144,7 +144,7 @@ import UIKit
         minuteProgress.center = minuteSlider.center
         minuteProgress.currentAngle = minuteSlider.angle
         
-        let secondProgress = CircularProgressBar(color: UIColor.secondaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
+        let secondProgress = CircularProgressBar(color: UIColor.tertiaryTextColor(), frame: self.secondSlider.bounds, clockwise: true, drawTracks: true, trackCount: 59)
         secondProgress.center = secondSlider.center
         secondProgress.currentAngle = secondSlider.angle
         

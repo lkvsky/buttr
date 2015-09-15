@@ -14,6 +14,8 @@ class AltEditTimerViewController: UIViewController {
     @IBOutlet var timeKeys: [PawButton]!
     @IBOutlet weak var timeKeyContainer: UIView!
     @IBOutlet weak var deleteKey: KeyPadControlButton!
+    @IBOutlet weak var cancelKey: UIButton!
+    @IBOutlet weak var startKey: UIButton!
     
     // labels
     @IBOutlet var tertiaryColorLabels: [UILabel]!
@@ -25,15 +27,29 @@ class AltEditTimerViewController: UIViewController {
     
     // constraints
     @IBOutlet var topLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet var startKeyLeftConstraint: NSLayoutConstraint!
+    @IBOutlet var cancelKeyRightConstraint: NSLayoutConstraint!
     
     // data
     var timerValue: [Int] = [Int]() {
         didSet {
             if (timerValue.count == 0) {
                 self.deleteKey.layer.opacity = 0
+                self.cancelKeyRightConstraint.constant = 8
+                self.startKeyLeftConstraint.constant = 8
+                self.startKey.layer.opacity = 0
             } else {
                 self.deleteKey.layer.opacity = 1
+                self.cancelKeyRightConstraint.constant = self.view.frame.size.width / 2 + 4
+                self.startKeyLeftConstraint.constant = self.view.frame.size.width / 2 + 4
+                self.startKey.layer.opacity = 1
             }
+            
+            self.view.setNeedsUpdateConstraints()
+            
+            UIView.animateWithDuration(0.125, animations: { [unowned self] () -> Void in
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
@@ -63,6 +79,9 @@ class AltEditTimerViewController: UIViewController {
         }
         
         self.deleteKey.layer.opacity = 0
+        self.startKey.layer.opacity = 0
+        self.cancelKey.backgroundColor = UIColor.clearColor()
+        self.startKey.backgroundColor = UIColor.clearColor()
     }
     
     func parseTime() -> [String: Int] {
@@ -95,13 +114,15 @@ class AltEditTimerViewController: UIViewController {
     }
     
     @IBAction func onTimeKeyTap(button: UIButton) {
+        if (button.tag == 0 && timerValue.count == 0) { return }
+        
         if (timerValue.count < 6) {
             timerValue.append(Int(button.tag))
             renderTime()
         }
     }
     
-    @IBAction func onCloseKeyTap() {
+    @IBAction func onStartKeyTap() {
         let parsedTime = self.parseTime()
         let totalSeconds = parsedTime["seconds"]! + (parsedTime["minutes"]! * 60) + (parsedTime["hours"]! * 3600)
         
@@ -112,6 +133,11 @@ class AltEditTimerViewController: UIViewController {
             NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: ["times": actualTimes])
         }
         
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func onCloseKeyTap() {
+        NSNotificationCenter.defaultCenter().postNotificationName("AltTimerSet", object: self, userInfo: nil)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -12,6 +12,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
+    @IBOutlet weak var doneButton: UIButton!
     
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
@@ -22,6 +23,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.doneButton.backgroundColor = UIColor.clearColor()
         self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.buttrCartoon.wagTail()
@@ -274,7 +276,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             animations: {
                 [unowned self]() -> Void in
                 // slide up container to expose done button
-                self.containerView.transform = CGAffineTransformMakeTranslation(0, -66.0)
+                self.containerView.transform = CGAffineTransformMakeTranslation(0, -74.0)
             }, completion: nil)
     }
     
