@@ -95,7 +95,7 @@ class EditTimerViewController: UIViewController {
     }
     
     private func addTimerActionView() {
-        let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: self.scaleDownViews(), initWithStartShowing: true)
+        let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: self.scaleDownViews())
         timerActionView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.view.addSubview(timerActionView)
         self.timerActionView = timerActionView

@@ -4,10 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="Bitter-Bold.otf">
-            <string>Bitter-Bold</string>
-            <string>Bitter-Bold</string>
-        </mutableArray>
         <mutableArray key="Lato-Light.ttf">
             <string>Lato-Light</string>
             <string>Lato-Light</string>
@@ -22,14 +18,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AltEditTimerViewController" customModule="Buttr" customModuleProvider="target">
             <connections>
-                <outlet property="cancelKey" destination="zcF-Cn-UNf" id="EpB-Zh-7wI"/>
-                <outlet property="cancelKeyRightConstraint" destination="xHG-9I-bL6" id="4oZ-eV-fJd"/>
                 <outlet property="deleteKey" destination="0pf-65-8Zl" id="GXV-2n-UuJ"/>
                 <outlet property="hoursLabel" destination="M0F-SA-HLm" id="ba2-zC-FT1"/>
+                <outlet property="keyPadContainer" destination="2yq-gB-3fN" id="2RX-PU-2Ud"/>
                 <outlet property="minutesLabel" destination="G5c-0R-quf" id="Egl-5W-mlC"/>
                 <outlet property="secondsLabel" destination="uhg-lX-XkH" id="HNU-E5-1aD"/>
-                <outlet property="startKey" destination="gYn-Op-m9O" id="FM8-aP-LPV"/>
-                <outlet property="startKeyLeftConstraint" destination="0va-qT-UOS" id="sgM-VC-Q5l"/>
                 <outlet property="timeKeyContainer" destination="2yq-gB-3fN" id="F3X-sg-1ZU"/>
                 <outlet property="topLayoutConstraint" destination="sGv-7s-uFd" id="Hji-pd-rH0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -58,36 +51,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYn-Op-m9O">
-                    <rect key="frame" x="8" y="526" width="584" height="66"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="66" id="xeN-ra-qGG"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
-                    <state key="normal" title="START" backgroundImage="bar_button_background">
-                        <color key="titleColor" red="0.87450980389999999" green="0.66274509800000003" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onStartKeyTap" destination="-1" eventType="touchUpInside" id="X8b-28-ska"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcF-Cn-UNf">
-                    <rect key="frame" x="8" y="526" width="584" height="66"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="66" id="KoJ-cL-vGs"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Bitter-Bold" family="Bitter" pointSize="30"/>
-                    <state key="normal" title="CANCEL" backgroundImage="bar_button_background">
-                        <color key="titleColor" red="0.87450980389999999" green="0.66274509800000003" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onCloseKeyTap" destination="-1" eventType="touchUpInside" id="Y10-vs-dvS"/>
-                    </connections>
-                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yq-gB-3fN">
                     <rect key="frame" x="171" y="128" width="259" height="348"/>
                     <subviews>
@@ -388,19 +351,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="zcF-Cn-UNf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="0Zi-gY-ZEm"/>
                 <constraint firstAttribute="centerX" secondItem="1CD-9X-cyI" secondAttribute="centerX" id="0lk-B3-wpm"/>
-                <constraint firstItem="gYn-Op-m9O" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="0va-qT-UOS"/>
+                <constraint firstAttribute="bottom" secondItem="2yq-gB-3fN" secondAttribute="bottom" constant="124" id="0wp-rc-6bJ"/>
                 <constraint firstItem="1CD-9X-cyI" firstAttribute="centerY" secondItem="0pf-65-8Zl" secondAttribute="centerY" id="8HQ-EB-2Ef"/>
                 <constraint firstAttribute="trailing" secondItem="0pf-65-8Zl" secondAttribute="trailing" constant="8" id="Cf7-Uf-QxK"/>
-                <constraint firstAttribute="bottom" secondItem="zcF-Cn-UNf" secondAttribute="bottom" constant="8" id="Y7g-rJ-rV5"/>
-                <constraint firstAttribute="bottom" secondItem="gYn-Op-m9O" secondAttribute="bottom" constant="8" id="YuX-ji-jUN"/>
-                <constraint firstItem="zcF-Cn-UNf" firstAttribute="top" secondItem="2yq-gB-3fN" secondAttribute="bottom" constant="50" id="Yul-Bm-w4w"/>
                 <constraint firstAttribute="centerX" secondItem="2yq-gB-3fN" secondAttribute="centerX" id="ZGx-yp-xjS"/>
-                <constraint firstAttribute="trailing" secondItem="gYn-Op-m9O" secondAttribute="trailing" constant="8" id="d3g-RG-dpj"/>
                 <constraint firstItem="0pf-65-8Zl" firstAttribute="leading" secondItem="1CD-9X-cyI" secondAttribute="trailing" constant="8" id="now-h4-jpt"/>
                 <constraint firstItem="1CD-9X-cyI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="sGv-7s-uFd"/>
-                <constraint firstAttribute="trailing" secondItem="zcF-Cn-UNf" secondAttribute="trailing" constant="8" id="xHG-9I-bL6"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
@@ -411,7 +368,6 @@
         </view>
     </objects>
     <resources>
-        <image name="bar_button_background" width="333" height="69"/>
         <image name="delete_key" width="32" height="27"/>
         <image name="paw_print" width="59" height="67"/>
     </resources>
