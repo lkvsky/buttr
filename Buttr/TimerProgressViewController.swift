@@ -35,8 +35,8 @@ class TimerProgressViewController: UIViewController {
     
     // alarm properties
     var nsTimerAlertInstance: NSTimer!
-    var butterBarker: AVAudioPlayer!
-    var butterGrowler: AVAudioPlayer!
+    var butterBarker: AVAudioPlayer?
+    var butterGrowler: AVAudioPlayer?
     var butterBark: SystemSoundID = 0
     var butterGrowl: SystemSoundID = 0
     
@@ -102,7 +102,7 @@ class TimerProgressViewController: UIViewController {
         let butterUrl = NSURL.fileURLWithPath(butterPath!)
         butterBarker = try? AVAudioPlayer(contentsOfURL: butterUrl)
         
-        butterBarker.play()
+        butterBarker?.play()
         self.vibrate()
         nsTimerAlertInstance = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "vibrate", userInfo: nil, repeats: true)
     }
@@ -114,7 +114,7 @@ class TimerProgressViewController: UIViewController {
             let butterPath = NSBundle.mainBundle().pathForResource("butter_growl", ofType: "wav")
             let butterUrl = NSURL.fileURLWithPath(butterPath!)
             butterGrowler = try? AVAudioPlayer(contentsOfURL: butterUrl)
-            butterGrowler.play()
+            butterGrowler?.play()
         }
         
         self.vibrate()
