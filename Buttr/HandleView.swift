@@ -17,7 +17,7 @@ class HandleView: UIView {
         self.layer.cornerRadius = self.frame.size.width / 2
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

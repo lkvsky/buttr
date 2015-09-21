@@ -34,8 +34,8 @@ class CircularProgressBar: UIView {
         animatedArcLayer = CAShapeLayer()
         animatedArcLayer.bounds = self.bounds
         animatedArcLayer.position = self.center
-        animatedArcLayer.fillColor = UIColor.clearColor().CGColor!
-        animatedArcLayer.strokeColor = self.color.CGColor!
+        animatedArcLayer.fillColor = UIColor.clearColor().CGColor
+        animatedArcLayer.strokeColor = self.color.CGColor
         animatedArcLayer.lineWidth = Config.BT_SLIDER_LINE_WIDTH
         self.layer.addSublayer(animatedArcLayer)
         
@@ -43,8 +43,8 @@ class CircularProgressBar: UIView {
         staticLayer = CAShapeLayer()
         staticLayer.bounds = self.bounds
         staticLayer.position = self.center
-        staticLayer.fillColor = UIColor.clearColor().CGColor!
-        staticLayer.strokeColor = self.color.CGColor!
+        staticLayer.fillColor = UIColor.clearColor().CGColor
+        staticLayer.strokeColor = self.color.CGColor
         staticLayer.lineWidth = Config.BT_SLIDER_LINE_WIDTH
         self.layer.addSublayer(staticLayer)
         
@@ -54,13 +54,13 @@ class CircularProgressBar: UIView {
         self.handleView = handleView
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     override func drawRect(rect: CGRect) {
         if (self.drawTracks) {
-            var ctx = UIGraphicsGetCurrentContext()
+            let ctx = UIGraphicsGetCurrentContext()
             CGContextSaveGState(ctx)
             
             self.color.set()
@@ -97,14 +97,14 @@ class CircularProgressBar: UIView {
     }
     
     // abstraction method for generating arced bezier path
-    private func getArcedPath(#center: CGPoint, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool) -> UIBezierPath {
+    private func getArcedPath(center center: CGPoint, startAngle: CGFloat, endAngle: CGFloat, clockwise: Bool) -> UIBezierPath {
         let staticPath = UIBezierPath()
         staticPath.addArcWithCenter(center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
         
         return staticPath
     }
     
-    private func getStrokeAnimation(#clockwise: Bool) -> CABasicAnimation {
+    private func getStrokeAnimation(clockwise clockwise: Bool) -> CABasicAnimation {
         let arcAnimation = CABasicAnimation(keyPath: "strokeEnd")
         arcAnimation.duration = 0.3
         arcAnimation.repeatCount = 0
@@ -152,7 +152,7 @@ class CircularProgressBar: UIView {
         animatedArcLayer.strokeColor = UIColor.backgroundColor().CGColor
         animatedArcLayer.addAnimation(arcAnimation, forKey: "progressBarReveal")
         
-        UIView.animateWithDuration(0.3, delay: 0.3, usingSpringWithDamping: 0.5, initialSpringVelocity: 12.0, options: nil, animations: {
+        UIView.animateWithDuration(0.3, delay: 0.3, usingSpringWithDamping: 0.5, initialSpringVelocity: 12.0, options: [], animations: {
             [unowned self] () -> Void in
             self.handleView.layer.opacity = 1
             self.handleView.transform = CGAffineTransformIdentity
@@ -164,7 +164,7 @@ class CircularProgressBar: UIView {
     * either clockwise or counterclockwise between
     * the currentAngle and endAngle.
     */
-    func animateProgressBar(#endAngle: Double) {
+    func animateProgressBar(endAngle endAngle: Double) {
         let originAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - Config.BT_STARTING_ANGLE)))
         let animationStartAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - currentAngle)))
         let animationEndAngle: CGFloat = CGFloat(MathHelpers.DegreesToRadians(Double(360 - endAngle)))

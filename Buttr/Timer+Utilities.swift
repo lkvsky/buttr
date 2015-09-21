@@ -51,7 +51,7 @@ extension Timer {
     }
     
     func hasStarted() -> Bool {
-        if let startTime = self.startTime {
+        if let _ = self.startTime {
             return true
         }
         
@@ -64,7 +64,7 @@ extension Timer {
     
     func addWarnings(warningTimes: [Int]) {
         let times = warningTimes.map {
-            (var time) -> Warning in
+            (time) -> Warning in
         
             let warning = Warning(context: self.managedObjectContext!)
             warning.elapsedTime = NSNumber(integer: time)
@@ -98,7 +98,7 @@ extension Timer {
         
         fetchRequest.entity = entityDescription
         
-        if let results = moc.executeFetchRequest(fetchRequest, error: nil) {
+        if let results = try? moc.executeFetchRequest(fetchRequest) {
             for result in results {
                 if let timer = result as? Timer {
                     if (timer.isActive()) {
@@ -118,14 +118,17 @@ extension Timer {
         
         fetchRequest.entity = entityDescription
         
-        if let results = moc.executeFetchRequest(fetchRequest, error: nil) {
+        if let results = try? moc.executeFetchRequest(fetchRequest) {
             for result in results {
                 if let timer = result as? Timer {
                     if (!timer.isActive()) { moc.deleteObject(timer) }
                 }
             }
             
-            moc.save(nil)
+            do {
+                try moc.save()
+            } catch _ {
+            }
         }
     }
 }

@@ -51,24 +51,22 @@ class AltEditTimerViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.backgroundColor()
-        self.primaryColorLabels.map { (label: UILabel) -> UILabel in
+        
+        for label in primaryColorLabels {
             label.textColor = UIColor.primaryTextColor()
-            return label
         }
         
-        self.secondaryColorLabels.map { (label: UILabel) -> UILabel in
+        for label in secondaryColorLabels {
             label.textColor = UIColor.secondaryTextColor()
-            return label
         }
         
-        self.tertiaryColorLabels.map { (label: UILabel) -> UILabel in
+        for label in tertiaryColorLabels {
             label.textColor = UIColor.tertiaryTextColor()
-            return label
         }
         
         if (UIScreen.mainScreen().bounds.size.width <= 320) {
             self.topLayoutConstraint.constant = 8
-            var translationTransform = CGAffineTransformMakeTranslation(0, 60)
+            let translationTransform = CGAffineTransformMakeTranslation(0, 60)
             self.timeKeyContainer.transform = CGAffineTransformScale(translationTransform, 0.8, 0.8)
         }
         
@@ -82,7 +80,7 @@ class AltEditTimerViewController: UIViewController {
         var inputs = timerValue
         
         if (inputs.count < 6) {
-            for i in 1...(6 - inputs.count) {
+            for _ in 1...(6 - inputs.count) {
                 inputs.insert(Int(0), atIndex: 0)
             }
         }
@@ -102,13 +100,13 @@ class AltEditTimerViewController: UIViewController {
     
     private func addTimerActionView() {
         let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: false, needsCancelButton: true)
-        timerActionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        timerActionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(timerActionView)
         self.timerActionView = timerActionView
         
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: -20))
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Trailing, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 50))
     }
 

@@ -47,7 +47,7 @@ class TimerLabelView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         
         self.addHoursLabel()
@@ -60,7 +60,7 @@ class TimerLabelView: UIView {
         
         self.scaledDown = scaledDown
         self.renderAllUnits = renderAllUnits
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         
         self.addHoursLabel()
@@ -69,7 +69,7 @@ class TimerLabelView: UIView {
         self.addColons()
         
         if (renderAllUnits) {
-            var width = self.scaledDown ? CGFloat(120.0 / 3.0) : CGFloat(170.0 / 3.0)
+            let width = self.scaledDown ? CGFloat(120.0 / 3.0) : CGFloat(170.0 / 3.0)
             self.renderEntireTimeString(width)
         } else {
             self.adjustCenterConstraints()
@@ -77,7 +77,7 @@ class TimerLabelView: UIView {
     }
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -167,8 +167,8 @@ class TimerLabelView: UIView {
         
         self.minutesColon = minutesColon
         self.hoursColon = hoursColon
-        self.addConstraint(NSLayoutConstraint(item: minutesColon, attribute: .Leading, relatedBy: .Equal, toItem: minutesLabel, attribute: .Right, multiplier: 1.0, constant: -4))
-        self.addConstraint(NSLayoutConstraint(item: hoursColon, attribute: .Leading, relatedBy: .Equal, toItem: hoursLabel, attribute: .Right, multiplier: 1.0, constant: -4))
+        self.addConstraint(NSLayoutConstraint(item: minutesColon, attribute: .Leading, relatedBy: .Equal, toItem: minutesLabel, attribute: .Trailing, multiplier: 1.0, constant: -4))
+        self.addConstraint(NSLayoutConstraint(item: hoursColon, attribute: .Leading, relatedBy: .Equal, toItem: hoursLabel, attribute: .Trailing, multiplier: 1.0, constant: -4))
     }
     
     // MARK: Label Convenience Methods
@@ -181,7 +181,7 @@ class TimerLabelView: UIView {
         let label = UILabel(frame: CGRectZero)
         label.font = UIFont(name: "Lato-Light", size: self.scaledDown ? 26 : 40)!
         label.textColor = textColor
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .Center
         label.backgroundColor = UIColor.backgroundColor()
         
@@ -190,7 +190,7 @@ class TimerLabelView: UIView {
     
     private func createUnitLabel(boundView: UIView, textColor: UIColor) -> UILabel {
         let unitTextLabel = UILabel()
-        unitTextLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        unitTextLabel.translatesAutoresizingMaskIntoConstraints = false
         unitTextLabel.font = UIFont(name: "Lato-Light", size: self.scaledDown ? 15 : 24)
         unitTextLabel.textColor = textColor
         unitTextLabel.textAlignment = .Center
@@ -214,7 +214,7 @@ class TimerLabelView: UIView {
         self.setTime(seconds: 0, minutes: 0, hours: 0)
     }
     
-    func setTime(#seconds: Int, minutes: Int, hours: Int) {
+    func setTime(seconds seconds: Int, minutes: Int, hours: Int) {
         self.seconds = seconds
         self.minutes = minutes
         self.hours = hours
@@ -240,7 +240,7 @@ class TimerLabelView: UIView {
     
     func adjustCenterConstraints() {
         var frameWidth: CGFloat
-        var totalWidth: CGFloat = self.scaledDown ? 120 : 170
+        let totalWidth: CGFloat = self.scaledDown ? 120 : 170
         var numberOfLabels = 0
         
         if (self.frame.size.width > 0) {
@@ -294,7 +294,7 @@ class TimerLabelView: UIView {
             break
         }
         
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 12.0, options: nil, animations: {
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 12.0, options: [], animations: {
             [unowned self] () -> Void in
             self.setNeedsLayout()
         }, completion: nil)

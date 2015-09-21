@@ -18,14 +18,14 @@ class TimerActionView: UIView {
     weak var cancelButton: KeyPadControlButton!
     var cancelCenterConstraint: NSLayoutConstraint!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     init(frame: CGRect, scaledDown: Bool = false, needsCancelButton: Bool = false) {
         super.init(frame: frame)
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
         self.scaledDown = scaledDown
@@ -38,11 +38,11 @@ class TimerActionView: UIView {
         }
     }
     
-    func addButtons(#needsCancelButton: Bool) {
+    func addButtons(needsCancelButton needsCancelButton: Bool) {
         var cancel: KeyPadControlButton
         var pause: KeyPadControlButton
         var reset: KeyPadControlButton
-        var start = KeyPadControlButton(frame: CGRectZero)
+        let start = KeyPadControlButton(frame: CGRectZero)
         start.standardBackgroundImage = UIImage(named: "start_button")
         self.addSubview(start)
         self.startButton = start
@@ -68,7 +68,7 @@ class TimerActionView: UIView {
         }
         
         for button in buttons {
-            button.setTranslatesAutoresizingMaskIntoConstraints(false)
+            button.translatesAutoresizingMaskIntoConstraints = false
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 115))
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 40))
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))

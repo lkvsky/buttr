@@ -20,6 +20,9 @@ class DataManager: NSObject {
     }
     
     func save() {
-        self.mainMoc.save(nil)
+        do {
+            try self.mainMoc.save()
+        } catch _ {
+        }
     }
 }

@@ -38,7 +38,7 @@ import UIKit
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.addSliders()
         self.animatedInitialization()
@@ -47,7 +47,7 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.addSliders()
         
@@ -55,7 +55,7 @@ import UIKit
         self.animatedInitialization()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -160,10 +160,8 @@ import UIKit
         minuteProgress.animateProgressBar(endAngle: 91)
         secondProgress.animateProgressBar(endAngle: 91)
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            [unowned self] () -> Void in
-            UIView.animateWithDuration(0.125, animations: {
-                [unowned self] () -> Void in
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            UIView.animateWithDuration(0.125, animations: { () -> Void in
                 let minuteTransform = CGFloat(Double(hourProgress.frame.size.width) / Double(minuteProgress.frame.size.width))
                 let secondTransform = CGFloat(Double(hourProgress.frame.size.width) / Double(secondProgress.frame.size.width))
                 minuteProgress.transform = CGAffineTransformMakeScale(minuteTransform, minuteTransform)

@@ -54,9 +54,9 @@ class ButtrCartoonView: UIView {
     private func applyConstraints() {
         let scale: CGFloat = UIScreen.mainScreen().bounds.size.width <= 320 ? 0.8 : 1.0
         
-        head.setTranslatesAutoresizingMaskIntoConstraints(false)
-        body.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tail.setTranslatesAutoresizingMaskIntoConstraints(false)
+        head.translatesAutoresizingMaskIntoConstraints = false
+        body.translatesAutoresizingMaskIntoConstraints = false
+        tail.translatesAutoresizingMaskIntoConstraints = false
         
         // head size constraints
         self.addConstraint(NSLayoutConstraint(item: head, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 139.0 * scale))
@@ -75,20 +75,20 @@ class ButtrCartoonView: UIView {
         self.addConstraint(NSLayoutConstraint(item: body, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
         self.addConstraint(NSLayoutConstraint(item: head, attribute: .CenterX, relatedBy: .Equal, toItem: body, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.addConstraint(NSLayoutConstraint(item: head, attribute: .Bottom, relatedBy: .Equal, toItem: body, attribute: .Top, multiplier: 1.0, constant: 43.0 * scale))
-        self.addConstraint(NSLayoutConstraint(item: tail, attribute: .Leading, relatedBy: .Equal, toItem: body, attribute: .Right, multiplier: 1.0, constant: -20.0 * scale))
+        self.addConstraint(NSLayoutConstraint(item: tail, attribute: .Leading, relatedBy: .Equal, toItem: body, attribute: .Trailing, multiplier: 1.0, constant: -20.0 * scale))
         self.addConstraint(NSLayoutConstraint(item: tail, attribute: .Bottom, relatedBy: .Equal, toItem: body, attribute: .Bottom, multiplier: 1.0, constant: -43.0 * scale))
     }
     
     private func addAlarmDialogue() {
         let imageView = UIImageView(frame: CGRectZero)
-        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(imageView)
         self.alarmDialogue = imageView
         
         self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 79))
         self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 53))
-        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
+        self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Trailing, multiplier: 1.0, constant: 8))
         self.addConstraint(NSLayoutConstraint(item: alarmDialogue, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
         
         self.alarmDialogue.transform = CGAffineTransformMakeScale(0, 0)
@@ -96,7 +96,7 @@ class ButtrCartoonView: UIView {
     
     private func addNotifDialogueLeft() {
         let imageView = UIImageView(frame: CGRectZero)
-        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "notif_dialogue_left")
         imageView.userInteractionEnabled = true
         
@@ -111,13 +111,13 @@ class ButtrCartoonView: UIView {
         
         self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
         self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 66))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Left, multiplier: 1.0, constant: -8))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Trailing, multiplier: 1.0, constant: -8))
         self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
     }
     
     private func addNotifDialogueRight() {
         let imageView = UIImageView(frame: CGRectZero)
-        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "notif_dialogue_right")
         imageView.userInteractionEnabled = true
         
@@ -134,7 +134,7 @@ class ButtrCartoonView: UIView {
     
     private func addSetTimerDialogue() {
         let imageView = UIImageView(frame: CGRectZero)
-        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "set_timer_dialogue")
         imageView.userInteractionEnabled = true
         
@@ -151,7 +151,7 @@ class ButtrCartoonView: UIView {
     
     private func addDragBoneDialogue() {
         let imageView = UIImageView(frame: CGRectZero)
-        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "drag_bone_dialogue")
         imageView.userInteractionEnabled = true
         
@@ -168,7 +168,7 @@ class ButtrCartoonView: UIView {
     
     private func addClearBoneDialogue() {
         let imageView = UIImageView(frame: CGRectZero)
-        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "clear_bone_dialogue")
         imageView.userInteractionEnabled = true
         
@@ -186,7 +186,7 @@ class ButtrCartoonView: UIView {
     private func addRightDialogueConstraints(view: UIView, height: CGFloat, bottomConstant: CGFloat = 0) {
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: height))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Right, multiplier: 1.0, constant: 8))
+        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Trailing, multiplier: 1.0, constant: 8))
         self.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: bottomConstant))
     }
     
@@ -261,14 +261,12 @@ class ButtrCartoonView: UIView {
     func removeDialogues() {
         let dialogues = [self.setTimerDialogue, self.notifDialogueLeft, self.notifDialogueRight, self.dragBoneDialogue, self.clearBoneDialogue]
         
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: {
-            [unowned self] () -> Void in
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: [], animations: { () -> Void in
             for dialogue in dialogues {
                 dialogue?.layer.opacity = 0
                 dialogue?.transform = CGAffineTransformMakeScale(0, 0)
             }
-            }) {
-                [unowned self] (Bool finished) -> Void in
+            }) { (Bool finished) -> Void in
                 for dialogue in dialogues {
                     dialogue?.removeFromSuperview()
                 }
@@ -276,7 +274,7 @@ class ButtrCartoonView: UIView {
     }
     
     private func animateWithoutCompletion(block: (() -> ())) {
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: nil, animations: block, completion: nil)
+        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: [], animations: block, completion: nil)
     }
     
     // MARK: Animation Methods
@@ -284,7 +282,7 @@ class ButtrCartoonView: UIView {
     func wagTail() {
         UIView.animateWithDuration(0.1, delay: 0, options: .Autoreverse, animations: {
             [unowned self] () -> Void in
-            var transform = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(80))))
+            let transform = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(80))))
             self.tail.transform = CGAffineTransformTranslate(transform, 2, -2);
         }) {
             [unowned self](Bool finished) -> Void in
@@ -292,7 +290,7 @@ class ButtrCartoonView: UIView {
             
             UIView.animateWithDuration(0.125, delay: 0, options: .Autoreverse, animations: {
                 [unowned self] () -> Void in
-                var transform =  CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(80))))
+                let transform =  CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(80))))
                 self.tail.transform = CGAffineTransformTranslate(transform, 2, -2);
                 }) {
                     [unowned self](Bool finished) -> Void in
@@ -330,10 +328,10 @@ class ButtrCartoonView: UIView {
         self.body.image = UIImage(named: "buttr_body_hunched")
         self.tail.layer.opacity = 0
         
-        UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+        UIView.animateWithDuration(0.125, delay: 0, options: [], animations: {
             [unowned self] () -> Void in
             self.head.transform = CGAffineTransformMakeTranslation(0, 35)
-            var bodyTranslation = CGAffineTransformMakeTranslation(0, -40)
+            let bodyTranslation = CGAffineTransformMakeTranslation(0, -40)
             self.body.transform = CGAffineTransformScale(bodyTranslation, 1.7, 1.7)
             }) {
                 [unowned self](Bool finished) -> Void in
@@ -344,7 +342,7 @@ class ButtrCartoonView: UIView {
                     self.body.image = UIImage(named: "buttr_body")
                     self.body.transform = CGAffineTransformIdentity
                     
-                    UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+                    UIView.animateWithDuration(0.125, delay: 0, options: [], animations: {
                         [unowned self] () -> Void in
                         self.head.transform = CGAffineTransformIdentity
                         self.tail.layer.opacity = 1
@@ -363,13 +361,13 @@ class ButtrCartoonView: UIView {
         self.inTransformativeState = true
         self.tail.layer.opacity = 0
         
-        UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+        UIView.animateWithDuration(0.125, delay: 0, options: [], animations: {
             [unowned self] () -> Void in
-            var translation = CGAffineTransformMakeTranslation(self.body.frame.width / 2, self.body.frame.height / 2)
+            let translation = CGAffineTransformMakeTranslation(self.body.frame.width / 2, self.body.frame.height / 2)
             self.head.transform = CGAffineTransformRotate(translation, CGFloat(MathHelpers.DegreesToRadians(Double(130))))
             
             self.body.image = UIImage(named: "buttr_body_upside_down")
-            var bodyTranslation = CGAffineTransformMakeTranslation(-10, -20)
+            let bodyTranslation = CGAffineTransformMakeTranslation(-10, -20)
             self.body.transform = CGAffineTransformScale(bodyTranslation, 2.2, 1.2)
             }) {
                 [unowned self](Bool finished) -> Void in
@@ -379,7 +377,7 @@ class ButtrCartoonView: UIView {
                     self.body.image = UIImage(named: "buttr_body")
                     self.body.transform = CGAffineTransformIdentity
                     
-                    UIView.animateWithDuration(0.125, delay: 0, options: nil, animations: {
+                    UIView.animateWithDuration(0.125, delay: 0, options: [], animations: {
                         [unowned self] () -> Void in
                         self.head.transform = CGAffineTransformIdentity
                         self.tail.layer.opacity = 1
@@ -415,7 +413,7 @@ class ButtrCartoonView: UIView {
         self.headIsTilted = true
         UIView.animateWithDuration(0.125, animations: {
             [unowned self] () -> Void in
-            var rotation = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(direction * 22))))
+            let rotation = CGAffineTransformMakeRotation(CGFloat(MathHelpers.DegreesToRadians(Double(direction * 22))))
             self.head.transform = CGAffineTransformTranslate(rotation, CGFloat(direction) * 5, 0)
         })
     }

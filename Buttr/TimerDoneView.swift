@@ -17,7 +17,7 @@ class TimerDoneView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
     }
@@ -25,7 +25,7 @@ class TimerDoneView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
     }
@@ -55,7 +55,7 @@ class TimerDoneView: UIView {
         for label in [dateWhenTimerStoppedLabel, timesUpLabel] {
             label.textAlignment = .Center
             label.textColor = UIColor.primaryTextColor()
-            label.setTranslatesAutoresizingMaskIntoConstraints(false)
+            label.translatesAutoresizingMaskIntoConstraints = false
             self.addConstraint(NSLayoutConstraint(item: label, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
             self.addConstraint(NSLayoutConstraint(item: label, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1.0, constant: 0))
         }
@@ -93,7 +93,7 @@ class TimerDoneView: UIView {
         dateWhenTimerStoppedLabel.text = String(text)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

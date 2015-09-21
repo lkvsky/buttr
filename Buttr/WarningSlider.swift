@@ -30,14 +30,14 @@ class WarningSlider: CircularSlider {
     
     override func drawRect(rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
-        self.drawWarningAtAngle(ctx)
+        self.drawWarningAtAngle(ctx!)
         
         if let warningPoints = self.warningAngles {
             for (index, angle) in warningPoints {
                 if (index == self.draggedWarningIndex) {
-                    self.drawWarningAtAngle(ctx, angleVal: angle, withLabel: false)
+                    self.drawWarningAtAngle(ctx!, angleVal: angle, withLabel: false)
                 } else {
-                    self.drawWarningAtAngle(ctx, angleVal: angle, withLabel: true)
+                    self.drawWarningAtAngle(ctx!, angleVal: angle, withLabel: true)
                 }
             }
         }
@@ -90,7 +90,7 @@ class WarningSlider: CircularSlider {
     
     func pointForLabel(angleVal: Double) -> CGPoint {
         var result: CGPoint = CGPointZero
-        var circleCenter = CGPointMake(self.frame.size.width/2.0 - self.warningIcon.size.height/2.0, self.frame.size.height/2.0 - self.warningIcon.size.height/2.0)
+        let circleCenter = CGPointMake(self.frame.size.width/2.0 - self.warningIcon.size.height/2.0, self.frame.size.height/2.0 - self.warningIcon.size.height/2.0)
         let y = round(Double(radius - 1.3*self.warningIcon.size.width) * sin(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.y)
         let x = round(Double(radius - 1.3*self.warningIcon.size.width) * cos(MathHelpers.DegreesToRadians(-angleVal))) + Double(circleCenter.x)
         result.y = CGFloat(y)
@@ -119,7 +119,7 @@ class WarningSlider: CircularSlider {
         return 360.0 - MathHelpers.AngleFromNorth(centerPoint, p2: point, flipped: false)
     }
     
-    func getAngleForMovingWarning(#startAngle: Double, updatedAngle: Double) -> Double {
+    func getAngleForMovingWarning(startAngle startAngle: Double, updatedAngle: Double) -> Double {
         if (!self.isMovingClockwise(startAngle: startAngle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE >= floor(startAngle) && Config.BT_STARTING_ANGLE < floor(updatedAngle) && abs(startAngle - updatedAngle) < 180 && startAngle != updatedAngle)) {
             return Config.BT_STARTING_ANGLE
         } else {
@@ -146,7 +146,7 @@ class WarningSlider: CircularSlider {
     func chosenWarningIndex(point: CGPoint) -> Int? {
         if let warningAngles = self.warningAngles {
             for (index, angleVal) in warningAngles {
-                if (CGRectContainsPoint(self.rectForWarning(angleVal: angleVal), point)) {
+                if (CGRectContainsPoint(self.rectForWarning(angleVal), point)) {
                     return index
                 }
             }
@@ -192,7 +192,7 @@ class WarningSlider: CircularSlider {
     
     // MARK: Gestures and Events
     
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
         
         let touchPoint = touch.locationInView(self)
@@ -201,7 +201,7 @@ class WarningSlider: CircularSlider {
         if (self.touchedChiefWarning(touchPoint)) {
             self.numberOfWarnings += 1
             
-            if let warningPoints = self.warningAngles {
+            if let _ = self.warningAngles {
                 self.warningAngles[self.numberOfWarnings] = self.warningAngleForPoint(touchPoint)
             } else {
                 self.warningAngles = [self.numberOfWarnings: self.warningAngleForPoint(touchPoint)]
@@ -222,7 +222,7 @@ class WarningSlider: CircularSlider {
         return false
     }
     
-    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         if let warningIndex = self.draggedWarningIndex {
             let startAngle = self.warningAngles[warningIndex]!
             let endAngle = self.warningAngleForPoint(touch.locationInView(self))
@@ -235,8 +235,8 @@ class WarningSlider: CircularSlider {
         return true
     }
     
-    override func endTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) {
-        if let warningAngles = self.warningAngles {
+    override func endTrackingWithTouch(touch: UITouch?, withEvent event: UIEvent?) {
+        if let _ = self.warningAngles {
             var warningTimes = [Int]()
 
             for (index, angle) in self.warningAngles {

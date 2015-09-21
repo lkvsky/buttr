@@ -16,7 +16,7 @@ class TimerProgressView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
     }
@@ -24,12 +24,12 @@ class TimerProgressView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -42,7 +42,7 @@ class TimerProgressView: UIView {
         let circularProgressBar = CircularProgressBar(color: UIColor.primaryTextColor(), frame: self.bounds, clockwise: false)
         self.addSubview(circularProgressBar)
         self.circularProgressBar = circularProgressBar
-        self.updateProgressBar(elapsedTime: Double(timeLeft))
+        self.updateProgressBar(Double(timeLeft))
         
         // add warning slider
         let warningSlider = WarningSlider(color: UIColor.warningTextColor(), frame: self.bounds, maxTimeUnits: timerDuration)
@@ -55,7 +55,7 @@ class TimerProgressView: UIView {
             self.warningSlider.numberOfWarnings = warningTimes.count
             self.warningSlider.warningAngles = [Int: Double]()
             
-            for (index, warningTime) in enumerate(self.warningSlider.warningTimes) {
+            for (index, warningTime) in self.warningSlider.warningTimes.enumerate() {
                 let warningAngle: Double = 90.0 - (Double(warningTime) * Double(360.0) / Double(self.warningSlider.maxTimeUnits))
                 let warningIndex: Int = index + 1
                 

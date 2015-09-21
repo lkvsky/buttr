@@ -33,15 +33,19 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "launchTimerOrEditScreen", name: UIApplicationDidBecomeActiveNotification, object: nil)
         
         // check if the user has notifications turned off or is first load
-        var userPrefs = NSUserDefaults.standardUserDefaults()
-        var userHasRegisteredForNotifications: Bool = userPrefs.objectForKey("HasRegisteredNotifications") != nil
+        let userPrefs = NSUserDefaults.standardUserDefaults()
+        let userHasRegisteredForNotifications: Bool = userPrefs.objectForKey("HasRegisteredNotifications") != nil
+        let notificationSettingsOpt = UIApplication.sharedApplication().currentUserNotificationSettings()
         
-        if (userHasRegisteredForNotifications && nil == UIApplication.sharedApplication().currentUserNotificationSettings().types) {
-            self.userDeniedNotifications()
+        if let notificationSettings = notificationSettingsOpt {
+            if (userHasRegisteredForNotifications && [] == notificationSettings.types) {
+                self.userDeniedNotifications()
+            }
         }
         
+        
         // add tap gesture to buttr cartoon
-        var tap = UITapGestureRecognizer(target: self, action: "onButtrCartoonTap:")
+        let tap = UITapGestureRecognizer(target: self, action: "onButtrCartoonTap:")
         self.buttrCartoon.addGestureRecognizer(tap)
     }
     
@@ -56,7 +60,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         editTimerVC.delegate = self
         
         // set proper sizing for view
-        editTimerVC.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        editTimerVC.view.translatesAutoresizingMaskIntoConstraints = false
         self.containerView.addSubview(editTimerVC.view)
         self.addChildVCConstraints(editTimerVC.view)
         
@@ -74,7 +78,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.addChildViewController(timerProgressVC)
         
         // set proper sizing for view
-        timerProgressVC.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        timerProgressVC.view.translatesAutoresizingMaskIntoConstraints = false
         self.containerView.addSubview(timerProgressVC.view)
         self.addChildVCConstraints(timerProgressVC.view)
         
@@ -105,15 +109,15 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // make sure container is in correct position
         self.containerView.transform = CGAffineTransformIdentity
         
-        var editChildVc: EditTimerViewController? = self.childViewControllers.first as? EditTimerViewController
-        var timer: Timer? = Timer.getCurrentTimer()
+        let editChildVc: EditTimerViewController? = self.childViewControllers.first as? EditTimerViewController
+        let timer: Timer? = Timer.getCurrentTimer()
         
         if (nil == timer && nil != editChildVc) {
             // do nothing
         } else {
             for childVc in self.childViewControllers {
                 if let view = childVc.view {
-                    view?.removeFromSuperview()
+                    view.removeFromSuperview()
                 }
                 
                 childVc.removeFromParentViewController()
@@ -145,7 +149,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
                 delay: 0,
                 usingSpringWithDamping: 0.5,
                 initialSpringVelocity: 12.0,
-                options: nil,
+                options: [],
                 animations: {
                     [unowned self]() -> Void in
                     // slide down container to hide done button
@@ -264,7 +268,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         // prevent tapping butter from rendering dialogue boxes until
         // user has cancelled timer
         self.buttrCartoon.removeDialogues()
-        self.buttrCartoon.tiltHead(direction: -1)
+        self.buttrCartoon.tiltHead(-1)
         self.buttrCartoon.stickOutTongue()
         self.buttrCartoon.bark()
         
@@ -272,7 +276,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             delay: 0,
             usingSpringWithDamping: 0.5,
             initialSpringVelocity: 12.0,
-            options: nil,
+            options: [],
             animations: {
                 [unowned self]() -> Void in
                 // slide up container to expose done button
@@ -312,8 +316,8 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         // check if this is user's first time setting warning
         // if so, render instructions for removing bone
-        var userPrefs = NSUserDefaults.standardUserDefaults()
-        var usersFirstTimeSettingWarning = userPrefs.objectForKey("UsersFirstTimeSettingWarning") == nil
+        let userPrefs = NSUserDefaults.standardUserDefaults()
+        let usersFirstTimeSettingWarning = userPrefs.objectForKey("UsersFirstTimeSettingWarning") == nil
         
         if (usersFirstTimeSettingWarning) {
             userPrefs.setObject(1, forKey: "UsersFirstTimeSettingWarning")

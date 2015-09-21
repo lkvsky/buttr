@@ -65,7 +65,7 @@ class TimerProgressViewController: UIViewController {
             
             // init actions and animation
             self.timeLeft = self.timer.timeLeft()
-            self.timerProgressView.setupTimerProgressView(duration: Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
+            self.timerProgressView.setupTimerProgressView(Int(self.timer.duration), timeLeft: self.timer.timeLeft(), warnings: self.timer.getWarningsAsInts())
             self.timerProgressView.warningSlider.addTarget(self, action: "onWarningsChange:", forControlEvents: .ValueChanged)
             self.timerActionView.startButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
             self.timerActionView.pauseButton.addTarget(self, action: "toggleTimerState", forControlEvents: .TouchUpInside)
@@ -79,8 +79,8 @@ class TimerProgressViewController: UIViewController {
             
             // check if user has seen warning instructions before
             // if not, render dialogue
-            var userPrefs = NSUserDefaults.standardUserDefaults()
-            var userHasSeenWarningInstructions = userPrefs.objectForKey("UserHasSeenWarningInstructions") != nil
+            let userPrefs = NSUserDefaults.standardUserDefaults()
+            let userHasSeenWarningInstructions = userPrefs.objectForKey("UserHasSeenWarningInstructions") != nil
             
             if (!userHasSeenWarningInstructions) {
                 userPrefs.setObject(1, forKey: "UserHasSeenWarningInstructions")
@@ -100,7 +100,7 @@ class TimerProgressViewController: UIViewController {
     func fireTimerEndAlert() {
         let butterPath = NSBundle.mainBundle().pathForResource("butter_bark", ofType: "wav")
         let butterUrl = NSURL.fileURLWithPath(butterPath!)
-        butterBarker = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
+        butterBarker = try? AVAudioPlayer(contentsOfURL: butterUrl)
         
         butterBarker.play()
         self.vibrate()
@@ -113,7 +113,7 @@ class TimerProgressViewController: UIViewController {
         } else {
             let butterPath = NSBundle.mainBundle().pathForResource("butter_growl", ofType: "wav")
             let butterUrl = NSURL.fileURLWithPath(butterPath!)
-            butterGrowler = AVAudioPlayer(contentsOfURL: butterUrl!, error: nil)
+            butterGrowler = try? AVAudioPlayer(contentsOfURL: butterUrl)
             butterGrowler.play()
         }
         
@@ -141,7 +141,7 @@ class TimerProgressViewController: UIViewController {
         }
         
         let timerProgressView = TimerProgressView(frame: CGRectMake(0, 0, frameWidth, frameWidth))
-        timerProgressView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        timerProgressView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(timerProgressView)
         self.timerProgressView = timerProgressView
         self.constrainMainView(timerProgressView, frameWidth: frameWidth)
@@ -149,7 +149,7 @@ class TimerProgressViewController: UIViewController {
     
     private func addTimerLabel() {
         let timerLabelView = TimerLabelView(frame: CGRectZero, scaledDown: self.scaleDownViews())
-        timerLabelView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        timerLabelView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(timerLabelView)
         self.timerLabelView = timerLabelView
         
@@ -161,21 +161,21 @@ class TimerProgressViewController: UIViewController {
     
     private func addTimerActionView() {
         let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: self.scaleDownViews())
-        timerActionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        timerActionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(timerActionView)
         self.timerActionView = timerActionView
         
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Top, relatedBy: .Equal, toItem: timerProgressView, attribute: .Bottom, multiplier: 1.0, constant: 8))
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Trailing, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 50))
     }
     
     private func addTimerDoneView() {
-        var frameWidth = CGFloat(350)
+        let frameWidth = CGFloat(350)
         
         let timerDoneView = TimerDoneView(frame: CGRectMake(0, 0, 350, 350), dateWhenTimerStopped: self.timer.projectedEndDate(), scaledDown: self.scaleDownViews())
-        timerDoneView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        timerDoneView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(timerDoneView)
         self.timerDoneView = timerDoneView
         self.constrainMainView(timerDoneView, frameWidth: frameWidth)

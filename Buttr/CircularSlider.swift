@@ -45,7 +45,7 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
         
         self.backgroundColor = UIColor.clearColor()
         self.opaque = true
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         radius = (self.frame.size.width / 2) - Config.BT_SLIDER_PADDING
     }
@@ -56,7 +56,7 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
         self.maxTimeUnits = maxTimeUnits
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -64,9 +64,9 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
     
     override func drawRect(rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
-        self.drawBackground(ctx)
-        self.drawPathToAngle(ctx)
-        self.drawHandle(ctx)
+        self.drawBackground(ctx!)
+        self.drawPathToAngle(ctx!)
+        self.drawHandle(ctx!)
     }
     
     func drawHandle(ctx: CGContextRef) {
@@ -102,8 +102,8 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
         CGContextAddArc(ctx, CGFloat(self.frame.size.width / 2.0), CGFloat(self.frame.size.height / 2.0), radius, startingAngle, endingAngle, 0)
         self.color.set()
         CGContextSetLineWidth(ctx, Config.BT_SLIDER_LINE_WIDTH)
-        CGContextSetLineCap(ctx, kCGLineCapRound)
-        CGContextDrawPath(ctx, kCGPathStroke)
+        CGContextSetLineCap(ctx, CGLineCap.Round)
+        CGContextDrawPath(ctx, CGPathDrawingMode.Stroke)
         
         CGContextRestoreGState(ctx)
     }
@@ -169,19 +169,19 @@ class CircularSlider: UIControl, UIGestureRecognizerDelegate {
         self.setNeedsDisplay()
     }
     
-    func isMovingClockwise(#startAngle: Double, endAngle: Double) -> Bool {
+    func isMovingClockwise(startAngle startAngle: Double, endAngle: Double) -> Bool {
         return endAngle < startAngle || (floor(startAngle) <= 10 && floor(endAngle) >= 350)
     }
     
     // MARK: Gestures & Events
     
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.beginTrackingWithTouch(touch, withEvent: event)
 
         return self.touchedSliderPath(touch.locationInView(self))
     }
     
-    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent) -> Bool {
+    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         super.continueTrackingWithTouch(touch, withEvent: event)
         
         self.moveHandle(touch.locationInView(self))

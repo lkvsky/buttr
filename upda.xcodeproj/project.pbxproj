@@ -319,7 +319,6 @@
 		3CE7F9C61B73B75A0015EED7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Kyle Lucovsky";
@@ -339,7 +338,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3CE7F9C91B73B75A0015EED7 /* Build configuration list for PBXProject "Buttr" */;
+			buildConfigurationList = 3CE7F9C91B73B75A0015EED7 /* Build configuration list for PBXProject "upda" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -637,7 +636,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3CE7F9C91B73B75A0015EED7 /* Build configuration list for PBXProject "Buttr" */ = {
+		3CE7F9C91B73B75A0015EED7 /* Build configuration list for PBXProject "upda" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3CE7F9EE1B73B75B0015EED7 /* Debug */,
