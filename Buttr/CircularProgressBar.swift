@@ -17,16 +17,14 @@ class CircularProgressBar: UIView {
     var radius: CGFloat = 0
     var currentAngle: Double = Config.BT_STARTING_ANGLE
     var clockwise: Bool = false
-    var drawTracks: Bool = false
     var trackCount: Int = 59
     var color: UIColor!
     
-    init(color: UIColor, frame: CGRect, clockwise: Bool = false, drawTracks: Bool = false, trackCount: Int = 59) {
+    init(color: UIColor, frame: CGRect, clockwise: Bool = false, trackCount: Int = 59) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
         radius = (self.frame.size.width / 2) - Config.BT_SLIDER_PADDING
         self.clockwise = clockwise
-        self.drawTracks = drawTracks
         self.color = color
         self.trackCount = trackCount
         
@@ -59,23 +57,21 @@ class CircularProgressBar: UIView {
     }
     
     override func drawRect(rect: CGRect) {
-        if (self.drawTracks) {
-            let ctx = UIGraphicsGetCurrentContext()
-            CGContextSaveGState(ctx)
+        let ctx = UIGraphicsGetCurrentContext()
+        CGContextSaveGState(ctx)
+        
+        self.color.set()
+        
+        for i in 0...trackCount {
+            let circleCenter = self.getCircleCenterBasedOnHandle()
+            let angleVal = Double(i) * (360.0 / (Double(trackCount) + 1.0))
+            let notchPoint: CGPoint = MathHelpers.pointOnCircumference(angleVal, circleCenter: circleCenter, radius: radius)
+            let offset: CGFloat = Config.BT_HANDLE_WIDTH / 2 - 1.5
             
-            self.color.set()
-            
-            for i in 0...trackCount {
-                let circleCenter = self.getCircleCenterBasedOnHandle()
-                let angleVal = Double(i) * (360.0 / (Double(trackCount) + 1.0))
-                let notchPoint: CGPoint = MathHelpers.pointOnCircumference(angleVal, circleCenter: circleCenter, radius: radius)
-                let offset: CGFloat = Config.BT_HANDLE_WIDTH / 2 - 1.5
-                
-                CGContextFillEllipseInRect(ctx, CGRectMake(notchPoint.x + offset, notchPoint.y + offset, 3, 3))
-            }
-            
-            CGContextRestoreGState(ctx)
+            CGContextFillEllipseInRect(ctx, CGRectMake(notchPoint.x + offset, notchPoint.y + offset, 3, 3))
         }
+        
+        CGContextRestoreGState(ctx)
     }
     
     // MARK: Drawing Helper Methods

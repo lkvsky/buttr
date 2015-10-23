@@ -199,7 +199,7 @@ class TimerProgressViewController: UIViewController {
     func setTimerRestartState() {
         nsTimerInstance = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timeLeftHasDecreased", userInfo: nil, repeats: true)
         timerIsPaused = false
-        self.timerActionView.showPauseButton()
+        self.timerActionView.showPauseAndResetButtons()
         self.delegate?.didRestartTimer(self)
     }
     

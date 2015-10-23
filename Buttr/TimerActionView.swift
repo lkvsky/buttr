@@ -79,9 +79,9 @@ class TimerActionView: UIView {
             self.addConstraint(self.cancelCenterConstraint)
             self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
         } else {
-            self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: -80))
-            self.addConstraint(NSLayoutConstraint(item: resetButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
-            self.addConstraint(NSLayoutConstraint(item: pauseButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
+            self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
+            self.addConstraint(NSLayoutConstraint(item: resetButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: -80))
+            self.addConstraint(NSLayoutConstraint(item: pauseButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
         }
     }
     
@@ -105,24 +105,24 @@ class TimerActionView: UIView {
     }
     
     func showStartAndResetButtons() {
-        for button in [self.startButton, self.resetButton] {
-            button.transform = CGAffineTransformIdentity
-            button.layer.opacity = 1
-            button.enabled = true
-        }
+        // show start
+        self.startButton.transform = CGAffineTransformIdentity
+        self.startButton.layer.opacity = 1
+        self.startButton.enabled = true
         
+        // hide pause
         self.pauseButton.transform = CGAffineTransformMakeScale(0, 0)
         self.pauseButton.layer.opacity = 0
         self.pauseButton.enabled = false
     }
     
-    func showPauseButton() {
-        for button in [self.startButton, self.resetButton] {
-            button.transform = CGAffineTransformMakeScale(0, 0)
-            button.layer.opacity = 0
-            button.enabled = false
-        }
+    func showPauseAndResetButtons() {
+        // hide start
+        self.startButton.transform = CGAffineTransformMakeScale(0, 0)
+        self.startButton.layer.opacity = 0
+        self.startButton.enabled = false
         
+        // show pause
         self.pauseButton.transform = CGAffineTransformIdentity
         self.pauseButton.layer.opacity = 1
         self.pauseButton.enabled = true

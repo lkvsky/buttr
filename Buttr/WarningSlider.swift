@@ -123,7 +123,7 @@ class WarningSlider: CircularSlider {
         if (!self.isMovingClockwise(startAngle: startAngle, endAngle: updatedAngle) && (Config.BT_STARTING_ANGLE >= floor(startAngle) && Config.BT_STARTING_ANGLE < floor(updatedAngle) && abs(startAngle - updatedAngle) < 180 && startAngle != updatedAngle)) {
             return Config.BT_STARTING_ANGLE
         } else {
-            return updatedAngle
+            return self.magnetizeAngle(updatedAngle)
         }
     }
     
@@ -188,6 +188,21 @@ class WarningSlider: CircularSlider {
         }
         
         self.setNeedsDisplay()
+    }
+    
+    // if the user drags bone to a spot near the quarter of the circle,
+    // lock into place
+    func magnetizeAngle(angle: Double) -> Double {
+        let magneticSpots: [Double] = [90, 180, 270, 0, 360]
+        let marginOfError: Double = 5
+        
+        for spot in magneticSpots {
+            if (abs(spot - angle) <= marginOfError) {
+                return spot;
+            }
+        }
+        
+        return angle
     }
     
     // MARK: Gestures and Events
