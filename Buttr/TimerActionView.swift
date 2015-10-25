@@ -11,12 +11,12 @@ import UIKit
 class TimerActionView: UIView {
     
     var scaledDown: Bool = false
-    
-    weak var startButton: KeyPadControlButton!
-    weak var resetButton: KeyPadControlButton!
-    weak var pauseButton: KeyPadControlButton!
-    weak var cancelButton: KeyPadControlButton!
+    weak var startButton: UIButton!
+    weak var resetButton: UIButton!
+    weak var pauseButton: UIButton!
+    weak var cancelButton: UIButton!
     var cancelCenterConstraint: NSLayoutConstraint!
+    var constraintConstant: CGFloat = 100
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,6 +29,7 @@ class TimerActionView: UIView {
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
         self.scaledDown = scaledDown
+        self.constraintConstant = self.scaledDown ? 60 : 100
         self.addButtons(needsCancelButton: needsCancelButton)
         
         if (needsCancelButton) {
@@ -39,27 +40,33 @@ class TimerActionView: UIView {
     }
     
     func addButtons(needsCancelButton needsCancelButton: Bool) {
-        var cancel: KeyPadControlButton
-        var pause: KeyPadControlButton
-        var reset: KeyPadControlButton
-        let start = KeyPadControlButton(frame: CGRectZero)
-        start.standardBackgroundImage = UIImage(named: "start_button")
+        let buttonHeight = 80
+        var cancel: UIButton
+        var pause: UIButton
+        var reset: UIButton
+        let start = UIButton(frame: CGRectZero)
+        start.setTitle("START", forState: .Normal)
+        start.setTitleColor(UIColor.primaryTextColor(), forState: .Normal)
+
         self.addSubview(start)
         self.startButton = start
 
-        var buttons: [KeyPadControlButton]
+        var buttons: [UIButton]
 
         if (needsCancelButton) {
-            cancel = KeyPadControlButton(frame: CGRectZero)
-            cancel.standardBackgroundImage = UIImage(named: "cancel_button")
+            cancel = UIButton(frame: CGRectZero)
+            cancel.setTitle("CANCEL", forState: .Normal)
+            cancel.setTitleColor(UIColor.greige(), forState: .Normal)
             self.addSubview(cancel)
             self.cancelButton = cancel
             buttons = [start, cancel]
         } else {
-            reset = KeyPadControlButton(frame: CGRectZero)
-            pause = KeyPadControlButton(frame: CGRectZero)
-            pause.standardBackgroundImage = UIImage(named: "pause_button")
-            reset.standardBackgroundImage = UIImage(named: "reset_button")
+            reset = UIButton(frame: CGRectZero)
+            pause = UIButton(frame: CGRectZero)
+            pause.setTitle("PAWS", forState: .Normal)
+            pause.setTitleColor(UIColor.primaryTextColor(), forState: .Normal)
+            reset.setTitle("RESET", forState: .Normal)
+            reset.setTitleColor(UIColor.greige(), forState: .Normal)
             self.addSubview(reset)
             self.addSubview(pause)
             self.resetButton = reset
@@ -69,19 +76,27 @@ class TimerActionView: UIView {
         
         for button in buttons {
             button.translatesAutoresizingMaskIntoConstraints = false
-            self.addConstraint(NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 115))
-            self.addConstraint(NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 40))
+            self.addConstraint(NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: CGFloat(buttonHeight)))
+            self.addConstraint(NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: CGFloat(buttonHeight)))
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
+            
+            button.backgroundColor = UIColor.whiteColor()
+            button.titleLabel?.font = UIFont(name: "Bitter-Regular", size: 18.0)
+            button.layer.cornerRadius = CGFloat(buttonHeight / 2)
+            button.layer.shadowColor = UIColor.blackColor().CGColor
+            button.layer.shadowRadius = 1.0
+            button.layer.shadowOffset = CGSizeMake(0, 0)
+            button.layer.shadowOpacity = 0.25
         }
         
         if (needsCancelButton) {
             self.cancelCenterConstraint = NSLayoutConstraint(item: cancelButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
             self.addConstraint(self.cancelCenterConstraint)
-            self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
+            self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: constraintConstant))
         } else {
-            self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
-            self.addConstraint(NSLayoutConstraint(item: resetButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: -80))
-            self.addConstraint(NSLayoutConstraint(item: pauseButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 80))
+            self.addConstraint(NSLayoutConstraint(item: startButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: constraintConstant))
+            self.addConstraint(NSLayoutConstraint(item: resetButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: -constraintConstant))
+            self.addConstraint(NSLayoutConstraint(item: pauseButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: constraintConstant))
         }
     }
     
@@ -100,7 +115,7 @@ class TimerActionView: UIView {
         UIView.animateWithDuration(0.125, animations: { [unowned self] () -> Void in
             self.startButton.layer.opacity = 1
             self.startButton.enabled = true
-            self.cancelCenterConstraint.constant = -80
+            self.cancelCenterConstraint.constant = -self.constraintConstant
         })
     }
     

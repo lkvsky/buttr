@@ -23,7 +23,10 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.doneButton.backgroundColor = UIColor.clearColor()
+        self.doneButton.backgroundColor = UIColor.whiteColor()
+        self.doneButton.layer.shadowRadius = 1
+        self.doneButton.layer.shadowOpacity = 0.25
+        self.doneButton.layer.shadowOffset = CGSizeMake(0, 0)
         self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.buttrCartoon.wagTail()
@@ -92,7 +95,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: self.scaleDownViews() ? 15 : 40))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.0, constant: 0))
-        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.1, constant: 0))
+//        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.2, constant: 0))
         
         childView.clipsToBounds = true;
         
@@ -280,7 +283,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             animations: {
                 [unowned self]() -> Void in
                 // slide up container to expose done button
-                self.containerView.transform = CGAffineTransformMakeTranslation(0, -74.0)
+                self.containerView.transform = CGAffineTransformMakeTranslation(0, -(self.doneButton.frame.size.height + 20))
             }, completion: nil)
     }
     

@@ -111,7 +111,7 @@ class ButtrCartoonView: UIView {
         
         self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
         self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 66))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Trailing, multiplier: 1.0, constant: -8))
+        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Leading, multiplier: 1.0, constant: -8))
         self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
     }
     
