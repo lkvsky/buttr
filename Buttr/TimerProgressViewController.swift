@@ -51,7 +51,6 @@ class TimerProgressViewController: UIViewController {
         super.viewDidLoad()
     
         self.view.setNeedsUpdateConstraints()
-        self.view.backgroundColor = UIColor.backgroundColor()
         
         // start tracking timer
         if (self.timer.isDone()) {
@@ -165,11 +164,10 @@ class TimerProgressViewController: UIViewController {
         self.view.addSubview(timerActionView)
         self.timerActionView = timerActionView
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Top, relatedBy: .Equal, toItem: timerProgressView, attribute: .Bottom, multiplier: 1.0, constant: 8))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Trailing, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 100))
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: -2))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: self.scaleDownViews() ? -30 : -60))
     }
     
     private func addTimerDoneView() {
@@ -180,7 +178,6 @@ class TimerProgressViewController: UIViewController {
         self.view.addSubview(timerDoneView)
         self.timerDoneView = timerDoneView
         self.constrainMainView(timerDoneView, frameWidth: frameWidth)
-        self.view.addConstraint(NSLayoutConstraint(item: timerDoneView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: 0))
     }
     
     private func constrainMainView(mainView: UIView, frameWidth: CGFloat) {

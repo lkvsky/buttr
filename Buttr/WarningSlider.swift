@@ -175,7 +175,7 @@ class WarningSlider: CircularSlider {
         }
         
         // otherwise remove if warning has exceeded the time left, or is at zero
-        return warningTime >= timeLeft || warningIsAtZero
+        return (warningTime >= timeLeft && timeLeft != 0) || warningIsAtZero
     }
     
     func removeFiredWarnings() {

@@ -27,6 +27,7 @@ class AltEditTimerViewController: UIViewController {
     
     // constraints
     @IBOutlet var topLayoutConstraint: NSLayoutConstraint!
+    var scaledDown: Bool = false
     
     // data
     var timerValue: [Int] = [Int]() {
@@ -99,12 +100,13 @@ class AltEditTimerViewController: UIViewController {
     }
     
     private func addTimerActionView() {
-        let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: false, needsCancelButton: true)
+        let timerActionView = TimerActionView(frame: CGRectZero, scaledDown: self.scaledDown, needsCancelButton: true)
         timerActionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(timerActionView)
         self.timerActionView = timerActionView
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: -10))
+        
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: self.scaledDown ? 10 : -10))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Trailing, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 100))

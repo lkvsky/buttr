@@ -16,7 +16,7 @@ class TimerActionView: UIView {
     weak var pauseButton: UIButton!
     weak var cancelButton: UIButton!
     var cancelCenterConstraint: NSLayoutConstraint!
-    var constraintConstant: CGFloat = 100
+    var constraintConstant: CGFloat = 120
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,7 +29,7 @@ class TimerActionView: UIView {
         self.backgroundColor = UIColor.clearColor()
         self.clipsToBounds = false
         self.scaledDown = scaledDown
-        self.constraintConstant = self.scaledDown ? 60 : 100
+        self.constraintConstant = self.scaledDown ? 100 : 120
         self.addButtons(needsCancelButton: needsCancelButton)
         
         if (needsCancelButton) {
@@ -40,7 +40,7 @@ class TimerActionView: UIView {
     }
     
     func addButtons(needsCancelButton needsCancelButton: Bool) {
-        let buttonHeight = 80
+        let buttonHeight = self.scaledDown ? 75 : 80
         var cancel: UIButton
         var pause: UIButton
         var reset: UIButton

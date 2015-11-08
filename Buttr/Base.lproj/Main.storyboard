@@ -7,6 +7,7 @@
     <customFonts key="customFonts">
         <mutableArray key="Bitter-Regular.otf">
             <string>Bitter-Regular</string>
+            <string>Bitter-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -42,20 +43,40 @@
                                 <rect key="frame" x="4" y="0.0" width="592" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVI-NB-tf5" customClass="ButtrCartoonView" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="421" width="576" height="169"/>
+                                        <rect key="frame" x="221" y="401" width="150" height="169"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="150" id="jPS-F8-Vda"/>
                                             <constraint firstAttribute="height" constant="169" id="mAi-fy-tBd"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="skZ-df-Dh6">
+                                        <rect key="frame" x="0.0" y="565" width="592" height="35"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="iDw-VZ-K1V"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Bitter-Regular" family="Bitter" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="NVI-NB-tf5" firstAttribute="leading" secondItem="Gca-ta-IZS" secondAttribute="leading" constant="8" id="0y6-v8-5w0"/>
+                                    <constraint firstItem="skZ-df-Dh6" firstAttribute="leading" secondItem="Gca-ta-IZS" secondAttribute="leading" id="840-4B-20M"/>
                                     <constraint firstAttribute="trailing" secondItem="NVI-NB-tf5" secondAttribute="trailing" constant="8" id="RHQ-p9-3P1"/>
+                                    <constraint firstAttribute="trailing" secondItem="skZ-df-Dh6" secondAttribute="trailing" id="gIW-xT-W97"/>
                                     <constraint firstAttribute="centerX" secondItem="NVI-NB-tf5" secondAttribute="centerX" id="nVf-Hu-slE"/>
-                                    <constraint firstAttribute="bottom" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="10" id="xxB-cE-0y5"/>
+                                    <constraint firstAttribute="bottom" secondItem="skZ-df-Dh6" secondAttribute="bottom" id="rtq-c0-Yfg"/>
+                                    <constraint firstAttribute="bottom" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="30" id="xxB-cE-0y5"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="0y6-v8-5w0"/>
+                                        <exclude reference="RHQ-p9-3P1"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -72,6 +93,7 @@
                     <connections>
                         <outlet property="buttrCartoon" destination="NVI-NB-tf5" id="3wd-DR-vLT"/>
                         <outlet property="containerView" destination="Gca-ta-IZS" id="d1T-Se-5ny"/>
+                        <outlet property="dialogue" destination="skZ-df-Dh6" id="ztT-gQ-ViQ"/>
                         <outlet property="doneButton" destination="FGm-L6-1E5" id="3aQ-Hz-UAJ"/>
                     </connections>
                 </viewController>

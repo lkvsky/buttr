@@ -24,7 +24,6 @@ class EditTimerViewController: UIViewController {
         self.addTimerLabel()
         self.addTimerActionView()
         self.view.setNeedsUpdateConstraints()
-        self.view.backgroundColor = UIColor.backgroundColor()
         self.view.sendSubviewToBack(self.timerLabelView)
         self.timerActionView.transform = CGAffineTransformMakeScale(0, 0)
         
@@ -100,11 +99,10 @@ class EditTimerViewController: UIViewController {
         self.view.addSubview(timerActionView)
         self.timerActionView = timerActionView
         
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Top, relatedBy: .Equal, toItem: timerControlView, attribute: .Bottom, multiplier: 1.0, constant: 8))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Trailing, multiplier: 1.0, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 100))
-        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: -2))
+        self.view.addConstraint(NSLayoutConstraint(item: timerActionView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: self.scaleDownViews() ? -30 : -60))
     }
 
     // MARK: Gestures and Events
@@ -200,6 +198,7 @@ class EditTimerViewController: UIViewController {
         
         if (CGRectContainsPoint(self.timerLabelView.bounds, labelTouchPoint)) {
             let altEditTimerVC = AltEditTimerViewController.init(nibName: "AltEditTimerViewController", bundle: nil)
+            altEditTimerVC.scaledDown = self.scaleDownViews()
             self.showViewController(altEditTimerVC, sender: self)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "onAltTimerSet:", name: "AltTimerSet", object: nil)
         }

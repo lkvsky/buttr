@@ -13,6 +13,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var buttrCartoon: ButtrCartoonView!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var dialogue: UILabel!
     
     var buttrTailAnimationTimer: NSTimer!
     var buttrTongueAnimationTimer: NSTimer!
@@ -23,10 +24,18 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // setup done button
         self.doneButton.backgroundColor = UIColor.whiteColor()
+        self.doneButton.layer.cornerRadius = 5.0
         self.doneButton.layer.shadowRadius = 1
         self.doneButton.layer.shadowOpacity = 0.25
         self.doneButton.layer.shadowOffset = CGSizeMake(0, 0)
+        
+        // setup dialogue
+        self.dialogue.textColor = UIColor.primaryTextColor()
+        self.dialogue.transform = CGAffineTransformMakeScale(0, 0)
+        self.containerView.bringSubviewToFront(self.dialogue)
+        
         self.view.backgroundColor = UIColor.backgroundColor()
         self.containerView.backgroundColor = UIColor.backgroundColor()
         self.buttrCartoon.wagTail()
@@ -95,7 +104,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .CenterX, relatedBy: .Equal, toItem: self.containerView, attribute: .CenterX, multiplier: 1.0, constant: 0))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Top, relatedBy: .Equal, toItem: self.containerView, attribute: .Top, multiplier: 1.0, constant: self.scaleDownViews() ? 15 : 40))
         self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Width, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.0, constant: 0))
-//        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Width, multiplier: 1.2, constant: 0))
+        self.containerView.addConstraint(NSLayoutConstraint(item: childView, attribute: .Height, relatedBy: .Equal, toItem: self.containerView, attribute: .Height, multiplier: 1.0, constant: 0))
         
         childView.clipsToBounds = true;
         
@@ -104,6 +113,15 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     private func scaleDownViews() -> Bool {
         return self.view.frame.size.width <= 320
+    }
+    
+    func showDialogue(message: String) {
+        self.dialogue.text =  message
+        self.dialogue.transform = CGAffineTransformIdentity
+    }
+    
+    func hideDialogue() {
+        self.dialogue.transform = CGAffineTransformMakeScale(0, 0)
     }
     
     // MARK: Gestures and Events
@@ -166,21 +184,21 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func userDeniedNotifications() {
         if (!self.renderedNotificationWarningThisSession) {
-            self.buttrCartoon.showNotificationDialogue()
+            self.showDialogue("Enable alerts to know when time's up!")
             self.renderedNotificationWarningThisSession = true
         }
     }
     
     func showSetTimerDialogue() {
         if (!self.renderedSetTimerDialogue) {
-            self.buttrCartoon.showSetTimerDialogue()
+            self.showDialogue("Drag dots to set the timer!")
             self.renderedSetTimerDialogue = true
         }
     }
     
     func showSetWarningDialogue() {
         if (!self.renderedDragBoneDialogue) {
-            self.buttrCartoon.showDragBoneDialogue()
+            self.showDialogue("Drag bones to set warnings!")
             self.renderedDragBoneDialogue = true
         }
     }
@@ -220,7 +238,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     
     func didSetTimer(duration: Int, sender: EditTimerViewController) {
         // hide any buttr notification/set timer dialogues
-        self.buttrCartoon.removeDialogues()
+        self.hideDialogue()
         
         // instantiate timer object
         let timer = Timer(context: DataManager.sharedInstance.mainMoc)
@@ -251,13 +269,13 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             self.buttrCartoon.respondToTouch()
             
             if (self.renderedNotificationWarningThisSession) {
-                self.buttrCartoon.removeDialogues()
+                self.hideDialogue()
             }
         }
     }
     
     func didClearTimerValue(sender: EditTimerViewController) {
-        self.buttrCartoon.removeDialogues()
+        self.hideDialogue()
         self.animateButtrToZero()
     }
     
@@ -270,7 +288,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func didFinishTimer(sender: TimerProgressViewController) {
         // prevent tapping butter from rendering dialogue boxes until
         // user has cancelled timer
-        self.buttrCartoon.removeDialogues()
+        self.hideDialogue()
         self.buttrCartoon.tiltHead(-1)
         self.buttrCartoon.stickOutTongue()
         self.buttrCartoon.bark()
@@ -283,7 +301,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
             animations: {
                 [unowned self]() -> Void in
                 // slide up container to expose done button
-                self.containerView.transform = CGAffineTransformMakeTranslation(0, -(self.doneButton.frame.size.height + 20))
+                self.containerView.transform = CGAffineTransformMakeTranslation(0, -(self.doneButton.frame.size.height + 50))
             }, completion: nil)
     }
     
@@ -298,7 +316,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     func didResetTimer(sender: TimerProgressViewController) {
         sender.view.removeFromSuperview()
         sender.removeFromParentViewController()
-        self.buttrCartoon.removeDialogues()
+        self.hideDialogue()
         self.addEditTimerVC()
         self.animateButtrToZero()
     }
@@ -315,7 +333,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func shouldHideSetWarningPrompt(sender: TimerProgressViewController) {
-        self.buttrCartoon.removeDialogues()
+        self.hideDialogue()
         
         // check if this is user's first time setting warning
         // if so, render instructions for removing bone
@@ -325,21 +343,21 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         if (usersFirstTimeSettingWarning) {
             userPrefs.setObject(1, forKey: "UsersFirstTimeSettingWarning")
             userPrefs.synchronize()
-            self.buttrCartoon.showClearBoneDialogue()
+            self.showDialogue("Drag bones off to remove warnings!")
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 [unowned self] () -> Void in
-                self.buttrCartoon.removeDialogues()
+                self.hideDialogue()
             }
         }
     }
     
     func shouldShowSetWarningPrompt(sender: TimerProgressViewController) {
-        self.showSetWarningDialogue()
+        self.showDialogue("Drag bones to set warnings!")
     }
     
     func shouldRenderSetTimerDialogue(sender: EditTimerViewController) {
-        self.showSetTimerDialogue()
+        self.showDialogue("Drag dots to set timer!")
     }
 
 }
