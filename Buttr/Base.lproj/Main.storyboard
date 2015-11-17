@@ -24,10 +24,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGm-L6-1E5">
-                                <rect key="frame" x="28" y="526" width="544" height="66"/>
+                                <rect key="frame" x="4" y="530" width="592" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="66" id="mVU-Td-U0a"/>
+                                    <constraint firstAttribute="height" constant="70" id="mVU-Td-U0a"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Bitter-Regular" family="Bitter" pointSize="30"/>
                                 <size key="titleShadowOffset" width="2.2250738585072014e-308" height="2.2250738585072014e-308"/>
@@ -43,7 +43,7 @@
                                 <rect key="frame" x="4" y="0.0" width="592" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVI-NB-tf5" customClass="ButtrCartoonView" customModule="Buttr" customModuleProvider="target">
-                                        <rect key="frame" x="221" y="401" width="150" height="169"/>
+                                        <rect key="frame" x="221" y="361" width="150" height="169"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="150" id="jPS-F8-Vda"/>
@@ -51,10 +51,10 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="skZ-df-Dh6">
-                                        <rect key="frame" x="0.0" y="565" width="592" height="35"/>
+                                        <rect key="frame" x="0.0" y="530" width="592" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="iDw-VZ-K1V"/>
+                                            <constraint firstAttribute="height" constant="70" id="iDw-VZ-K1V"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Bitter-Regular" family="Bitter" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -69,7 +69,7 @@
                                     <constraint firstAttribute="trailing" secondItem="skZ-df-Dh6" secondAttribute="trailing" id="gIW-xT-W97"/>
                                     <constraint firstAttribute="centerX" secondItem="NVI-NB-tf5" secondAttribute="centerX" id="nVf-Hu-slE"/>
                                     <constraint firstAttribute="bottom" secondItem="skZ-df-Dh6" secondAttribute="bottom" id="rtq-c0-Yfg"/>
-                                    <constraint firstAttribute="bottom" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="30" id="xxB-cE-0y5"/>
+                                    <constraint firstAttribute="bottom" secondItem="NVI-NB-tf5" secondAttribute="bottom" constant="70" id="xxB-cE-0y5"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -81,9 +81,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FGm-L6-1E5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="0R9-Ql-ttE"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FGm-L6-1E5" secondAttribute="trailing" constant="8" id="K2K-b4-cof"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FGm-L6-1E5" secondAttribute="bottom" constant="8" id="Lwh-LM-Eu8"/>
+                            <constraint firstItem="FGm-L6-1E5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="0R9-Ql-ttE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FGm-L6-1E5" secondAttribute="trailing" constant="-16" id="K2K-b4-cof"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FGm-L6-1E5" secondAttribute="bottom" id="Lwh-LM-Eu8"/>
                             <constraint firstItem="Gca-ta-IZS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="OvD-9h-HM5"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gca-ta-IZS" secondAttribute="bottom" id="RxB-zP-5g0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Gca-ta-IZS" secondAttribute="trailing" constant="-16" id="iHj-8A-XWa"/>

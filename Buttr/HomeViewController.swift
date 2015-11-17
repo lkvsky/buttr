@@ -26,10 +26,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         
         // setup done button
         self.doneButton.backgroundColor = UIColor.whiteColor()
-        self.doneButton.layer.cornerRadius = 5.0
-        self.doneButton.layer.shadowRadius = 1
-        self.doneButton.layer.shadowOpacity = 0.25
-        self.doneButton.layer.shadowOffset = CGSizeMake(0, 0)
         
         // setup dialogue
         self.dialogue.textColor = UIColor.primaryTextColor()
@@ -322,7 +318,6 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
     }
     
     func didFireWarning(sender: TimerProgressViewController) {
-        self.buttrCartoon.removeDialogues()
         self.buttrCartoon.stickOutTongue()
         self.buttrCartoon.growl()
         
@@ -343,7 +338,7 @@ class HomeViewController: UIViewController, EditTimerDelegate, TimerProgressDele
         if (usersFirstTimeSettingWarning) {
             userPrefs.setObject(1, forKey: "UsersFirstTimeSettingWarning")
             userPrefs.synchronize()
-            self.showDialogue("Drag bones off to remove warnings!")
+            self.showDialogue("Remove warnings by dragging bones off the timeline!")
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 [unowned self] () -> Void in

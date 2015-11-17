@@ -15,13 +15,6 @@ class ButtrCartoonView: UIView {
     weak var body: UIImageView!
     weak var tail: UIImageView!
     weak var alarmDialogue: UIImageView!
-
-    // conditional views
-    weak var notifDialogueLeft: UIImageView?
-    weak var notifDialogueRight: UIImageView?
-    weak var setTimerDialogue: UIImageView?
-    weak var dragBoneDialogue: UIImageView?
-    weak var clearBoneDialogue: UIImageView?
     
     var headIsTilted: Bool = false
     
@@ -94,102 +87,6 @@ class ButtrCartoonView: UIView {
         self.alarmDialogue.transform = CGAffineTransformMakeScale(0, 0)
     }
     
-    private func addNotifDialogueLeft() {
-        let imageView = UIImageView(frame: CGRectZero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "notif_dialogue_left")
-        imageView.userInteractionEnabled = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
-        imageView.addGestureRecognizer(tap)
-        
-        self.addSubview(imageView)
-        self.sendSubviewToBack(imageView)
-        self.notifDialogueLeft = imageView
-        self.notifDialogueLeft!.layer.opacity = 0
-        self.notifDialogueLeft!.transform = CGAffineTransformMakeScale(0, 0)
-        
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 66))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Trailing, relatedBy: .Equal, toItem: head, attribute: .Leading, multiplier: 1.0, constant: -8))
-        self.addConstraint(NSLayoutConstraint(item: notifDialogueLeft!, attribute: .Top, relatedBy: .Equal, toItem: head, attribute: .Top, multiplier: 1.0, constant: 0))
-    }
-    
-    private func addNotifDialogueRight() {
-        let imageView = UIImageView(frame: CGRectZero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "notif_dialogue_right")
-        imageView.userInteractionEnabled = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
-        imageView.addGestureRecognizer(tap)
-        
-        self.addSubview(imageView)
-        self.sendSubviewToBack(imageView)
-        self.notifDialogueRight = imageView
-        self.notifDialogueRight!.layer.opacity = 0
-        self.notifDialogueRight!.transform = CGAffineTransformMakeScale(0, 0)
-        self.addRightDialogueConstraints(self.notifDialogueRight!, height: 104.0)
-    }
-    
-    private func addSetTimerDialogue() {
-        let imageView = UIImageView(frame: CGRectZero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "set_timer_dialogue")
-        imageView.userInteractionEnabled = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
-        imageView.addGestureRecognizer(tap)
-        
-        self.addSubview(imageView)
-        self.sendSubviewToBack(imageView)
-        self.setTimerDialogue = imageView
-        self.setTimerDialogue!.layer.opacity = 0
-        self.setTimerDialogue!.transform = CGAffineTransformMakeScale(0, 0)
-        self.addRightDialogueConstraints(self.setTimerDialogue!, height: 112.0, bottomConstant: -self.body.frame.size.height / 2)
-    }
-    
-    private func addDragBoneDialogue() {
-        let imageView = UIImageView(frame: CGRectZero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "drag_bone_dialogue")
-        imageView.userInteractionEnabled = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
-        imageView.addGestureRecognizer(tap)
-        
-        self.addSubview(imageView)
-        self.sendSubviewToBack(imageView)
-        self.dragBoneDialogue = imageView
-        self.dragBoneDialogue!.layer.opacity = 0
-        self.dragBoneDialogue!.transform = CGAffineTransformMakeScale(0, 0)
-        self.addRightDialogueConstraints(self.dragBoneDialogue!, height: 163.0)
-    }
-    
-    private func addClearBoneDialogue() {
-        let imageView = UIImageView(frame: CGRectZero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "clear_bone_dialogue")
-        imageView.userInteractionEnabled = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: "removeDialogues")
-        imageView.addGestureRecognizer(tap)
-        
-        self.addSubview(imageView)
-        self.sendSubviewToBack(imageView)
-        self.clearBoneDialogue = imageView
-        self.clearBoneDialogue!.layer.opacity = 0
-        self.clearBoneDialogue!.transform = CGAffineTransformMakeScale(0, 0)
-        self.addRightDialogueConstraints(self.clearBoneDialogue!, height: 163.0)
-    }
-    
-    private func addRightDialogueConstraints(view: UIView, height: CGFloat, bottomConstant: CGFloat = 0) {
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 86))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: height))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: head, attribute: .Trailing, multiplier: 1.0, constant: 8))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: bottomConstant))
-    }
-    
     // MARK: Dialogue Box Methods
     
     private func showAlarmDialogue(image: UIImage) {
@@ -213,64 +110,6 @@ class ButtrCartoonView: UIView {
     
     func bark() {
         self.showAlarmDialogue(UIImage(named: "bark_speech_bubble")!)
-    }
-    
-    func showNotificationDialogue() {
-        self.removeDialogues()
-        self.addNotifDialogueLeft()
-        self.addNotifDialogueRight()
-        self.animateWithoutCompletion() {
-            [unowned self] () -> Void in
-            self.notifDialogueRight!.layer.opacity = 1
-            self.notifDialogueRight!.transform = CGAffineTransformIdentity
-            self.notifDialogueLeft!.layer.opacity = 1
-            self.notifDialogueLeft!.transform = CGAffineTransformIdentity
-        }
-    }
-    
-    func showSetTimerDialogue() {
-        self.removeDialogues()
-        self.addSetTimerDialogue()
-        self.animateWithoutCompletion() {
-            [unowned self] () -> Void in
-            self.setTimerDialogue!.layer.opacity = 1
-            self.setTimerDialogue!.transform = CGAffineTransformIdentity
-        }
-    }
-    
-    func showDragBoneDialogue() {
-        self.removeDialogues()
-        self.addDragBoneDialogue()
-        self.animateWithoutCompletion() {
-            [unowned self] () -> Void in
-            self.dragBoneDialogue!.layer.opacity = 1
-            self.dragBoneDialogue!.transform = CGAffineTransformIdentity
-        }
-    }
-    
-    func showClearBoneDialogue() {
-        self.removeDialogues()
-        self.addClearBoneDialogue()
-        self.animateWithoutCompletion() {
-            [unowned self] () -> Void in
-            self.clearBoneDialogue!.layer.opacity = 1
-            self.clearBoneDialogue!.transform = CGAffineTransformIdentity
-        }
-    }
-    
-    func removeDialogues() {
-        let dialogues = [self.setTimerDialogue, self.notifDialogueLeft, self.notifDialogueRight, self.dragBoneDialogue, self.clearBoneDialogue]
-        
-        UIView.animateWithDuration(0.125, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 12.0, options: [], animations: { () -> Void in
-            for dialogue in dialogues {
-                dialogue?.layer.opacity = 0
-                dialogue?.transform = CGAffineTransformMakeScale(0, 0)
-            }
-            }) { (Bool finished) -> Void in
-                for dialogue in dialogues {
-                    dialogue?.removeFromSuperview()
-                }
-        }
     }
     
     private func animateWithoutCompletion(block: (() -> ())) {

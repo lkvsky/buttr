@@ -2,18 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "notif_dialogue_left.png"
+      "filename" : "lady_lumps.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "notif_dialogue_left@2x.png"
+      "filename" : "lady_lumps@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "notif_dialogue_left@3x.png"
+      "filename" : "lady_lumps@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

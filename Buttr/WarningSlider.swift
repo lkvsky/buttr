@@ -32,6 +32,23 @@ class WarningSlider: CircularSlider {
         let ctx = UIGraphicsGetCurrentContext()
         self.drawWarningAtAngle(ctx!)
         
+        // draw notches at magnetic points
+        for angle in [180, 270, 0] {
+            UIColor.primaryTextColor().setFill()
+            var notchCenter: CGPoint
+            var notchStart: CGPoint
+            
+            if (angle == 270) {
+                notchCenter = CGPointMake(self.frame.size.width/2.0 - 3, self.frame.size.height/2.0 - 5)
+                notchStart = MathHelpers.pointOnCircumference(Double(angle), circleCenter: notchCenter, radius: radius)
+                CGContextFillRect(ctx, CGRectMake(notchStart.x, notchStart.y, 3, 10))
+            } else {
+                let notchCenter = CGPointMake(self.frame.size.width/2.0 - 5, self.frame.size.height/2.0 - 3)
+                let notchStart =  MathHelpers.pointOnCircumference(Double(angle), circleCenter: notchCenter, radius: radius)
+                CGContextFillRect(ctx, CGRectMake(notchStart.x, notchStart.y, 10, 3))
+            }
+        }
+        
         if let warningPoints = self.warningAngles {
             for (index, angle) in warningPoints {
                 if (index == self.draggedWarningIndex) {

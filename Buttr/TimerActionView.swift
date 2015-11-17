@@ -46,7 +46,7 @@ class TimerActionView: UIView {
         var reset: UIButton
         let start = UIButton(frame: CGRectZero)
         start.setTitle("START", forState: .Normal)
-        start.setTitleColor(UIColor.primaryTextColor(), forState: .Normal)
+        start.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 
         self.addSubview(start)
         self.startButton = start
@@ -80,13 +80,14 @@ class TimerActionView: UIView {
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: CGFloat(buttonHeight)))
             self.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
             
-            button.backgroundColor = UIColor.whiteColor()
+            if (button == start) {
+                button.backgroundColor = UIColor.primaryTextColor()
+            } else {
+                button.backgroundColor = UIColor.whiteColor()
+            }
+
             button.titleLabel?.font = UIFont(name: "Bitter-Regular", size: 18.0)
             button.layer.cornerRadius = CGFloat(buttonHeight / 2)
-            button.layer.shadowColor = UIColor.blackColor().CGColor
-            button.layer.shadowRadius = 1.0
-            button.layer.shadowOffset = CGSizeMake(0, 0)
-            button.layer.shadowOpacity = 0.25
         }
         
         if (needsCancelButton) {
